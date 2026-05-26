@@ -1,0 +1,19 @@
+#!/opt/local/bin/bash
+# 
+# Compile the LaTeX files for the paper.
+# Run this script from the root directory of the project.
+
+pdflatex tex_files/main
+bibtex tex_files/ref
+# biber tex_files/ref
+pdflatex tex_files/main
+pdflatex tex_files/main
+
+rm *.aux
+rm *.bbl
+rm *.bcf
+rm *.blg
+rm *.run.xml
+rm *.fff
+rm *.toc
+rm *.log
