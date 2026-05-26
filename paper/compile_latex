@@ -1,7 +1,7 @@
 #!/opt/local/bin/bash
 # 
 # Compile the LaTeX files for the paper.
-# Run this script from the root directory of the project.
+# Run this script from the 'paper' directory of the project.
 
 pdflatex tex_files/main
 bibtex tex_files/ref
