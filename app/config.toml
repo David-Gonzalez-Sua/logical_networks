@@ -1,0 +1,13 @@
+# config.toml
+[window]
+width = 1280
+height = 720
+title = "Gate Editor"
+
+[paths]
+gates_folder = "C-MCPN/gates"
+networks_folder = "C-MCPN/networks"
+
+[clingo]
+max_solutions = 1
+timeout = 10
