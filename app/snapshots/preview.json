@@ -7,6 +7,16 @@
         null
       ],
       "outputs": [
+        "NOT_1"
+      ],
+      "val": null
+    },
+    "NOT_1": {
+      "name": "NOT",
+      "inputs": [
+        "AND_1"
+      ],
+      "outputs": [
         "XOR_1"
       ],
       "val": null
@@ -15,7 +25,7 @@
       "name": "XOR",
       "inputs": [
         null,
-        "AND_1"
+        "NOT_1"
       ],
       "outputs": [],
       "val": null
@@ -24,6 +34,11 @@
   "links": [
     {
       "source": "AND_1",
+      "target": "NOT_1",
+      "target_input_index": 0
+    },
+    {
+      "source": "NOT_1",
       "target": "XOR_1",
       "target_input_index": 1
     }

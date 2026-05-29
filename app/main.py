@@ -77,6 +77,11 @@ def main():
         dpg.add_key_press_handler(key=dpg.mvKey_Delete, callback=app_gui.delete_selected)
         dpg.add_key_press_handler(key=dpg.mvKey_Back, callback=app_gui.delete_selected)
 
+        dpg.add_key_press_handler(key=dpg.mvKey_Down,    callback=lambda: app_gui.pan(0, -20))
+        dpg.add_key_press_handler(key=dpg.mvKey_Up,  callback=lambda: app_gui.pan(0, 20))
+        dpg.add_key_press_handler(key=dpg.mvKey_Right,  callback=lambda: app_gui.pan(-20, 0))
+        dpg.add_key_press_handler(key=dpg.mvKey_Left, callback=lambda: app_gui.pan(20, 0))
+
     dpg.setup_dearpygui()
     dpg.show_viewport()
     dpg.start_dearpygui()
@@ -86,17 +91,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-# load_config()
-# title = CONFIG["window"]["title"]
-# width = CONFIG["window"]["width"]
-# height = CONFIG["window"]["height"]
-# gates_folder = CONFIG["paths"]["gates_folder"]
-# networks_folder = CONFIG["paths"]["networks_folder"]
-
-# load_gates()
-# print("Loaded gates:")
-# for gate_name, metadata in REGISTRY.items():
-#     print(f"{gate_name}: {metadata}")

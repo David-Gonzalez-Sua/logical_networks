@@ -147,3 +147,17 @@ class Network:
         
         except Exception as e:
             print(f"Error loading from JSON: {e}")
+
+    def export_to_lp(self, path):
+        try:
+            with open(path, "w") as f:
+                f.write("%% Nuerons\n")
+                for node_id, node in self.nodes.items():
+                    f.write(f"nueron({node_id}, {node['name']}).\n")
+                
+                f.write("\n%% Links\n")
+                for src, tgt, idx in self.links.values():
+                    f.write(f"link({src}, {tgt}, {idx}).\n")
+        
+        except Exception as e:
+            print(f"Error exporting to LP: {e}")
