@@ -5,6 +5,7 @@ import tomllib
 import os
 
 import gui_tools as gui
+import network_serializer as network
 
 
 # Global variables
@@ -68,7 +69,8 @@ def main():
         height=CONFIG["window"]["height"]
     )
 
-    app_gui = gui.GUI(CONFIG, REGISTRY)
+    app_network = network.Network()
+    app_gui = gui.GUI(CONFIG, REGISTRY, app_network)
     app_gui.build_gui()
 
     with dpg.handler_registry():
