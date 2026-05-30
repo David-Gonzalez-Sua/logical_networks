@@ -3,7 +3,7 @@
 
 **David Gonzalez** · University of Northern Colorado
 
-**Joshua T. Guerin** · University of Northern Colorado
+**Joshua T. Guerin Ph.D.** · University of Northern Colorado
 
 ---
 
