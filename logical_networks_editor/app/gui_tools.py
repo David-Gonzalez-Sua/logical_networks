@@ -1,11 +1,10 @@
 # Tools for building the GUI using DearPyGui.
 #
 
-import dearpygui.dearpygui as dpg
-import tomllib
 import os
 
-import network_serializer as network
+import dearpygui.dearpygui as dpg
+import tools
 
 
 class GUI:
@@ -14,10 +13,7 @@ class GUI:
         self.REGISTRY = REGISTRY
         self.NETWORK = NETWORK
 
-        # self.preview_path = self.CONFIG["paths"]["networks_folder"] + "/working_network.lp"
-        # self.preview_path = "app/snapshots/preview.json"
-        # self.preview_path = "app/snapshots/preview.lp"
-        self.app_folder_path = "app/"
+        self.last_save_name = None
 
     def build_gui(self):
         CONFIG = self.CONFIG
@@ -26,24 +22,35 @@ class GUI:
         W = CONFIG["window"]["width"]
         H = CONFIG["window"]["height"]
 
-        with dpg.window(label="Gates", width=200, height=H-20, pos=(0,0), tag="sidebar"):
+        # with dpg.window(label="toolbar", width=W, height=40, pos=(0,0), tag="toolbar", no_title_bar=True, no_scrollbar=True, no_resize=True, no_move=True):
+        with dpg.window(label="toolbar", width=W, height=35, min_size=[100, 30], pos=(0,0), tag="toolbar", no_title_bar=True, no_scrollbar=True, no_resize=True, no_move=True):
+            with dpg.group(horizontal=True):
+                dpg.add_text("Logical Network Editor", color=(255, 255, 0))
+                # dpg.add_button(label="Recenter", callback=self.recenter)
+                dpg.add_button(label="Quick Save", callback=self.quick_save)
+                dpg.add_button(label="Save", callback=self.save_network_as)
+                dpg.add_button(label="Load", callback=self.load_network)
+                dpg.add_button(label="Reorganize", callback=self.reorganize)
+                dpg.add_button(label="Delete Selected", callback=self.delete_selected)
+
+        with dpg.window(label="Sidebar", width=200, height=H-35, pos=(0,35), tag="sidebar"):
+        # with dpg.window(label="Sidebar", width=W//8, height=H-40, pos=(0,40), tag="sidebar"):
             dpg.add_text("Controls:\n- Click and drag to create links\n- Select and press Delete/Backspace to delete\n- Use arrow keys to pan\n- Click 'Recenter' to reset view")
-            # dpg.add_button(label="Recenter", callback=self.recenter)
-            dpg.add_button(label="Reorganize", callback=self.reorganize)
 
             dpg.add_text("Gates:")
             dpg.add_separator()
             for name, gate in REGISTRY.items():
                 dpg.add_button(label=name, callback=self.add_gate_node, user_data=gate)
         
-        with dpg.window(label="Canvas", width=W-400, height=H-20, pos=(200,0), tag="canvas"):
+        with dpg.window(label="Canvas", width=W-200-W//5, height=H-35, pos=(200,35), tag="canvas"):
+        # with dpg.window(label="Canvas", width=W-W//8-W//5, height=H-30, pos=(W//8,30), tag="canvas"):
             with dpg.node_editor(
                 tag="node_editor",
                 callback=self.on_link_created,
                 delink_callback=self.on_link_deleted):
                 pass
 
-        with dpg.window(label="Preview", width=200, height=H-20, pos=(W-200,0), tag="preview"):
+        with dpg.window(label="Preview", width=W//5, height=H-35, pos=(W-W//5,35), tag="preview"):
             dpg.add_text("Logical Network Preview:")
             dpg.add_separator()
             dpg.add_text("", tag="preview_text")
@@ -122,18 +129,77 @@ class GUI:
         return 0
     
     def save_snapshot(self, sender, app_data):
-        path = self.app_folder_path + "snapshots/"
-        self.NETWORK.export_to_json(path + "preview.json")
-        self.NETWORK.export_to_lp(path + "preview.lp")
+        path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"])
+        self.NETWORK.export_to_json(f"{path}/preview.json")
+        self.NETWORK.export_to_lp(f"{path}/preview.lp")
+        return 0
+    
+    def quick_save(self, sender, app_data):
+        if self.last_save_name:
+            path = tools.resource_path(self.CONFIG["paths"]["networks_folder"])
+            self.NETWORK.export_to_json(f"{path}/json/{self.last_save_name}.json")
+            self.NETWORK.export_to_lp(f"{path}/{self.last_save_name}.lp")
+        else:
+            self.save_snapshot(sender, app_data)
+        return 0
+    
+    def save_network_as(self, sender, app_data):
+        try:
+            with dpg.window(label="Save Network", modal=True, tag="save_popup", no_resize=True):
+                dpg.add_text("Enter network name:")
+                dpg.add_input_text(tag="save_name_input")
+                with dpg.group(horizontal=True):
+                    dpg.add_button(label="Save", callback=self._confirm_save)
+                    dpg.add_button(label="Cancel", callback=lambda: dpg.delete_item("save_popup"))
+        except Exception as e:
+            print(f"Error with save dialog: {e}")
+        return 0
+
+    def _confirm_save(self, sender, app_data):
+        name = dpg.get_value("save_name_input")
+        if not name:
+            return 1
+        path = tools.resource_path(self.CONFIG["paths"]["networks_folder"])
+        self.NETWORK.export_to_json(f"{path}/json/{name}.json")
+        self.NETWORK.export_to_lp(f"{path}/{name}.lp")
+        self.last_save_name = name
+        dpg.delete_item("save_popup")
+        return 0
+    
+    def load_network(self, sender, app_data):
+        folder = tools.resource_path(self.CONFIG["paths"]["networks_folder"]) + "/json"
+        if not os.path.exists(folder):
+            print("No saved networks found.")
+            return 1
+        
+        files = [f[:-5] for f in os.listdir(folder) if f.endswith(".json")]
+        print(f"Available networks: {files}")
+        
+        with dpg.window(label="Load Network", modal=True, tag="load_popup", no_resize=True):
+            dpg.add_text("Select a network:")
+            dpg.add_listbox(items=files, tag="load_listbox", num_items=min(len(files), 6))
+            with dpg.group(horizontal=True):
+                dpg.add_button(label="Load", callback=self._confirm_load)
+                dpg.add_button(label="Cancel", callback=lambda: dpg.delete_item("load_popup"))
+        return 0
+
+    def _confirm_load(self, sender, app_data):
+        name = dpg.get_value("load_listbox")
+        if not name:
+            return
+        path = tools.resource_path(self.CONFIG["paths"]["networks_folder"]) + f"/json/{name}.json"
+        self.NETWORK.load_from_json(path)
+        self.last_save_name = name
+        self.rebuild_from_network()
+        dpg.delete_item("load_popup")
         return 0
     
     ## ------------------------------ Utility Functions ------------------------------
 
     def update_preview(self):
-        # path = self.CONFIG["paths"]["networks_folder"] + "/working_network.lp"
         self.save_snapshot(None, None)
-        # path = self.app_folder_path + "snapshots/preview.json"
-        path = self.app_folder_path + "snapshots/preview.lp"
+        # path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.json"
+        path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.lp"
         
         if not os.path.exists(path):
             dpg.set_value("preview_text", "Preview not available.")
@@ -260,7 +326,8 @@ class GUI:
                 new_links[link_uid] = (source_id, target_id, target_input_index)
             
             self.NETWORK.links = new_links
-            self.update_lp_preview()
+            self.reorganize()
+            self.update_preview()
             return 0
         
         except Exception as e:

@@ -1,12 +1,15 @@
 # config.toml
 [window]
-width = 1280
-height = 720
+# width = 1280
+# height = 720
+width = 1440
+height = 900
 title = "Gate Editor"
 
 [paths]
 gates_folder = "C-MCPN/gates"
 networks_folder = "C-MCPN/networks"
+snapshots_folder = "app/snapshots"
 
 [clingo]
 max_solutions = 1

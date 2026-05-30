@@ -1,4 +1,7 @@
-# Example of organization: 
+# network_serializer.py
+# Holds the Network class
+#
+# Example of network organization: 
 # self.nodes = {
 #     "INPUT_1": {
 #         "name": "INPUT",
@@ -22,7 +25,7 @@
 #         "val": None              # read from Clingo after run
 #     }
 # }
-
+#
 # self.links = {
 #     dpg_link_id: (source_id, target_id, target_input_index)
 #     # e.g. 123:   ("INPUT_1", "NOT_1", 0)
@@ -151,13 +154,24 @@ class Network:
     def export_to_lp(self, path):
         try:
             with open(path, "w") as f:
-                f.write("%% Nuerons\n")
-                for node_id, node in self.nodes.items():
-                    f.write(f"nueron({node_id}, {node['name']}).\n")
+                f.write("%% Network architecture""\n\n")
                 
-                f.write("\n%% Links\n")
+                f.write("%% Neurons:\n")
+                f.write("% nueron(type, unique_id)\n\n")
+                for node_id, node in self.nodes.items():
+                    f.write(f'''nueron({node['name']}, {node_id}).\n''')
+                
+                f.write("\n\n%% Edges:\n")
+                f.write("% edge(source_id, target_id)\n\n")
                 for src, tgt, idx in self.links.values():
-                    f.write(f"link({src}, {tgt}, {idx}).\n")
+                    f.write(f"edge({src}, {tgt}).\n")
+
+                f.write("\n\n%% Cardinality constraints:\n")
+                f.write("% { edge(source_id, target_id) : neuron(type, target_id) } max_inputs.\n\n")
+                for node_id, node in self.nodes.items():
+                    max_inputs = len(node["inputs"])
+                    if max_inputs > 0:
+                        f.write(f"{{ edge(src, {node_id}) : neuron(type, {node_id}) }} {max_inputs}.\n")
         
         except Exception as e:
             print(f"Error exporting to LP: {e}")

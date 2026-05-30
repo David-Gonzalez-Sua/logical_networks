@@ -1,9 +1,8 @@
 # Main application file for the Logical Networks project.
 
 import dearpygui.dearpygui as dpg
-import tomllib
-import os
 
+import tools
 import gui_tools as gui
 import network_serializer as network
 
@@ -11,44 +10,6 @@ import network_serializer as network
 # Global variables
 CONFIG = None
 REGISTRY = {}
-PAN_MODE = False
-
-def load_config():
-    '''Load the configuration from the config.toml file.'''
-    global CONFIG
-    with open("app/config.toml", "rb") as f:
-        CONFIG = tomllib.load(f)
-    return 0
-
-def load_gates():
-    '''Load the gates from the gates folder and store their metadata in the registry.'''
-    global CONFIG, REGISTRY
-
-    gates_folder = CONFIG["paths"]["gates_folder"]
-    if not os.path.exists(gates_folder):
-        os.makedirs(gates_folder)
-    
-    for filename in os.listdir(gates_folder):
-        if filename.endswith(".lp"):
-            path = os.path.join(gates_folder, filename)
-            metadata = {
-                "file": path,
-                "name": filename[:-3],
-                "inputs": 1,
-                "outputs": 1
-            }
-    
-            with open(path) as f:
-                for line in f:
-                    if line.startswith("%% gate:"):
-                        metadata["name"] = line.split(":")[1].strip()
-                    elif line.startswith("%% inputs:"):
-                        metadata["inputs"] = int(line.split(":")[1].strip())
-                    elif line.startswith("%% outputs:"):
-                        metadata["outputs"] = int(line.split(":")[1].strip())
-            
-            REGISTRY[metadata["name"]] = metadata
-    return 0
 
 def main():
     '''Main function to run the application.'''
@@ -56,10 +17,10 @@ def main():
 
     # MUST OCCUR IN ORDER
     # 1
-    load_config()
+    CONFIG = tools.load_config()
     
     # 2
-    load_gates()
+    REGISTRY = tools.load_gates(CONFIG)
 
     # 3
     dpg.create_context()
