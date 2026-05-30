@@ -2,6 +2,7 @@
 ### Clingo McCulloch-Pitts Network Editor
 
 **David Gonzalez** · University of Northern Colorado
+
 **Joshua T. Guerin** · University of Northern Colorado
 
 ---
