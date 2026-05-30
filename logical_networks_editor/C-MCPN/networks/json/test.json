@@ -1,0 +1,22 @@
+{
+  "nodes": {
+    "OUTPUT_1": {
+      "name": "OUTPUT",
+      "inputs": [
+        null
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "AND_1": {
+      "name": "AND",
+      "inputs": [
+        null,
+        null
+      ],
+      "outputs": [],
+      "val": null
+    }
+  },
+  "links": []
+}
