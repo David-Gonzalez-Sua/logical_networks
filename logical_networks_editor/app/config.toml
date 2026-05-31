@@ -4,7 +4,7 @@
 # height = 720
 width = 1440
 height = 900
-title = "Gate Editor"
+title = "Network Editor"
 
 [paths]
 gates_folder = "C-MCPN/gates"
@@ -13,4 +13,5 @@ snapshots_folder = "app/snapshots"
 
 [clingo]
 max_solutions = 1
-timeout = 10
+timeout = 1000
+base_files = []

@@ -34,6 +34,8 @@ def main():
     app_gui = gui.GUI(CONFIG, REGISTRY, app_network)
     app_gui.build_gui()
 
+    dpg.set_viewport_resize_callback(app_gui.on_viewport_resize)
+    
     with dpg.handler_registry():
         dpg.add_key_press_handler(key=dpg.mvKey_Delete, callback=app_gui.delete_selected)
         dpg.add_key_press_handler(key=dpg.mvKey_Back, callback=app_gui.delete_selected)

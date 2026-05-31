@@ -6,10 +6,24 @@ import os
 import tomllib
 
 
-def resource_path(relative_path):
+# def resource_path(relative_path):
+#     if hasattr(sys, '_MEIPASS'):
+#         return os.path.join(sys._MEIPASS, relative_path)
+#     return os.path.join(os.path.abspath("."), relative_path)
+
+def resource_path(relative):
     if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)
-    return os.path.join(os.path.abspath("."), relative_path)
+        return os.path.join(sys._MEIPASS, relative)
+    
+    # walk up from __file__ until we find the relative path
+    base = os.path.dirname(os.path.abspath(__file__))
+    while base != os.path.dirname(base):  # stop at filesystem root
+        candidate = os.path.join(base, relative)
+        if os.path.exists(candidate):
+            return candidate
+        base = os.path.dirname(base)
+    
+    raise FileNotFoundError(f"Could not find {relative} from any parent directory.")
 
 def load_config():
     '''Load the configuration from the config.toml file.'''
