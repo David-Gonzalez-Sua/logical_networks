@@ -85,6 +85,9 @@ class GUICanvas:
     
     def on_node_double_click(self, sender, app_data):
         pos = dpg.get_mouse_pos()
+        if dpg.does_item_exist("rename_popup"):
+            dpg.delete_item("rename_popup")
+
         for node_id, node in self.NETWORK.nodes.items():
             if dpg.is_item_hovered(node["dpg_id"]):
                 with dpg.window(label="Rename Node", modal=True, tag="rename_popup", no_resize=True, pos=pos):
@@ -105,15 +108,21 @@ class GUICanvas:
         
         # update network
         self.NETWORK.nodes[new_id] = self.NETWORK.nodes.pop(old_id)
+
         # update links
         for link_id, (src, tgt, idx) in self.NETWORK.links.items():
             if src == old_id:
                 self.NETWORK.links[link_id] = (new_id, tgt, idx)
             if tgt == old_id:
                 self.NETWORK.links[link_id] = (src, new_id, idx)
+        
+        # update inputs/outputs lists on all nodes
+        for node in self.NETWORK.nodes.values():
+            node["inputs"] = [new_id if x == old_id else x for x in node["inputs"]]
+            node["outputs"] = [new_id if x == old_id else x for x in node["outputs"]]
+
         # update dpg label
         dpg.set_item_label(self.NETWORK.nodes[new_id]["dpg_id"], new_id)
-        
         dpg.delete_item("rename_popup")
         self.update_preview()
         return 0
@@ -121,8 +130,8 @@ class GUICanvas:
     ## -------------------------- Canvas Utility Functions ----------------------------
     
     def pan(self, dx, dy):
-        # if not dpg.is_item_hovered("node_editor"):
-        #     return 1
+        if not dpg.is_item_hovered("node_editor"):
+            return 1
 
         for node_id, node in self.NETWORK.nodes.items():
             pos = dpg.get_item_pos(node["dpg_id"])

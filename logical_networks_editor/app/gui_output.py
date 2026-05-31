@@ -14,34 +14,38 @@ class GUIOutput:
     def run_network(self, sender, app_data):
         output_lines = []
 
-        # step 1 - base files from config
-        base_files = []
-        for f in self.CONFIG["clingo"].get("base_files", []):
+        # step 1 - extra files from config
+        extra_files = []
+        for f in self.CONFIG["clingo"].get("extra_files", []):
             path = tools.resource_path(f)
             if os.path.exists(path):
-                base_files.append(path)
+                extra_files.append(path)
             else:
-                output_lines.append(f"[WARNING] Base file not found: {f}")
+                output_lines.append(f"[WARNING] Extra file not found: {f}")
 
         # step 2 - all .lp files from gates folder
         gate_files = []
         gates_folder = tools.resource_path(self.CONFIG["paths"]["gates_folder"])
+        used_gates = set(node["name"] for node in self.NETWORK.nodes.values())
+
         if os.path.exists(gates_folder):
             for filename in sorted(os.listdir(gates_folder)):
                 if filename.endswith(".lp"):
-                    gate_files.append(os.path.join(gates_folder, filename))
+                    gate_name = filename[:-3].upper()
+                    if gate_name in used_gates:
+                        gate_files.append(os.path.join(gates_folder, filename))
         else:
             output_lines.append(f"[ERROR] Gates folder not found: {gates_folder}")
 
-        # step 3 - special files (main, solve, show)
-        special_files = []
-        networks_folder = tools.resource_path(self.CONFIG["paths"]["networks_folder"])
-        for special in ["main.lp", "solve.lp", "show.lp"]:
-            path = os.path.join(networks_folder, special)
-            if os.path.exists(path):
-                special_files.append(path)
-            else:
-                output_lines.append(f"[INFO] Optional file not found, skipping: {special}")
+        # step 3 - base files (main, solve, show)
+        base_files = []
+        base_folder = tools.resource_path(self.CONFIG["paths"]["base_folder"])
+        if os.path.exists(base_folder):
+            for filename in sorted(os.listdir(base_folder)):
+                if filename.endswith(".lp"):
+                    base_files.append(os.path.join(base_folder, filename))
+        else:
+            output_lines.append(f"[ERROR] Base folder not found: {base_folder}")
 
         # step 4 - network snapshot
         snapshot_path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.lp"
@@ -51,7 +55,7 @@ class GUIOutput:
             return 1
 
         # assemble full file list
-        all_files = base_files + gate_files + special_files + [snapshot_path]
+        all_files = extra_files + gate_files + base_files + [snapshot_path]
         file_names = " ".join(os.path.basename(f) for f in all_files)
         output_lines.append(f"[INFO] Running {len(all_files)} files: {file_names}")
         output_lines.append("")
@@ -64,7 +68,9 @@ class GUIOutput:
                 text=True,
                 timeout=self.CONFIG["clingo"]["timeout"]
             )
-            clingo_output = result.stdout if result.stdout else result.stderr
+            clingo_output = result.stdout 
+            if result.stderror:
+                clingo_output += "\n" + result.stderr
             output_lines.extend(clingo_output.split("\n"))
         except subprocess.TimeoutExpired:
             output_lines.append(f"[ERROR] Clingo timed out after {self.CONFIG['clingo']['timeout']}s.")

@@ -27,9 +27,12 @@ class GUIFiles:
     def save_network_as(self, sender, app_data):
         try:
             pos = dpg.get_mouse_pos()
+            if dpg.does_item_exist("save_popup"):
+                dpg.delete_item("save_popup")
+
             with dpg.window(label="Save Network", modal=True, tag="save_popup", no_resize=True, pos=pos):
                 dpg.add_text("Enter network name:")
-                dpg.add_input_text(tag="save_name_input")
+                dpg.add_input_text(tag="save_name_input", default_value=self.last_save_name if self.last_save_name else "")
                 with dpg.group(horizontal=True):
                     dpg.add_button(label="Save", callback=self._confirm_save)
                     dpg.add_button(label="Cancel", callback=lambda: dpg.delete_item("save_popup"))
@@ -49,15 +52,17 @@ class GUIFiles:
         return 0
     
     def load_network(self, sender, app_data):
+        pos = dpg.get_mouse_pos()
         folder = tools.resource_path(self.CONFIG["paths"]["networks_folder"]) + "/json"
         if not os.path.exists(folder):
             print("No saved networks found.")
             return 1
+        if dpg.does_item_exist("load_popup"):
+            dpg.delete_item("load_popup")
         
         files = [f[:-5] for f in os.listdir(folder) if f.endswith(".json")]
-        print(f"Available networks: {files}")
+        # print(f"Available networks: {files}")
         
-        pos = dpg.get_mouse_pos()
         with dpg.window(label="Load Network", modal=True, tag="load_popup", no_resize=True, pos=pos):
             dpg.add_text("Select a network:")
             dpg.add_listbox(items=files, tag="load_listbox", num_items=min(len(files), 6))

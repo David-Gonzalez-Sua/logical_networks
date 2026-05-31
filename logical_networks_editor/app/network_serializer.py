@@ -149,8 +149,11 @@ class Network:
                 }
                 # rebuild counts
                 name = node["name"]
-                num = int(node_id.split("_")[-1]) if "_" in node_id else 1
-                self.counts[name] = max(self.counts.get(name, 0), num)
+                parts = node_id.split("_", 1)
+                if len(parts) == 2 and parts[-1].isdigit():
+                    self.counts[name] = max(self.counts.get(name, 0), int(parts[1]))
+                # num = int(node_id.split("_")[-1]) if "_" in node_id else 1
+                # self.counts[name] = max(self.counts.get(name, 0), num)
             
             for i, link in enumerate(data["links"]):
                 self.links[i] = (link["source"], link["target"], link["target_input_index"])
@@ -166,25 +169,25 @@ class Network:
                 f.write("%% Neurons:\n")
                 f.write("% nueron(type, unique_id)\n")
                 for node_id, node in self.nodes.items():
-                    f.write(f'''nueron(\"{node['name']}\", {node_id}).\n''')
+                    f.write(f'''nueron(\"{node['name']}\", \"{node_id}\").\n''')
                 
                 f.write("\n\n%% Edges:\n")
                 f.write("% edge(source_id, target_id)\n")
                 for src, tgt, idx in self.links.values():
-                    f.write(f"edge({src}, {tgt}).\n")
-
-                f.write("\n\n%% Values:\n")
-                f.write("% val(nueron_id, value).\n")
-                for node_id, node in self.nodes.items():
-                    if node["val"] is not None:
-                        f.write(f"val({node_id}, {node['val']}).\n")
+                    f.write(f"edge(\"{src}\", \"{tgt}\").\n")
 
                 f.write("\n\n%% Cardinality constraints:\n")
                 f.write("% { edge(source_id, target_id) : neuron(type, target_id) } max_inputs.\n")
                 for node_id, node in self.nodes.items():
                     max_inputs = len(node["inputs"])
                     if max_inputs > 0:
-                        f.write(f"{{ edge(src, {node_id}) : neuron(type, {node_id}) }} {max_inputs}.\n")
+                        f.write(f"{{ edge(src, \"{node_id}\") : neuron(\"{node['name']}\", \"{node_id}\") }} {max_inputs}.\n")
+                
+                f.write("\n\n%% Values:\n")
+                f.write("% val(nueron_id, value).\n")
+                for node_id, node in self.nodes.items():
+                    if node["val"] is not None:
+                        f.write(f"val(\"{node_id}\", {node['val']}).\n")
 
         except Exception as e:
             print(f"Error exporting to LP: {e}")

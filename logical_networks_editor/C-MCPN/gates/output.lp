@@ -1,9 +1,10 @@
 %% gate: OUTPUT
 %% inputs: 1
-%% outputs: 0
+%% outputs: 1
 
+% type("TYPE")
 type("OUTPUT").
 
-% gate(TYPE, INPUTS, OUTPUTS)
-gate("OUTPUT", [In], []) :-
+% gate(TYPE, OUTPUT, INPUTS)
+gate("OUTPUT", In, In) :-
     values(In).

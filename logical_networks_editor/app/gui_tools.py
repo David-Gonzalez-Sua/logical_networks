@@ -110,10 +110,11 @@ class GUI(
     
     def build_gate_list(self):
         REGISTRY = self.REGISTRY
+        editor_open = self.CONFIG["window"]["gate_editor_open"]
         
         with dpg.group(parent="gate_list"):
             dpg.add_button(
-                label="Gate Editor: ON",
+                label="Gate Editor: ON" if editor_open else "Gate Editor: OFF",
                 tag="gate_editor_toggle_btn",
                 width=180,
                 callback=self.toggle_gate_editor
@@ -124,10 +125,10 @@ class GUI(
                 width=180,
                 height=150,
                 enabled=False,
-                show=True,
+                show=editor_open,
                 default_value=""
             )
-            with dpg.group(horizontal=True, tag="gate_editor_controls", show=True):
+            with dpg.group(horizontal=True, tag="gate_editor_controls", show=editor_open):
                 dpg.add_button(
                     label="Draw",
                     tag="gate_add_btn",
