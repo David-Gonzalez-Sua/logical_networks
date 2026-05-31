@@ -20,3 +20,47 @@ Models       : 0+
 Calls        : 1
 Time         : 0.001s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
 CPU Time     : 0.001s
+
+--- Run: 2026-05-30 21:43:55.756690 ---
+[INFO] Optional file not found, skipping: main.lp
+[INFO] Optional file not found, skipping: solve.lp
+[INFO] Optional file not found, skipping: show.lp
+[INFO] Running 7 files:
+  and.lp
+  input.lp
+  not.lp
+  or.lp
+  output.lp
+  xor.lp
+  preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor/C-MCPN/gates/and.lp ...
+UNKNOWN
+
+Models       : 0+
+Calls        : 1
+Time         : 0.002s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.001s
+
+--- Run: 2026-05-30 21:44:07.099296 ---
+[INFO] Optional file not found, skipping: main.lp
+[INFO] Optional file not found, skipping: solve.lp
+[INFO] Optional file not found, skipping: show.lp
+[INFO] Running 7 files:
+  and.lp
+  input.lp
+  not.lp
+  or.lp
+  output.lp
+  xor.lp
+  preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor/C-MCPN/gates/and.lp ...
+UNKNOWN
+
+Models       : 0+
+Calls        : 1
+Time         : 0.001s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.001s

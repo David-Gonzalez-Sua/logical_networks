@@ -1,0 +1,58 @@
+# gui_window.py
+
+import dearpygui.dearpygui as dpg
+
+
+class GUIWindow:
+
+    ## ------------------------ Window Utility Functions ---------------------------
+
+    def on_viewport_resize(self):
+        W = dpg.get_viewport_width()
+        H = dpg.get_viewport_height()
+        
+        dpg.configure_item("toolbar", width=W)
+        self._resize_for_output(W, H, self.output_shown)
+        dpg.configure_item("preview", width=W//5, pos=(W-W//5, 35))
+        dpg.configure_item("canvas", width=W-200-W//5)
+        return 0
+    
+    def toggle_gate_editor(self, sender, app_data):
+        currently_shown = dpg.is_item_shown("gate_editor_box")
+        if not currently_shown:
+            dpg.show_item("gate_editor_box")
+            dpg.show_item("gate_editor_controls")
+            dpg.set_item_label("gate_editor_toggle_btn", "Gate Editor: ON")
+        else:
+            dpg.hide_item("gate_editor_box")
+            dpg.hide_item("gate_editor_controls")
+            dpg.set_item_label("gate_editor_toggle_btn", "Gate Editor: OFF")
+            dpg.configure_item("gate_editor_box", enabled=False)
+            dpg.set_item_label("gate_edit_toggle", "Edit")
+        return 0
+
+    def select_gate_for_editor(self, sender, app_data, user_data):
+        name = user_data
+        gate = self.REGISTRY[name]
+        
+        with open(gate["file"]) as f:
+            content = f.read()
+        dpg.set_value("gate_editor_box", content)
+        self.current_gate_in_editor = name
+        dpg.configure_item("gate_add_btn", user_data=gate)
+
+        # show editor if not already open
+        if not dpg.is_item_shown("gate_editor_box"):
+            dpg.show_item("gate_editor_box")
+            dpg.show_item("gate_editor_controls")
+            dpg.set_item_label("gate_editor_toggle_btn", "Gate Editor: ON")
+        # reset to readonly
+        dpg.configure_item("gate_editor_box", enabled=False)
+        dpg.set_item_label("gate_edit_toggle", "Edit")
+        return 0
+
+    def toggle_gate_readonly(self, sender, app_data):
+        currently_enabled = dpg.is_item_enabled("gate_editor_box")
+        dpg.configure_item("gate_editor_box", enabled=not currently_enabled)
+        dpg.set_item_label("gate_edit_toggle", "Lock" if not currently_enabled else "Edit")
+        return 0
