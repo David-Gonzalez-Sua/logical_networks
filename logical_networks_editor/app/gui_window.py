@@ -47,12 +47,6 @@ class GUIWindow:
             dpg.show_item("gate_editor_controls")
             dpg.set_item_label("gate_editor_toggle_btn", "Gate Editor: ON")
         # reset to readonly
-        dpg.configure_item("gate_editor_box", enabled=False)
-        dpg.set_item_label("gate_edit_toggle", "Edit")
-        return 0
-
-    def toggle_gate_readonly(self, sender, app_data):
-        currently_enabled = dpg.is_item_enabled("gate_editor_box")
-        dpg.configure_item("gate_editor_box", enabled=not currently_enabled)
-        dpg.set_item_label("gate_edit_toggle", "Lock" if not currently_enabled else "Edit")
+        dpg.configure_item("gate_editor_box", enabled=True)
+        # dpg.set_item_label("gate_edit_toggle", "Edit")  # deprecated
         return 0

@@ -1,4 +1,13 @@
 {
-  "nodes": {},
+  "nodes": {
+    "OUTPUT_1": {
+      "name": "OUTPUT",
+      "inputs": [
+        null
+      ],
+      "outputs": [],
+      "val": null
+    }
+  },
   "links": []
 }

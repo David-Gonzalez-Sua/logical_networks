@@ -2,6 +2,7 @@
 
 import dearpygui.dearpygui as dpg
 import tools
+import os
 
 
 class GUIFiles:
@@ -25,7 +26,8 @@ class GUIFiles:
     
     def save_network_as(self, sender, app_data):
         try:
-            with dpg.window(label="Save Network", modal=True, tag="save_popup", no_resize=True):
+            pos = dpg.get_mouse_pos()
+            with dpg.window(label="Save Network", modal=True, tag="save_popup", no_resize=True, pos=pos):
                 dpg.add_text("Enter network name:")
                 dpg.add_input_text(tag="save_name_input")
                 with dpg.group(horizontal=True):
@@ -55,7 +57,8 @@ class GUIFiles:
         files = [f[:-5] for f in os.listdir(folder) if f.endswith(".json")]
         print(f"Available networks: {files}")
         
-        with dpg.window(label="Load Network", modal=True, tag="load_popup", no_resize=True):
+        pos = dpg.get_mouse_pos()
+        with dpg.window(label="Load Network", modal=True, tag="load_popup", no_resize=True, pos=pos):
             dpg.add_text("Select a network:")
             dpg.add_listbox(items=files, tag="load_listbox", num_items=min(len(files), 6))
             with dpg.group(horizontal=True):
@@ -72,21 +75,31 @@ class GUIFiles:
         self.last_save_name = name
         self.rebuild_from_network()
         dpg.delete_item("load_popup")
+        self.update_input_template()
         return 0
     
     def save_gate(self, sender, app_data):
         if not hasattr(self, 'current_gate_in_editor') or self.current_gate_in_editor is None:
             print("No gate selected.")
-            return
-        name = self.current_gate_in_editor
-        DEFAULT_GATES = {"INPUT", "OUTPUT"}
+            return 1
+    
+        # name = self.current_gate_in_editor
+        name = dpg.get_value("gate_editor_box").splitlines()[0].strip()[9:]
+        DEFAULT_GATES = set(self.CONFIG["defaults"]["DEFAULT_GATES"])
         if name in DEFAULT_GATES:
             print(f"Cannot save default gate {name}.")
-            return
+            return 1
+        name = name.lower()
+        
         content = dpg.get_value("gate_editor_box")
-        path = self.REGISTRY[name]["file"]
+        path = self.CONFIG["paths"]["gates_folder"] + f"/{name}.lp"
         with open(path, "w") as f:
             f.write(content)
+        
+        # reload registry and rebuild gate list
+        self.REGISTRY = tools.load_gates(self.CONFIG)
+        dpg.delete_item("gate_list", children_only=True)
+        self.build_gate_list()
+        
         dpg.configure_item("gate_editor_box", enabled=False)
-        dpg.set_item_label("gate_edit_toggle", "Edit")
         return 0

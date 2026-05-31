@@ -23,7 +23,11 @@ class GUICanvas:
                 with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output):
                     dpg.add_text("out")
         
-        self.NETWORK.add_node(node_id, name, gate["inputs"], uid)
+        result = self.NETWORK.add_node(node_id, name, gate["inputs"], uid)
+        if result == 1:
+            dpg.delete_item(uid)
+            self.NETWORK.counts[name] -= 1
+            return 1
         pos = self.get_free_position()
         dpg.set_item_pos(uid, pos)
 
@@ -60,6 +64,9 @@ class GUICanvas:
         return 0
     
     def delete_selected(self, sender, app_data):
+        if not dpg.is_item_hovered("node_editor"):
+            return 1
+
         selected_nodes = dpg.get_selected_nodes("node_editor")
         selected_links = dpg.get_selected_links("node_editor")
         
@@ -75,10 +82,48 @@ class GUICanvas:
         self.update_preview()
         self.update_input_template()
         return 0
+    
+    def on_node_double_click(self, sender, app_data):
+        pos = dpg.get_mouse_pos()
+        for node_id, node in self.NETWORK.nodes.items():
+            if dpg.is_item_hovered(node["dpg_id"]):
+                with dpg.window(label="Rename Node", modal=True, tag="rename_popup", no_resize=True, pos=pos):
+                    dpg.add_text(f"Rename {node_id}:")
+                    dpg.add_input_text(tag="rename_input", default_value=node_id)
+                    with dpg.group(horizontal=True):
+                        dpg.add_button(label="Rename", callback=self._confirm_rename, user_data=node_id)
+                        dpg.add_button(label="Cancel", callback=lambda: dpg.delete_item("rename_popup"))
+                dpg.focus_item("rename_input")  # Focuses input box for convenience
+                break
+
+    def _confirm_rename(self, sender, app_data, user_data):
+        old_id = user_data
+        new_id = dpg.get_value("rename_input")
+        if not new_id or new_id == old_id or new_id in self.NETWORK.nodes:
+            dpg.delete_item("rename_popup")
+            return 1
+        
+        # update network
+        self.NETWORK.nodes[new_id] = self.NETWORK.nodes.pop(old_id)
+        # update links
+        for link_id, (src, tgt, idx) in self.NETWORK.links.items():
+            if src == old_id:
+                self.NETWORK.links[link_id] = (new_id, tgt, idx)
+            if tgt == old_id:
+                self.NETWORK.links[link_id] = (src, new_id, idx)
+        # update dpg label
+        dpg.set_item_label(self.NETWORK.nodes[new_id]["dpg_id"], new_id)
+        
+        dpg.delete_item("rename_popup")
+        self.update_preview()
+        return 0
 
     ## -------------------------- Canvas Utility Functions ----------------------------
     
     def pan(self, dx, dy):
+        # if not dpg.is_item_hovered("node_editor"):
+        #     return 1
+
         for node_id, node in self.NETWORK.nodes.items():
             pos = dpg.get_item_pos(node["dpg_id"])
             dpg.set_item_pos(node["dpg_id"], [pos[0]+dx, pos[1]+dy])

@@ -4,12 +4,16 @@
 # height = 720
 width = 1440
 height = 900
+output_height = 300
 title = "Network Editor"
 
 [paths]
 gates_folder = "C-MCPN/gates"
 networks_folder = "C-MCPN/networks"
 snapshots_folder = "app/snapshots"
+
+[defaults]
+DEFAULT_GATES = ["INPUT", "OUTPUT", "AND", "OR", "NOT", "XOR", "NAND"]
 
 [clingo]
 max_solutions = 1

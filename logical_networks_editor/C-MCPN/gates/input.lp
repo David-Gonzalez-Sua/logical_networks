@@ -2,6 +2,8 @@
 %% inputs: 0
 %% outputs: 1
 
+type("INPUT").
+
 % gate(TYPE, INPUTS, OUTPUTS)
-gate(input, [], [Out]) :-
+gate("INPUT", [], [Out]) :-
     values(Out).

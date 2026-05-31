@@ -1,11 +1,11 @@
-# gui_preview.py
+# gui_updatepy
 
 import dearpygui.dearpygui as dpg
 import tools
 import os
 
 
-class GUIPreview:
+class GUIUpdate:
 
     ## ------------------------------ Preview Callbacks --------------------------------
 

@@ -5,7 +5,7 @@ import dearpygui.dearpygui as dpg
 
 import gui_canvas as canvas
 import gui_files as files
-import gui_preview as preview
+import gui_update as update
 import gui_output as output
 import gui_window as window
 
@@ -13,7 +13,7 @@ import gui_window as window
 class GUI(
     canvas.GUICanvas,
     files.GUIFiles,
-    preview.GUIPreview,
+    update.GUIUpdate,
     output.GUIOutput,
     window.GUIWindow
 ):
@@ -25,7 +25,6 @@ class GUI(
         self.last_save_name = None
         self.current_gate_in_editor = None
         self.output_shown = False
-        self.output_height = 200
     
     def build_gui(self):
         CONFIG = self.CONFIG
@@ -48,14 +47,15 @@ class GUI(
 
         with dpg.window(label="Sidebar", width=200, height=H-35, pos=(0,35), tag="sidebar", no_resize=True, no_close=True, no_move=True, no_collapse=True):
         # with dpg.window(label="Sidebar", width=W//8, height=H-40, pos=(0,40), tag="sidebar"):
-            dpg.add_text("Controls:\n- Click and drag to create links\n- Select and press Delete/\nBackspace to delete\n- Use arrow keys to pan\n- Click 'Recenter' to reset\n view")
+            dpg.add_text("Controls:\n- Click and drag to create links\n"
+                         + "- Select and press Delete/\nBackspace to delete\n"
+                         + "- Use arrow keys to pan\n- Click 'Recenter' to reset\n view\n"
+                         + "- Edit gate definitions in the Gate Editor\n  and click 'Draw' to add to canvas\n"
+                         + "- Close the gate editor to draw neurons with one click\n"
+                         + "- Double click a gate to edit its name\n")
 
             dpg.add_text("Gates:")
             dpg.add_separator()
-            # for name, gate in REGISTRY.items():
-            #     dpg.add_button(label=name, callback=self.add_gate_node, user_data=gate)
-            # with dpg.child_window(tag="gate_list", parent="sidebar", width=190, height=-1, border=False):
-            #     pass
             with dpg.child_window(tag="gate_list", parent="sidebar", width=200, auto_resize_y=True, border=False):
                 pass
             self.build_gate_list()
@@ -71,7 +71,7 @@ class GUI(
             )
             dpg.add_button(label="Update Inputs", callback=self.apply_inputs)
         
-        with dpg.window(label="Canvas", width=W-200-W//5, height=H-35, pos=(200,35), tag="canvas", no_resize=True, no_close=True, no_move=True, no_collapse=True):
+        with dpg.window(label="Canvas", width=W-200-W//5, height=H-35, pos=(200,35), tag="canvas", no_resize=True, no_close=True, no_move=True, no_collapse=True, no_scroll_with_mouse=False):
         # with dpg.window(label="Canvas", width=W-W//8-W//5, height=H-30, pos=(W//8,30), tag="canvas"):
             with dpg.node_editor(
                 tag="node_editor",
@@ -83,17 +83,12 @@ class GUI(
             dpg.add_text("Logical Network Preview:")
             dpg.add_separator()
             # dpg.add_text("", tag="preview_text")
-            with dpg.child_window(tag="preview_text", width=-1, height=-200, border=False):
+            with dpg.child_window(tag="preview_text", width=-1, height=-1, border=False):
                 pass
             self.update_preview()
-
-            # dpg.add_separator()
-            # dpg.add_button(label="Run Network", callback=self.run_network, width=-1)
-            # with dpg.child_window(tag="run_output", width=-1, height=180, border=True):
-            #     dpg.add_text("Output will appear here.", tag="run_output_text", wrap=W//5 - 10)
         
         with dpg.window(label="Output", tag="output_window", 
-                        pos=(0, H-35), width=W, height=self.output_height,
+                        pos=(0, H-35), width=W, height=CONFIG["window"]["output_height"],
                         no_resize=True, no_close=True, no_move=True, 
                         no_collapse=True, no_title_bar=True, show=False):
             with dpg.group(horizontal=True):
@@ -115,11 +110,10 @@ class GUI(
     
     def build_gate_list(self):
         REGISTRY = self.REGISTRY
-        DEFAULT_GATES = {"INPUT", "OUTPUT"}
         
         with dpg.group(parent="gate_list"):
             dpg.add_button(
-                label="Gate Editor: OFF",
+                label="Gate Editor: ON",
                 tag="gate_editor_toggle_btn",
                 width=180,
                 callback=self.toggle_gate_editor
@@ -130,21 +124,15 @@ class GUI(
                 width=180,
                 height=150,
                 enabled=False,
-                show=False,
+                show=True,
                 default_value=""
             )
-            with dpg.group(horizontal=True, tag="gate_editor_controls", show=False):
+            with dpg.group(horizontal=True, tag="gate_editor_controls", show=True):
                 dpg.add_button(
                     label="Draw",
                     tag="gate_add_btn",
                     callback=self.add_gate_node,
                     user_data=self.REGISTRY.get(self.current_gate_in_editor),
-                    width=60
-                )
-                dpg.add_button(
-                    label="Edit",
-                    tag="gate_edit_toggle",
-                    callback=self.toggle_gate_readonly,
                     width=60
                 )
                 dpg.add_button(

@@ -52,9 +52,8 @@ class GUIOutput:
 
         # assemble full file list
         all_files = base_files + gate_files + special_files + [snapshot_path]
-        output_lines.append(f"[INFO] Running {len(all_files)} files:")
-        for f in all_files:
-            output_lines.append(f"  {os.path.basename(f)}")
+        file_names = " ".join(os.path.basename(f) for f in all_files)
+        output_lines.append(f"[INFO] Running {len(all_files)} files: {file_names}")
         output_lines.append("")
 
         # step 5 - run clingo
@@ -98,7 +97,11 @@ class GUIOutput:
             else:
                 color = (0, 255, 0, 255)        # green - normal clingo output
             dpg.add_text(line if line else " ", parent="run_output", color=color, 
-                        wrap=self.CONFIG["window"]["width"]//5 - 10)
+                        # wrap=self.CONFIG["window"]["width"]//5 - 10)
+                        wrap=self.CONFIG["window"]["width"] - 50)
+        # dpg.set_y_scroll("run_output", dpg.get_y_scroll_max("run_output"))
+        dpg.set_y_scroll("run_output", 999999)  # scroll to bottom
+        return 0
             
     ## --------------------------- Output Callbacks -----------------------------------
 
@@ -118,7 +121,8 @@ class GUIOutput:
         return 0
 
     def _resize_for_output(self, W, H, output_open):
-        main_h = H - 35 - (self.output_height if output_open else 0)
+        output_height = self.CONFIG["window"]["output_height"]
+        main_h = H - 35 - (output_height if output_open else 0)
         
         dpg.configure_item("sidebar", height=main_h)
         dpg.configure_item("canvas", height=main_h)
@@ -127,7 +131,7 @@ class GUIOutput:
         if output_open:
             dpg.configure_item("output_window",
                 width=W, 
-                height=self.output_height,
+                height=output_height,
                 pos=(0, 35 + main_h)
             )
         return 0

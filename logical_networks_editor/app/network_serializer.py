@@ -53,9 +53,11 @@ class Network:
                 "outputs": [],                  # list of (target_id)
                 "val": None                     # computed value, None until run
             }
+            return 0
         
         except Exception as e:
             print(f"Error adding node: {e}")
+            return 1
     
     def add_link(self, dpg_link_id, source_id, target_id, target_input_index):
         try:
@@ -135,6 +137,7 @@ class Network:
             
             self.nodes = {}
             self.links = {}
+            self.counts = {}
 
             for node_id, node in data["nodes"].items():
                 self.nodes[node_id] = {
@@ -144,6 +147,10 @@ class Network:
                     "outputs": node["outputs"],
                     "val": node["val"]
                 }
+                # rebuild counts
+                name = node["name"]
+                num = int(node_id.split("_")[-1]) if "_" in node_id else 1
+                self.counts[name] = max(self.counts.get(name, 0), num)
             
             for i, link in enumerate(data["links"]):
                 self.links[i] = (link["source"], link["target"], link["target_input_index"])
@@ -167,7 +174,7 @@ class Network:
                     f.write(f"edge({src}, {tgt}).\n")
 
                 f.write("\n\n%% Values:\n")
-                f.write("% val(node_id, value).\n")
+                f.write("% val(nueron_id, value).\n")
                 for node_id, node in self.nodes.items():
                     if node["val"] is not None:
                         f.write(f"val({node_id}, {node['val']}).\n")
