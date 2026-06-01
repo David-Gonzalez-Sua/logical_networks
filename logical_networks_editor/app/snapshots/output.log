@@ -277,3 +277,44 @@ Models       : 0
 Calls        : 1
 Time         : 0.004s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
 CPU Time     : 0.002s
+
+--- Run: 2026-06-01 01:14:17.820181 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor/C-MCPN/gates/and.lp ...
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.009s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.003s
+
+--- Run: 2026-06-01 01:17:04.130257 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor/C-MCPN/gates/and.lp ...
+Solving...
+Answer: 1 (Time: 0.005s)
+val("INPUT_1",1) val("INPUT_2",1) val("INPUT_Carry",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.005s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.003s
+
+--- Run: 2026-06-01 01:17:34.990472 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor/C-MCPN/gates/and.lp ...
+Solving...
+UNSATISFIABLE
+
+Models       : 0
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.002s
