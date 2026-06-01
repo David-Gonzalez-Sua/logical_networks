@@ -1,4 +1,4 @@
-# config.toml
+## config.toml
 [window]
 # width = 1280
 # height = 720
@@ -9,7 +9,7 @@ output_height = 300
 preview_width = 400
 gate_editor_open = false
 output_open = true
-warn_on_base_edit = false
+warn_on_base_edit = true
 
 [paths]
 base_folder = "C-MCPN/base"
@@ -26,3 +26,6 @@ DEFAULT_GATES = ["INPUT", "OUTPUT", "AND", "OR", "NOT", "XOR", "NAND"]
 max_solutions = 1
 timeout = 1000
 extra_files = []
+
+[extra]
+default_to_formatted_output = false

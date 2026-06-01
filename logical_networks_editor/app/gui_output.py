@@ -88,14 +88,15 @@ class GUIOutput:
 
                 # update node values
                 for node_id, val in values.items():
+                    node_id = node_id.strip('"')  # remove quotes if present
                     if node_id in self.NETWORK.nodes:
                         self.NETWORK.nodes[node_id]["val"] = val
-                # self.NETWORK.save_snapshot()  # save updated values to snapshot
+
+                self.save_snapshot(None, None)  # save updated values to snapshot
                 
                 # update node displays
                 for node_id in self.NETWORK.nodes:
                     self.update_node_display(node_id)
-                    print("gui_output.py: updated display for node", node_id)
 
             # add raw output to logs
             if clingo_output:
@@ -136,7 +137,7 @@ class GUIOutput:
 
         if clingo_errors:
             self.switch_output_tab("errors")
-        elif values:
+        elif self.CONFIG["extra"]["default_to_formatted_output"]:
             self.switch_output_tab("formatted")
         else:
             self.switch_output_tab("output")
