@@ -10,11 +10,12 @@ class GUIWindow:
     def on_viewport_resize(self):
         W = dpg.get_viewport_width()
         H = dpg.get_viewport_height()
+        preview_w = self.CONFIG["window"]["preview_width"]
         
         dpg.configure_item("toolbar", width=W)
         self._resize_for_output(W, H, self.output_shown)
-        dpg.configure_item("preview", width=W//5, pos=(W-W//5, 35))
-        dpg.configure_item("canvas", width=W-200-W//5)
+        dpg.configure_item("preview", width=preview_w, pos=(W-preview_w, 35))
+        dpg.configure_item("canvas", width=W-200-preview_w)
         return 0
     
     def toggle_gate_editor(self, sender, app_data):

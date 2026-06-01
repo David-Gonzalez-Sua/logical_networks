@@ -108,3 +108,24 @@ class GUIFiles:
         
         dpg.configure_item("gate_editor_box", enabled=False)
         return 0
+
+    def save_preview_file(self, sender, app_data):
+        selected = dpg.get_value("preview_selector")
+        content = dpg.get_value("preview_editor")
+        
+        if selected == "LP":
+            path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.lp"
+        elif selected == "JSON":
+            path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.json"
+        elif selected == "main.lp":
+            path = tools.resource_path(self.CONFIG["paths"]["base_folder"]) + "/main.lp"
+        
+        with open(path, "w") as f:
+            f.write(content)
+        
+        # back to readonly
+        dpg.configure_item("preview_editor", enabled=False)
+        dpg.hide_item("preview_save_btn")
+        dpg.show_item("preview_edit_btn")
+        self._show_preview_readonly(content)
+        return 0

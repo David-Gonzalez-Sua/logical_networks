@@ -9,24 +9,47 @@ class GUIUpdate:
 
     ## ------------------------------ Preview Callbacks --------------------------------
 
+    # def update_preview(self):
+    #     self.save_snapshot(None, None)
+    #     path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.lp"
+    #     # path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.json"
+        
+    #     if not os.path.exists(path):
+    #         dpg.delete_item("preview_text", children_only=True)
+    #         dpg.add_text("Preview not available.", parent="preview_text")
+    #         return 1
+        
+    #     with open(path) as f:
+    #         preview = f.read()
+        
+    #     self._render_lp_preview(preview)
+    #     return 0
     def update_preview(self):
+        if dpg.does_item_exist("preview_selector") and dpg.get_value("preview_selector") != "LP":
+            return 0
         self.save_snapshot(None, None)
         path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.lp"
-        # path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.json"
-        
         if not os.path.exists(path):
-            dpg.delete_item("preview_text", children_only=True)
-            dpg.add_text("Preview not available.", parent="preview_text")
+            self._show_preview_readonly("Preview not available.")
             return 1
-        
         with open(path) as f:
-            preview = f.read()
-        
-        self._render_lp_preview(preview)
+            content = f.read()
+        if dpg.is_item_enabled("preview_editor"):
+            dpg.set_value("preview_editor", content)
+        else:
+            self._show_preview_readonly(content)
         return 0
+    
+    def _show_preview_readonly(self, content):
+        dpg.set_value("preview_editor", "")
+        dpg.hide_item("preview_editor")
+        dpg.delete_item("preview_colored", children_only=True)
+        dpg.show_item("preview_colored")
+        self._render_lp_preview(content)
 
     def _render_lp_preview(self, lp_text):
-        dpg.delete_item("preview_text", children_only=True)
+        parent = "preview_colored" if dpg.does_item_exist("preview_colored") else "preview_text"
+        dpg.delete_item(parent, children_only=True)
         
         for line in lp_text.split("\n"):
             stripped = line.strip()
@@ -44,7 +67,7 @@ class GUIUpdate:
             else:
                 color = (160, 160, 160, 255)      # everything else - dim
 
-            dpg.add_text(line if line else " ", parent="preview_text", color=color)
+            dpg.add_text(line if line else " ", parent=parent, color=color)
     
     def update_input_template(self):
         input_nodes = [nid for nid, n in self.NETWORK.nodes.items() if n["name"] == "INPUT"]

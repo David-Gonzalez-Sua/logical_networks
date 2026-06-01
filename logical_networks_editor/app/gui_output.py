@@ -68,10 +68,15 @@ class GUIOutput:
                 text=True,
                 timeout=self.CONFIG["clingo"]["timeout"]
             )
-            clingo_output = result.stdout 
-            if result.stderror:
-                clingo_output += "\n" + result.stderr
-            output_lines.extend(clingo_output.split("\n"))
+
+            clingo_output = result.stdout
+            clingo_errors = result.stderr
+
+            if clingo_output:
+                output_lines.extend(clingo_output.split("\n"))
+            if clingo_errors:
+                error_lines = clingo_errors.split("\n")
+        
         except subprocess.TimeoutExpired:
             output_lines.append(f"[ERROR] Clingo timed out after {self.CONFIG['clingo']['timeout']}s.")
         except FileNotFoundError:
@@ -80,15 +85,25 @@ class GUIOutput:
             output_lines.append(f"[ERROR] Unexpected error: {e}")
 
         # step 6 - log output
-        log_path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/output.log"
+        output_log_path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/output.log"
+        error_log_path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/errors.log"
         try:
-            with open(log_path, "a") as f:
+            with open(output_log_path, "a") as f:
                 f.write(f"\n--- Run: {datetime.datetime.now()} ---\n")
                 f.write("\n".join(output_lines))
+            with open(error_log_path, "a") as f:
+                f.write(f"\n--- Run: {datetime.datetime.now()} ---\n")
+                f.write("\n".join(error_lines))
         except Exception as e:
             output_lines.append(f"[WARNING] Could not write log: {e}")
 
         self._render_run_output(output_lines)
+        self._render_run_errors(error_lines)
+
+        if clingo_errors:
+            self.switch_output_tab("errors")
+        else:
+            self.switch_output_tab("output")
         return 0
 
     def _render_run_output(self, lines):
@@ -109,6 +124,19 @@ class GUIOutput:
         dpg.set_y_scroll("run_output", 999999)  # scroll to bottom
         return 0
             
+    def _render_run_errors(self, lines):
+        dpg.delete_item("run_errors", children_only=True)
+        for line in lines:
+            if line.startswith("ERROR") or "error" in line.lower():
+                color = (255, 80, 80, 255)
+            elif "warning" in line.lower() or "info" in line.lower():
+                color = (255, 180, 80, 255)
+            else:
+                color = (160, 160, 160, 255)
+            dpg.add_text(line if line else " ", parent="run_errors", color=color,
+                        wrap=dpg.get_viewport_width() - 20)
+        dpg.set_y_scroll("run_errors", 99999)
+
     ## --------------------------- Output Callbacks -----------------------------------
 
     def toggle_output_window(self, sender, app_data):
@@ -140,4 +168,22 @@ class GUIOutput:
                 height=output_height,
                 pos=(0, 35 + main_h)
             )
+        return 0
+
+    def clear_output(self, sender, app_data):
+        dpg.delete_item("run_output", children_only=True)
+        dpg.delete_item("run_errors", children_only=True)
+        return 0
+    
+    def switch_output_tab(self, tab):
+        if tab == "output":
+            dpg.show_item("run_output")
+            dpg.hide_item("run_errors")
+            dpg.set_item_label("tab_output_btn", "> Std Out")
+            dpg.set_item_label("tab_errors_btn", "  Std Err")
+        else:
+            dpg.show_item("run_errors")
+            dpg.hide_item("run_output")
+            dpg.set_item_label("tab_output_btn", "  Std Out")
+            dpg.set_item_label("tab_errors_btn", "> Std Err")
         return 0

@@ -8,6 +8,7 @@ import gui_files as files
 import gui_update as update
 import gui_output as output
 import gui_window as window
+import gui_preview as preview
 
 
 class GUI(
@@ -15,7 +16,8 @@ class GUI(
     files.GUIFiles,
     update.GUIUpdate,
     output.GUIOutput,
-    window.GUIWindow
+    window.GUIWindow,
+    preview.GUIPreview
 ):
     def __init__(self, CONFIG, REGISTRY, NETWORK):
         self.CONFIG = CONFIG
@@ -32,6 +34,8 @@ class GUI(
         # T = CONFIG["window"]["title"]
         W = CONFIG["window"]["width"]
         H = CONFIG["window"]["height"]
+        output_h = CONFIG["window"]["output_height"]
+        preview_w = CONFIG["window"]["preview_width"]
 
         # with dpg.window(label="toolbar", width=W, height=40, pos=(0,0), tag="toolbar", no_title_bar=True, no_scrollbar=True, no_resize=True, no_move=True):
         with dpg.window(label="toolbar", width=W, height=35, min_size=[100, 30], pos=(0,0), tag="toolbar", no_title_bar=True, no_scrollbar=True, no_resize=True, no_move=True):
@@ -58,7 +62,6 @@ class GUI(
             dpg.add_separator()
             with dpg.child_window(tag="gate_list", parent="sidebar", width=200, auto_resize_y=True, border=False):
                 pass
-            self.build_gate_list()
 
             dpg.add_separator()
             dpg.add_text("Input Script:")
@@ -71,32 +74,61 @@ class GUI(
             )
             dpg.add_button(label="Update Inputs", callback=self.apply_inputs)
         
-        with dpg.window(label="Canvas", width=W-200-W//5, height=H-35, pos=(200,35), tag="canvas", no_resize=True, no_close=True, no_move=True, no_collapse=True, no_scroll_with_mouse=False):
-        # with dpg.window(label="Canvas", width=W-W//8-W//5, height=H-30, pos=(W//8,30), tag="canvas"):
+        with dpg.window(label="Canvas", width=W-200-preview_w, height=H-35, pos=(200,35), tag="canvas", no_resize=True, no_close=True, no_move=True, no_collapse=True, no_scroll_with_mouse=False):
+        # with dpg.window(label="Canvas", width=W-W//8-preview_w, height=H-30, pos=(W//8,30), tag="canvas"):
             with dpg.node_editor(
                 tag="node_editor",
                 callback=self.on_link_created,
                 delink_callback=self.on_link_deleted):
                 pass
 
-        with dpg.window(label="Preview", width=W//5, height=H-35, pos=(W-W//5,35), tag="preview", no_resize=True, no_close=True, no_move=True, no_collapse=True):
-            dpg.add_text("Logical Network Preview:")
-            dpg.add_separator()
+        with dpg.window(label="Preview", width=preview_w, height=H-35, pos=(W-preview_w,35), tag="preview", no_resize=True, no_close=True, no_move=True, no_collapse=True):
+            # dpg.add_text("Logical Network Preview:")
+            # dpg.add_separator()
             # dpg.add_text("", tag="preview_text")
+            # with dpg.child_window(tag="preview_text", width=-1, height=-1, border=False):
+            #     pass
+            # self.update_preview()
+            with dpg.group(horizontal=True):
+                dpg.add_text("Preview:")
+                dpg.add_combo(
+                    items=["LP", "JSON", "main.lp"],
+                    tag="preview_selector",
+                    default_value="LP",
+                    width=120,
+                    callback=self.on_preview_selector_changed
+                )
+                dpg.add_button(label="Edit", tag="preview_edit_btn", callback=self.toggle_preview_edit, width=50)
+                dpg.add_button(label="Save", tag="preview_save_btn", callback=self.save_preview_file, width=50, show=False)
+                dpg.add_button(label="Revert", tag="preview_revert_btn", callback=self.revert_preview_file, width=60, show=False)
+            dpg.add_separator()
             with dpg.child_window(tag="preview_text", width=-1, height=-1, border=False):
-                pass
-            self.update_preview()
+                dpg.add_child_window(tag="preview_colored", width=-1, height=-1, border=False)
+                dpg.add_input_text(
+                    tag="preview_editor",
+                    multiline=True,
+                    width=-1,
+                    height=-1,
+                    default_value="",
+                    enabled=False,
+                    show=False
+                )
         
         with dpg.window(label="Output", tag="output_window", 
-                        pos=(0, H-35), width=W, height=CONFIG["window"]["output_height"],
+                        pos=(0, H-35), width=W, height=output_h,
                         no_resize=True, no_close=True, no_move=True, 
                         no_collapse=True, no_title_bar=True, show=False):
             with dpg.group(horizontal=True):
                 dpg.add_text("Clingo Output", color=(255, 255, 0))
                 dpg.add_button(label="Run Network", callback=self.run_network, width=100)
-                dpg.add_button(label="Clear", callback=lambda: dpg.delete_item("run_output", children_only=True), width=60)
+                # dpg.add_button(label="Clear", callback=lambda: dpg.delete_item("run_output", children_only=True), width=60)
+                dpg.add_button(label="Clear", callback=self.clear_output, width=60)
+                dpg.add_button(label="Std Out", tag="tab_output_btn", callback=lambda: self.switch_output_tab("output"), width=70)
+                dpg.add_button(label="Std Err", tag="tab_errors_btn", callback=lambda: self.switch_output_tab("errors"), width=70)
             dpg.add_separator()
             with dpg.child_window(tag="run_output", width=-1, height=-1, border=False):
+                pass
+            with dpg.child_window(tag="run_errors", width=-1, height=-1, border=False, show=False):
                 pass
 
         # bind terminal theme
@@ -106,6 +138,9 @@ class GUI(
                 dpg.add_theme_color(dpg.mvThemeCol_WindowBg, (0, 0, 0, 255))
         dpg.bind_item_theme("output_window", terminal_theme)
 
+        self.build_gate_list()
+        self.update_preview()
+        self.update_input_template()
         return 0
     
     def build_gate_list(self):
