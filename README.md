@@ -1,7 +1,7 @@
 # C-MCPN
 ### Clingo McCulloch-Pitts Network Editor
 
-**David Gonzalez** · University of Northern Colorado
+**David J. Gonzalez Sua** · University of Northern Colorado
 
 **Joshua T. Guerin Ph.D.** · University of Northern Colorado
 
