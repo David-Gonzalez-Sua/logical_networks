@@ -53,9 +53,11 @@ class Network:
                 "outputs": [],                  # list of (target_id)
                 "val": None                     # computed value, None until run
             }
+            return 0
         
         except Exception as e:
             print(f"Error adding node: {e}")
+            return 1
     
     def add_link(self, dpg_link_id, source_id, target_id, target_input_index):
         try:
@@ -135,6 +137,7 @@ class Network:
             
             self.nodes = {}
             self.links = {}
+            self.counts = {}
 
             for node_id, node in data["nodes"].items():
                 self.nodes[node_id] = {
@@ -144,6 +147,13 @@ class Network:
                     "outputs": node["outputs"],
                     "val": node["val"]
                 }
+                # rebuild counts
+                name = node["name"]
+                parts = node_id.split("_", 1)
+                if len(parts) == 2 and parts[-1].isdigit():
+                    self.counts[name] = max(self.counts.get(name, 0), int(parts[1]))
+                # num = int(node_id.split("_")[-1]) if "_" in node_id else 1
+                # self.counts[name] = max(self.counts.get(name, 0), num)
             
             for i, link in enumerate(data["links"]):
                 self.links[i] = (link["source"], link["target"], link["target_input_index"])
@@ -154,24 +164,30 @@ class Network:
     def export_to_lp(self, path):
         try:
             with open(path, "w") as f:
-                f.write("%% Network architecture""\n\n")
+                f.write("%% Network architecture""\n")
                 
                 f.write("%% Neurons:\n")
-                f.write("% nueron(type, unique_id)\n\n")
+                f.write("% nueron(type, unique_id)\n")
                 for node_id, node in self.nodes.items():
-                    f.write(f'''nueron({node['name']}, {node_id}).\n''')
+                    f.write(f'''nueron(\"{node['name']}\", \"{node_id}\").\n''')
                 
                 f.write("\n\n%% Edges:\n")
-                f.write("% edge(source_id, target_id)\n\n")
+                f.write("% edge(source_id, target_id)\n")
                 for src, tgt, idx in self.links.values():
-                    f.write(f"edge({src}, {tgt}).\n")
+                    f.write(f"edge(\"{src}\", \"{tgt}\").\n")
 
                 f.write("\n\n%% Cardinality constraints:\n")
-                f.write("% { edge(source_id, target_id) : neuron(type, target_id) } max_inputs.\n\n")
+                f.write("% { edge(source_id, target_id) : neuron(type, target_id) } max_inputs.\n")
                 for node_id, node in self.nodes.items():
                     max_inputs = len(node["inputs"])
                     if max_inputs > 0:
-                        f.write(f"{{ edge(src, {node_id}) : neuron(type, {node_id}) }} {max_inputs}.\n")
-        
+                        f.write(f"{{ edge(src, \"{node_id}\") : neuron(\"{node['name']}\", \"{node_id}\") }} {max_inputs}.\n")
+                
+                f.write("\n\n%% Values:\n")
+                f.write("% val(nueron_id, value).\n")
+                for node_id, node in self.nodes.items():
+                    if node["val"] is not None:
+                        f.write(f"val(\"{node_id}\", {node['val']}).\n")
+
         except Exception as e:
             print(f"Error exporting to LP: {e}")

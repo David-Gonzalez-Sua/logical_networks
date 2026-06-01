@@ -2,7 +2,10 @@
 %% inputs: 1
 %% outputs: 1
 
-% gate(TYPE, INPUTS, OUTPUTS)
-gate("not", [In], [Out]) :-
+% type("TYPE")
+type("NOT").
+
+% gate(TYPE, OUTPUT, INPUTS)
+gate("NOT", Out, In) :-
     values(In),
     Out = 1 - In.

@@ -4,13 +4,22 @@
 # height = 720
 width = 1440
 height = 900
-title = "Gate Editor"
+title = "Network Editor"
+output_height = 300
+preview_width = 400
+gate_editor_open = false
+warn_on_base_edit = true
 
 [paths]
+base_folder = "C-MCPN/base"
 gates_folder = "C-MCPN/gates"
 networks_folder = "C-MCPN/networks"
 snapshots_folder = "app/snapshots"
 
+[defaults]
+DEFAULT_GATES = ["INPUT", "OUTPUT", "AND", "OR", "NOT", "XOR", "NAND"]
+
 [clingo]
 max_solutions = 1
-timeout = 10
+timeout = 1000
+extra_files = []

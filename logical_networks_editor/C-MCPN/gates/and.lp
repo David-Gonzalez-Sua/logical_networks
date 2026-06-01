@@ -2,7 +2,10 @@
 %% inputs: 2
 %% outputs: 1
 
-% gate(TYPE, INPUTS, OUTPUTS)
-gate(and, [In1, In2], [Out]) :-
+% type("TYPE")
+type("AND").
+
+% gate(TYPE, OUTPUT, INPUTS)
+gate("AND", Out, In1, In2) :-
     values(In1), values(In2),
     Out = (In1 * In2).

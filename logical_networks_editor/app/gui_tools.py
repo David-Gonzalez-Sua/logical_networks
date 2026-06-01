@@ -1,26 +1,41 @@
-# Tools for building the GUI using DearPyGui.
-#
-
-import os
+# gui_tools.py
+# GUI components for the Logical Networks project
 
 import dearpygui.dearpygui as dpg
-import tools
+
+import gui_canvas as canvas
+import gui_files as files
+import gui_update as update
+import gui_output as output
+import gui_window as window
+import gui_preview as preview
 
 
-class GUI:
+class GUI(
+    canvas.GUICanvas,
+    files.GUIFiles,
+    update.GUIUpdate,
+    output.GUIOutput,
+    window.GUIWindow,
+    preview.GUIPreview
+):
     def __init__(self, CONFIG, REGISTRY, NETWORK):
         self.CONFIG = CONFIG
         self.REGISTRY = REGISTRY
         self.NETWORK = NETWORK
-
+        
         self.last_save_name = None
-
+        self.current_gate_in_editor = None
+        self.output_shown = False
+    
     def build_gui(self):
         CONFIG = self.CONFIG
         REGISTRY = self.REGISTRY
         # T = CONFIG["window"]["title"]
         W = CONFIG["window"]["width"]
         H = CONFIG["window"]["height"]
+        output_h = CONFIG["window"]["output_height"]
+        preview_w = CONFIG["window"]["preview_width"]
 
         # with dpg.window(label="toolbar", width=W, height=40, pos=(0,0), tag="toolbar", no_title_bar=True, no_scrollbar=True, no_resize=True, no_move=True):
         with dpg.window(label="toolbar", width=W, height=35, min_size=[100, 30], pos=(0,0), tag="toolbar", no_title_bar=True, no_scrollbar=True, no_resize=True, no_move=True):
@@ -32,303 +47,147 @@ class GUI:
                 dpg.add_button(label="Load", callback=self.load_network)
                 dpg.add_button(label="Reorganize", callback=self.reorganize)
                 dpg.add_button(label="Delete Selected", callback=self.delete_selected)
+                dpg.add_button(label="Output: OFF", tag="output_toggle_btn", callback=self.toggle_output_window)
 
-        with dpg.window(label="Sidebar", width=200, height=H-35, pos=(0,35), tag="sidebar"):
+        with dpg.window(label="Sidebar", width=200, height=H-35, pos=(0,35), tag="sidebar", no_resize=True, no_close=True, no_move=True, no_collapse=True):
         # with dpg.window(label="Sidebar", width=W//8, height=H-40, pos=(0,40), tag="sidebar"):
-            dpg.add_text("Controls:\n- Click and drag to create links\n- Select and press Delete/Backspace to delete\n- Use arrow keys to pan\n- Click 'Recenter' to reset view")
+            dpg.add_text("Controls:\n- Click and drag to create links\n"
+                         + "- Select and press Delete/\nBackspace to delete\n"
+                         + "- Use arrow keys to pan\n- Click 'Recenter' to reset\n view\n"
+                         + "- Edit gate definitions in the Gate Editor\n  and click 'Draw' to add to canvas\n"
+                         + "- Close the gate editor to draw neurons with one click\n"
+                         + "- Double click a gate to edit its name\n")
 
             dpg.add_text("Gates:")
             dpg.add_separator()
-            for name, gate in REGISTRY.items():
-                dpg.add_button(label=name, callback=self.add_gate_node, user_data=gate)
+            with dpg.child_window(tag="gate_list", parent="sidebar", width=200, auto_resize_y=True, border=False):
+                pass
+
+            dpg.add_separator()
+            dpg.add_text("Input Script:")
+            dpg.add_input_text(
+                tag="input_script",
+                multiline=True,
+                width=180,
+                height=150,
+                default_value="inputs = [\n    # Inputs\n]"
+            )
+            dpg.add_button(label="Update Inputs", callback=self.apply_inputs)
         
-        with dpg.window(label="Canvas", width=W-200-W//5, height=H-35, pos=(200,35), tag="canvas"):
-        # with dpg.window(label="Canvas", width=W-W//8-W//5, height=H-30, pos=(W//8,30), tag="canvas"):
+        with dpg.window(label="Canvas", width=W-200-preview_w, height=H-35, pos=(200,35), tag="canvas", no_resize=True, no_close=True, no_move=True, no_collapse=True, no_scroll_with_mouse=False):
+        # with dpg.window(label="Canvas", width=W-W//8-preview_w, height=H-30, pos=(W//8,30), tag="canvas"):
             with dpg.node_editor(
                 tag="node_editor",
                 callback=self.on_link_created,
                 delink_callback=self.on_link_deleted):
                 pass
 
-        with dpg.window(label="Preview", width=W//5, height=H-35, pos=(W-W//5,35), tag="preview"):
-            dpg.add_text("Logical Network Preview:")
-            dpg.add_separator()
-            dpg.add_text("", tag="preview_text")
-            self.update_preview()
-        return 0
-
-    ## ------------------------------ Main Callbacks ------------------------------
-
-    def add_gate_node(self, sender, app_data, user_data):
-        gate = user_data
-        name = gate["name"]
-        
-        self.NETWORK.counts[name] = self.NETWORK.counts.get(name, 0) + 1
-        node_id = f"{name}_{self.NETWORK.counts[name]}"
-        uid = dpg.generate_uuid()
-        
-        with dpg.node(label=node_id, parent="node_editor", tag=uid):
-            for i in range(gate["inputs"]):
-                with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Input):
-                    dpg.add_text("in")
-            for i in range(gate["outputs"]):
-                with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output):
-                    dpg.add_text("out")
-        
-        self.NETWORK.add_node(node_id, name, gate["inputs"], uid)
-        pos = self.get_free_position()
-        dpg.set_item_pos(uid, pos)
-
-        self.update_preview()
-        return 0
-
-    def on_link_created(self, sender, app_data):
-        source_pin = app_data[0]
-        target_pin = app_data[1]
-        
-        source_id = None
-        target_id = None
-        target_input_index = None
-
-        for node_id, node in self.NETWORK.nodes.items():
-            children = dpg.get_item_children(node["dpg_id"], slot=1)
-            if source_pin in children:
-                source_id = node_id
-            if target_pin in children:
-                target_id = node_id
-                target_input_index = children.index(target_pin)
-
-        link_uid = dpg.generate_uuid()
-        dpg.add_node_link(source_pin, target_pin, parent="node_editor", tag=link_uid)
-        self.NETWORK.add_link(link_uid, source_id, target_id, target_input_index)
-        self.update_preview()
-        return 0
-
-    def on_link_deleted(self, sender, app_data):
-        self.NETWORK.delete_link(app_data)
-        dpg.delete_item(app_data)
-        self.update_preview()
-        return 0
-
-    ## ------------------------------ Other Callbacks ------------------------------
-
-    def delete_selected(self, sender, app_data):
-        selected_nodes = dpg.get_selected_nodes("node_editor")
-        selected_links = dpg.get_selected_links("node_editor")
-        
-        for node in selected_nodes:
-            node_id = next(k for k, v in self.NETWORK.nodes.items() if v["dpg_id"] == node)
-            self.NETWORK.delete_node(node_id)
-            dpg.delete_item(node)
-        
-        for link in selected_links:
-            self.NETWORK.delete_link(link)
-            dpg.delete_item(link)
-        
-        self.update_preview()
-        return 0
-    
-    def save_snapshot(self, sender, app_data):
-        path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"])
-        self.NETWORK.export_to_json(f"{path}/preview.json")
-        self.NETWORK.export_to_lp(f"{path}/preview.lp")
-        return 0
-    
-    def quick_save(self, sender, app_data):
-        if self.last_save_name:
-            path = tools.resource_path(self.CONFIG["paths"]["networks_folder"])
-            self.NETWORK.export_to_json(f"{path}/json/{self.last_save_name}.json")
-            self.NETWORK.export_to_lp(f"{path}/{self.last_save_name}.lp")
-        else:
-            self.save_snapshot(sender, app_data)
-        return 0
-    
-    def save_network_as(self, sender, app_data):
-        try:
-            with dpg.window(label="Save Network", modal=True, tag="save_popup", no_resize=True):
-                dpg.add_text("Enter network name:")
-                dpg.add_input_text(tag="save_name_input")
-                with dpg.group(horizontal=True):
-                    dpg.add_button(label="Save", callback=self._confirm_save)
-                    dpg.add_button(label="Cancel", callback=lambda: dpg.delete_item("save_popup"))
-        except Exception as e:
-            print(f"Error with save dialog: {e}")
-        return 0
-
-    def _confirm_save(self, sender, app_data):
-        name = dpg.get_value("save_name_input")
-        if not name:
-            return 1
-        path = tools.resource_path(self.CONFIG["paths"]["networks_folder"])
-        self.NETWORK.export_to_json(f"{path}/json/{name}.json")
-        self.NETWORK.export_to_lp(f"{path}/{name}.lp")
-        self.last_save_name = name
-        dpg.delete_item("save_popup")
-        return 0
-    
-    def load_network(self, sender, app_data):
-        folder = tools.resource_path(self.CONFIG["paths"]["networks_folder"]) + "/json"
-        if not os.path.exists(folder):
-            print("No saved networks found.")
-            return 1
-        
-        files = [f[:-5] for f in os.listdir(folder) if f.endswith(".json")]
-        print(f"Available networks: {files}")
-        
-        with dpg.window(label="Load Network", modal=True, tag="load_popup", no_resize=True):
-            dpg.add_text("Select a network:")
-            dpg.add_listbox(items=files, tag="load_listbox", num_items=min(len(files), 6))
+        with dpg.window(label="Preview", width=preview_w, height=H-35, pos=(W-preview_w,35), tag="preview", no_resize=True, no_close=True, no_move=True, no_collapse=True):
+            # dpg.add_text("Logical Network Preview:")
+            # dpg.add_separator()
+            # dpg.add_text("", tag="preview_text")
+            # with dpg.child_window(tag="preview_text", width=-1, height=-1, border=False):
+            #     pass
+            # self.update_preview()
             with dpg.group(horizontal=True):
-                dpg.add_button(label="Load", callback=self._confirm_load)
-                dpg.add_button(label="Cancel", callback=lambda: dpg.delete_item("load_popup"))
-        return 0
+                dpg.add_text("Preview:")
+                dpg.add_combo(
+                    items=["LP", "JSON", "main.lp"],
+                    tag="preview_selector",
+                    default_value="LP",
+                    width=120,
+                    callback=self.on_preview_selector_changed
+                )
+                dpg.add_button(label="Edit", tag="preview_edit_btn", callback=self.toggle_preview_edit, width=50)
+                dpg.add_button(label="Save", tag="preview_save_btn", callback=self.save_preview_file, width=50, show=False)
+                dpg.add_button(label="Revert", tag="preview_revert_btn", callback=self.revert_preview_file, width=60, show=False)
+            dpg.add_separator()
+            with dpg.child_window(tag="preview_text", width=-1, height=-1, border=False):
+                dpg.add_child_window(tag="preview_colored", width=-1, height=-1, border=False)
+                dpg.add_input_text(
+                    tag="preview_editor",
+                    multiline=True,
+                    width=-1,
+                    height=-1,
+                    default_value="",
+                    enabled=False,
+                    show=False
+                )
+        
+        with dpg.window(label="Output", tag="output_window", 
+                        pos=(0, H-35), width=W, height=output_h,
+                        no_resize=True, no_close=True, no_move=True, 
+                        no_collapse=True, no_title_bar=True, show=False):
+            with dpg.group(horizontal=True):
+                dpg.add_text("Clingo Output", color=(255, 255, 0))
+                dpg.add_button(label="Run Network", callback=self.run_network, width=100)
+                # dpg.add_button(label="Clear", callback=lambda: dpg.delete_item("run_output", children_only=True), width=60)
+                dpg.add_button(label="Clear", callback=self.clear_output, width=60)
+                dpg.add_button(label="Std Out", tag="tab_output_btn", callback=lambda: self.switch_output_tab("output"), width=70)
+                dpg.add_button(label="Std Err", tag="tab_errors_btn", callback=lambda: self.switch_output_tab("errors"), width=70)
+            dpg.add_separator()
+            with dpg.child_window(tag="run_output", width=-1, height=-1, border=False):
+                pass
+            with dpg.child_window(tag="run_errors", width=-1, height=-1, border=False, show=False):
+                pass
 
-    def _confirm_load(self, sender, app_data):
-        name = dpg.get_value("load_listbox")
-        if not name:
-            return
-        path = tools.resource_path(self.CONFIG["paths"]["networks_folder"]) + f"/json/{name}.json"
-        self.NETWORK.load_from_json(path)
-        self.last_save_name = name
-        self.rebuild_from_network()
-        dpg.delete_item("load_popup")
+        # bind terminal theme
+        with dpg.theme() as terminal_theme:
+            with dpg.theme_component(dpg.mvAll):
+                dpg.add_theme_color(dpg.mvThemeCol_ChildBg, (0, 0, 0, 255))
+                dpg.add_theme_color(dpg.mvThemeCol_WindowBg, (0, 0, 0, 255))
+        dpg.bind_item_theme("output_window", terminal_theme)
+
+        self.build_gate_list()
+        self.update_preview()
+        self.update_input_template()
         return 0
     
-    ## ------------------------------ Utility Functions ------------------------------
-
-    def update_preview(self):
-        self.save_snapshot(None, None)
-        # path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.json"
-        path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.lp"
+    def build_gate_list(self):
+        REGISTRY = self.REGISTRY
+        editor_open = self.CONFIG["window"]["gate_editor_open"]
         
-        if not os.path.exists(path):
-            dpg.set_value("preview_text", "Preview not available.")
-            return 1
+        with dpg.group(parent="gate_list"):
+            dpg.add_button(
+                label="Gate Editor: ON" if editor_open else "Gate Editor: OFF",
+                tag="gate_editor_toggle_btn",
+                width=180,
+                callback=self.toggle_gate_editor
+            )
+            dpg.add_input_text(
+                tag="gate_editor_box",
+                multiline=True,
+                width=180,
+                height=150,
+                enabled=False,
+                show=editor_open,
+                default_value=""
+            )
+            with dpg.group(horizontal=True, tag="gate_editor_controls", show=editor_open):
+                dpg.add_button(
+                    label="Draw",
+                    tag="gate_add_btn",
+                    callback=self.add_gate_node,
+                    user_data=self.REGISTRY.get(self.current_gate_in_editor),
+                    width=60
+                )
+                dpg.add_button(
+                    label="Save",
+                    tag="gate_save_btn",
+                    callback=self.save_gate,
+                    width=60
+                )
         
-        with open(path) as f:
-            preview = f.read()
-        
-        dpg.set_value("preview_text", preview)
+        dpg.add_separator(parent="gate_list")
+
+        for name, gate in REGISTRY.items():
+            with dpg.group(tag=f"gate_group_{name}", parent="gate_list"):
+                dpg.add_button(
+                    label=name,
+                    tag=f"gate_btn_{name}",
+                    callback=self.gate_btn_callback,
+                    user_data={"name": name, "gate": gate},
+                    # indent=10,
+                    width=180
+                    )
         return 0
-    
-    def pan(self, dx, dy):
-        for node_id, node in self.NETWORK.nodes.items():
-            pos = dpg.get_item_pos(node["dpg_id"])
-            dpg.set_item_pos(node["dpg_id"], [pos[0]+dx, pos[1]+dy])
-        return 0
-
-    def recenter(self):
-        for node_id, node in self.NETWORK.nodes.items():
-            dpg.set_item_pos(node["dpg_id"], [0, 0])
-        return 0
-
-    def reorganize(self):
-        '''Longest path layering — Sugiyama et al. (1981)
-           assigns each node to the layer of its furthest predecessor + 1'''
-        if not self.NETWORK.nodes:
-            return
-
-        # step 1 - longest path layering
-        layers = {}
-
-        def get_layer(node_id):
-            if node_id in layers:
-                return layers[node_id]
-            
-            node = self.NETWORK.nodes[node_id]
-            predecessors = [src for src in node["inputs"] if src is not None]
-            
-            if not predecessors:
-                layers[node_id] = 0
-            else:
-                layers[node_id] = max(get_layer(p) for p in predecessors) + 1
-            
-            return layers[node_id]
-
-        for node_id in self.NETWORK.nodes:
-            get_layer(node_id)
-
-        # step 2 - group by layer
-        layer_groups = {}
-        for node_id, layer in layers.items():
-            layer_groups.setdefault(layer, []).append(node_id)
-
-        # step 3 - position
-        x_start = 50
-        x_spacing = 200
-        y_spacing = 150
-        y_start = 50
-
-        for layer, node_ids in sorted(layer_groups.items()):
-            x = x_start + layer * x_spacing
-            for i, node_id in enumerate(node_ids):
-                y = y_start + i * y_spacing
-                dpg.set_item_pos(self.NETWORK.nodes[node_id]["dpg_id"], [x, y])
-        return 0
-
-    def get_free_position(self):
-        x_spacing = 150
-        y_spacing = 100
-        x_start = 20
-        y_start = 20
-        max_cols = 8
-
-        occupied = set()
-        for node in self.NETWORK.nodes.values():
-            pos = dpg.get_item_pos(node["dpg_id"])
-            if pos == [0, 0]:
-                continue
-            col = max(0, round((pos[0] - x_start) / x_spacing))
-            row = max(0, round((pos[1] - y_start) / y_spacing))
-            if 0 <= col < max_cols:
-                occupied.add((col, row))
-
-        row = 0
-        while True:
-            for col in range(max_cols):
-                if (col, row) not in occupied:
-                    return [x_start + col * x_spacing, y_start + row * y_spacing]
-            row += 1
-
-    def rebuild_from_network(self):
-        try:
-            dpg.delete_item("node_editor", children_only=True)
-            
-            # pass 1 - rebuild nodes
-            for node_id, node in self.NETWORK.nodes.items():
-                gate = self.REGISTRY[node["name"]]
-                uid = dpg.generate_uuid()
-                
-                with dpg.node(label=node_id, parent="node_editor", tag=uid):
-                    for i in range(gate["inputs"]):
-                        with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Input):
-                            dpg.add_text("in")
-                    for i in range(gate["outputs"]):
-                        with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output):
-                            dpg.add_text("out")
-                
-                self.NETWORK.nodes[node_id]["dpg_id"] = uid
-            
-            # pass 2 - rebuild links
-            new_links = {}
-            for _, (source_id, target_id, target_input_index) in self.NETWORK.links.items():
-                source_uid = self.NETWORK.nodes[source_id]["dpg_id"]
-                target_uid = self.NETWORK.nodes[target_id]["dpg_id"]
-                
-                source_children = dpg.get_item_children(source_uid, slot=1)
-                target_children = dpg.get_item_children(target_uid, slot=1)
-                
-                source_out_pin = source_children[-1]
-                target_in_pin = target_children[target_input_index]
-                
-                link_uid = dpg.generate_uuid()
-                dpg.add_node_link(source_out_pin, target_in_pin, parent="node_editor", tag=link_uid)
-                new_links[link_uid] = (source_id, target_id, target_input_index)
-            
-            self.NETWORK.links = new_links
-            self.reorganize()
-            self.update_preview()
-            return 0
-        
-        except Exception as e:
-            print(f"Error rebuilding from network: {e}")
