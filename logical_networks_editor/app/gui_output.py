@@ -4,6 +4,7 @@ import dearpygui.dearpygui as dpg
 import subprocess
 import datetime
 import tools
+import sys
 import os
 
 
@@ -13,6 +14,8 @@ class GUIOutput:
 
     def run_network(self, sender, app_data):
         output_lines = []
+        error_lines = []
+        formatted = ""
 
         # step 1 - extra files from config
         extra_files = []
@@ -72,6 +75,29 @@ class GUIOutput:
             clingo_output = result.stdout
             clingo_errors = result.stderr
 
+            # parse output
+            interpreter_path = tools.resource_path(self.CONFIG["paths"]["output_interpreter_folder"])
+            if not os.path.exists(interpreter_path):
+                formatted = "[ERROR] Output interpreter not found.\n" + f"Expected at: {interpreter_path}"
+            else:
+                sys.path.insert(0, interpreter_path)
+                from interpreter import parse
+                facts, values = parse(clingo_output)
+                formatter = self.load_output_script(None, None)
+                formatted = formatter.format(facts, values) if formatter else "\n".join(facts)
+
+                # update node values
+                for node_id, val in values.items():
+                    if node_id in self.NETWORK.nodes:
+                        self.NETWORK.nodes[node_id]["val"] = val
+                # self.NETWORK.save_snapshot()  # save updated values to snapshot
+                
+                # update node displays
+                for node_id in self.NETWORK.nodes:
+                    self.update_node_display(node_id)
+                    print("gui_output.py: updated display for node", node_id)
+
+            # add raw output to logs
             if clingo_output:
                 output_lines.extend(clingo_output.split("\n"))
             if clingo_errors:
@@ -87,23 +113,34 @@ class GUIOutput:
         # step 6 - log output
         output_log_path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/output.log"
         error_log_path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/errors.log"
+        formatted_log_path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/formatted.log"
         try:
+            # Check if over 10MB log size and warn if so
+            if os.path.exists(output_log_path) and os.path.getsize(output_log_path) > 10 * 1024 * 1024:
+                output_lines.append("[WARNING] Output log is over 10MB. Consider clearing it to save disk space.")
             with open(output_log_path, "a") as f:
                 f.write(f"\n--- Run: {datetime.datetime.now()} ---\n")
                 f.write("\n".join(output_lines))
             with open(error_log_path, "a") as f:
                 f.write(f"\n--- Run: {datetime.datetime.now()} ---\n")
                 f.write("\n".join(error_lines))
+            with open(formatted_log_path, "a") as f:
+                f.write(f"\n--- Run: {datetime.datetime.now()} ---\n")
+                f.write(formatted)
         except Exception as e:
             output_lines.append(f"[WARNING] Could not write log: {e}")
 
         self._render_run_output(output_lines)
         self._render_run_errors(error_lines)
+        self._render_run_formatted(formatted)
 
         if clingo_errors:
             self.switch_output_tab("errors")
+        elif values:
+            self.switch_output_tab("formatted")
         else:
             self.switch_output_tab("output")
+
         return 0
 
     def _render_run_output(self, lines):
@@ -119,7 +156,7 @@ class GUIOutput:
                 color = (0, 255, 0, 255)        # green - normal clingo output
             dpg.add_text(line if line else " ", parent="run_output", color=color, 
                         # wrap=self.CONFIG["window"]["width"]//5 - 10)
-                        wrap=self.CONFIG["window"]["width"] - 50)
+                        wrap=dpg.get_viewport_width() - 20)
         # dpg.set_y_scroll("run_output", dpg.get_y_scroll_max("run_output"))
         dpg.set_y_scroll("run_output", 999999)  # scroll to bottom
         return 0
@@ -136,7 +173,16 @@ class GUIOutput:
             dpg.add_text(line if line else " ", parent="run_errors", color=color,
                         wrap=dpg.get_viewport_width() - 20)
         dpg.set_y_scroll("run_errors", 99999)
+        return 0
 
+    def _render_run_formatted(self, formatted):
+        dpg.delete_item("run_formatted", children_only=True)
+        color = (0, 255, 0, 255)  # green
+        for line in formatted.split("\n"):
+            dpg.add_text(line if line else " ", parent="run_formatted", color=color,
+                         wrap=dpg.get_viewport_width() - 20)
+        # dpg.set_y_scroll("run_formatted", 99999)
+        return 0
     ## --------------------------- Output Callbacks -----------------------------------
 
     def toggle_output_window(self, sender, app_data):
@@ -173,17 +219,19 @@ class GUIOutput:
     def clear_output(self, sender, app_data):
         dpg.delete_item("run_output", children_only=True)
         dpg.delete_item("run_errors", children_only=True)
+        dpg.delete_item("run_formatted", children_only=True)
         return 0
     
     def switch_output_tab(self, tab):
-        if tab == "output":
-            dpg.show_item("run_output")
-            dpg.hide_item("run_errors")
-            dpg.set_item_label("tab_output_btn", "> Std Out")
-            dpg.set_item_label("tab_errors_btn", "  Std Err")
-        else:
-            dpg.show_item("run_errors")
-            dpg.hide_item("run_output")
-            dpg.set_item_label("tab_output_btn", "  Std Out")
-            dpg.set_item_label("tab_errors_btn", "> Std Err")
+        tabs = {"output": "run_output", "errors": "run_errors", "formatted": "run_formatted"}
+        btns = {"output": "tab_output_btn", "errors": "tab_errors_btn", "formatted": "tab_formatted_btn"}
+        labels = {"output": "Std Out", "errors": "Std Err", "formatted": "Formatted"}
+        
+        for t, widget in tabs.items():
+            if t == tab:
+                dpg.show_item(widget)
+                dpg.set_item_label(btns[t], f"> {labels[t]}")
+            else:
+                dpg.hide_item(widget)
+                dpg.set_item_label(btns[t], labels[t])
         return 0

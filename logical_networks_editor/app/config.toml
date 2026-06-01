@@ -8,13 +8,16 @@ title = "Network Editor"
 output_height = 300
 preview_width = 400
 gate_editor_open = false
-warn_on_base_edit = true
+output_open = true
+warn_on_base_edit = false
 
 [paths]
 base_folder = "C-MCPN/base"
 gates_folder = "C-MCPN/gates"
 networks_folder = "C-MCPN/networks"
 snapshots_folder = "app/snapshots"
+output_scripts_folder = "app/output_scripts"
+output_interpreter_folder = "C-MCPN/tools"
 
 [defaults]
 DEFAULT_GATES = ["INPUT", "OUTPUT", "AND", "OR", "NOT", "XOR", "NAND"]

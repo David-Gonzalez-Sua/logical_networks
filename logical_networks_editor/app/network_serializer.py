@@ -1,36 +1,36 @@
 # network_serializer.py
 # Holds the Network class
-#
-# Example of network organization: 
-# self.nodes = {
-#     "INPUT_1": {
-#         "name": "INPUT",
-#         "dpg_id": None,
-#         "inputs": None,          # no inputs, source node
-#         "outputs": [],           # list of (target_id, index)
-#         "val": None              # set by user before run
-#     },
-#     "NOT_1": {
-#         "name": "NOT",
-#         "dpg_id": None,
-#         "inputs": [None],        # fixed size, filled with source_id or None
-#         "outputs": [],           # list of (target_id, index)
-#         "val": None              # computed by Clingo, None until run
-#     },
-#     "OUTPUT_1": {
-#         "name": "OUTPUT",
-#         "dpg_id": None,
-#         "inputs": [None],        # single input
-#         "outputs": None,         # no outputs, sink node
-#         "val": None              # read from Clingo after run
-#     }
-# }
-#
-# self.links = {
-#     dpg_link_id: (source_id, target_id, target_input_index)
-#     # e.g. 123:   ("INPUT_1", "NOT_1", 0)
-#     # e.g. 124:   ("NOT_1",   "OUTPUT_1", 0)
-# }
+
+'''Example of network organization: 
+self.nodes = {
+    "INPUT_1": {
+        "name": "INPUT",
+        "dpg_id": None,
+        "inputs": None,          # no inputs, source node
+        "outputs": [],           # list of (target_id, index)
+        "val": None              # set by user before run
+    },
+    "NOT_1": {
+        "name": "NOT",
+        "dpg_id": None,
+        "inputs": [None],        # fixed size, filled with source_id or None
+        "outputs": [],           # list of (target_id, index)
+        "val": None              # computed by Clingo, None until run
+    },
+    "OUTPUT_1": {
+        "name": "OUTPUT",
+        "dpg_id": None,
+        "inputs": [None],        # single input
+        "outputs": None,         # no outputs, sink node
+        "val": None              # read from Clingo after run
+    }
+}
+
+self.links = {
+    dpg_link_id: (source_id, target_id, target_input_index)
+    # e.g. 123:   ("INPUT_1", "NOT_1", 0)
+    # e.g. 124:   ("NOT_1",   "OUTPUT_1", 0)
+}'''
 
 import json
 
@@ -53,11 +53,11 @@ class Network:
                 "outputs": [],                  # list of (target_id)
                 "val": None                     # computed value, None until run
             }
-            return 0
         
         except Exception as e:
             print(f"Error adding node: {e}")
             return 1
+        return 0
     
     def add_link(self, dpg_link_id, source_id, target_id, target_input_index):
         try:
@@ -76,6 +76,8 @@ class Network:
         
         except Exception as e:
             print(f"Error adding link: {e}")
+            return 1
+        return 0
 
     def delete_link(self, dpg_link_id):
         try:
@@ -91,7 +93,9 @@ class Network:
         
         except Exception as e:
             print(f"Error deleting link: {e}")
-
+            return 1
+        return 0
+        
     def delete_node(self, node_id):
         try:
             if node_id not in self.nodes:
@@ -106,6 +110,8 @@ class Network:
         
         except Exception as e:
             print(f"Error deleting node: {e}")
+            return 1
+        return 0
 
     def export_to_json(self, path):
         try:
@@ -129,6 +135,8 @@ class Network:
         
         except Exception as e:
             print(f"Error exporting to JSON: {e}")
+            return 1
+        return 0
 
     def load_from_json(self, path):
         try:
@@ -160,6 +168,8 @@ class Network:
         
         except Exception as e:
             print(f"Error loading from JSON: {e}")
+            return 1
+        return 0
 
     def export_to_lp(self, path):
         try:
@@ -167,9 +177,9 @@ class Network:
                 f.write("%% Network architecture""\n")
                 
                 f.write("%% Neurons:\n")
-                f.write("% nueron(type, unique_id)\n")
+                f.write("% neuron(type, unique_id)\n")
                 for node_id, node in self.nodes.items():
-                    f.write(f'''nueron(\"{node['name']}\", \"{node_id}\").\n''')
+                    f.write(f'''neuron(\"{node['name']}\", \"{node_id}\").\n''')
                 
                 f.write("\n\n%% Edges:\n")
                 f.write("% edge(source_id, target_id)\n")
@@ -184,10 +194,12 @@ class Network:
                         f.write(f"{{ edge(src, \"{node_id}\") : neuron(\"{node['name']}\", \"{node_id}\") }} {max_inputs}.\n")
                 
                 f.write("\n\n%% Values:\n")
-                f.write("% val(nueron_id, value).\n")
+                f.write("% val(neuron_id, value).\n")
                 for node_id, node in self.nodes.items():
                     if node["val"] is not None:
                         f.write(f"val(\"{node_id}\", {node['val']}).\n")
 
         except Exception as e:
             print(f"Error exporting to LP: {e}")
+            return 1
+        return 0

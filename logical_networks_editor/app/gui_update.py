@@ -9,21 +9,6 @@ class GUIUpdate:
 
     ## ------------------------------ Preview Callbacks --------------------------------
 
-    # def update_preview(self):
-    #     self.save_snapshot(None, None)
-    #     path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.lp"
-    #     # path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.json"
-        
-    #     if not os.path.exists(path):
-    #         dpg.delete_item("preview_text", children_only=True)
-    #         dpg.add_text("Preview not available.", parent="preview_text")
-    #         return 1
-        
-    #     with open(path) as f:
-    #         preview = f.read()
-        
-    #     self._render_lp_preview(preview)
-    #     return 0
     def update_preview(self):
         if dpg.does_item_exist("preview_selector") and dpg.get_value("preview_selector") != "LP":
             return 0
@@ -46,6 +31,7 @@ class GUIUpdate:
         dpg.delete_item("preview_colored", children_only=True)
         dpg.show_item("preview_colored")
         self._render_lp_preview(content)
+        return 0
 
     def _render_lp_preview(self, lp_text):
         parent = "preview_colored" if dpg.does_item_exist("preview_colored") else "preview_text"
@@ -68,6 +54,7 @@ class GUIUpdate:
                 color = (160, 160, 160, 255)      # everything else - dim
 
             dpg.add_text(line if line else " ", parent=parent, color=color)
+        return 0
     
     def update_input_template(self):
         input_nodes = [nid for nid, n in self.NETWORK.nodes.items() if n["name"] == "INPUT"]
@@ -103,5 +90,31 @@ class GUIUpdate:
         for node_id, val in zip(input_nodes, values):
             self.NETWORK.nodes[node_id]["val"] = val
         
+        for node_id in self.NETWORK.nodes:
+            self.update_node_display(node_id)
+
         self.update_preview()
         return 0
+
+    def update_node_display(self, node_id):
+        node = self.NETWORK.nodes[node_id]
+        uid = node["dpg_id"]
+        children = dpg.get_item_children(uid, slot=1)
+        
+        # update input pin labels
+        for i, pin_id in enumerate(children[:-1]):  # all but last (output)
+            src = node["inputs"][i]
+            if src and self.NETWORK.nodes[src]["val"] is not None:
+                val = self.NETWORK.nodes[src]["val"]
+            else:
+                val = "in"
+            pin_children = dpg.get_item_children(pin_id, slot=1)
+            if pin_children:
+                dpg.set_value(pin_children[0], str(val))
+        
+        # update output pin label
+        out_pin = children[-1]
+        out_children = dpg.get_item_children(out_pin, slot=1)
+        if out_children:
+            val = node["val"] if node["val"] is not None else "out"
+            dpg.set_value(out_children[0], str(val))

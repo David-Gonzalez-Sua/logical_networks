@@ -1,7 +1,9 @@
 # gui_files.py
 
 import dearpygui.dearpygui as dpg
+import importlib
 import tools
+import sys
 import os
 
 
@@ -129,3 +131,16 @@ class GUIFiles:
         dpg.show_item("preview_edit_btn")
         self._show_preview_readonly(content)
         return 0
+    
+    def load_output_script(self, sender, app_data, ):
+        output_script_name = self.NETWORK.output_script if hasattr(self.NETWORK, 'output_script') else "default"
+        script_path = tools.resource_path(self.CONFIG["paths"]["output_scripts_folder"])
+        sys.path.insert(0, script_path)
+
+        try:
+            formatter = importlib.import_module(output_script_name)
+            importlib.reload(formatter)  # reload in case of edits
+            return formatter
+        except Exception as e:
+            print(f"[ERROR] Could not load output script: {e}")
+            return None

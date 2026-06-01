@@ -37,7 +37,6 @@ class GUI(
         output_h = CONFIG["window"]["output_height"]
         preview_w = CONFIG["window"]["preview_width"]
 
-        # with dpg.window(label="toolbar", width=W, height=40, pos=(0,0), tag="toolbar", no_title_bar=True, no_scrollbar=True, no_resize=True, no_move=True):
         with dpg.window(label="toolbar", width=W, height=35, min_size=[100, 30], pos=(0,0), tag="toolbar", no_title_bar=True, no_scrollbar=True, no_resize=True, no_move=True):
             with dpg.group(horizontal=True):
                 dpg.add_text("Logical Network Editor", color=(255, 255, 0))
@@ -49,15 +48,15 @@ class GUI(
                 dpg.add_button(label="Delete Selected", callback=self.delete_selected)
                 dpg.add_button(label="Output: OFF", tag="output_toggle_btn", callback=self.toggle_output_window)
 
-        with dpg.window(label="Sidebar", width=200, height=H-35, pos=(0,35), tag="sidebar", no_resize=True, no_close=True, no_move=True, no_collapse=True):
-        # with dpg.window(label="Sidebar", width=W//8, height=H-40, pos=(0,40), tag="sidebar"):
-            dpg.add_text("Controls:\n- Click and drag to create links\n"
-                         + "- Select and press Delete/\nBackspace to delete\n"
+        with dpg.window(label="Sidebar", width=200, height=H-35, pos=(0,35), tag="sidebar", no_title_bar=True, no_resize=True, no_close=True, no_move=True, no_collapse=True):
+            dpg.add_text("Controls:\n- Click and drag to create links\n\n"
+                         + "- Select and press Delete/\n  Backspace to delete\n"
                          + "- Use arrow keys to pan\n- Click 'Recenter' to reset\n view\n"
                          + "- Edit gate definitions in the Gate Editor\n  and click 'Draw' to add to canvas\n"
                          + "- Close the gate editor to draw neurons with one click\n"
                          + "- Double click a gate to edit its name\n")
-
+            
+            dpg.add_separator()
             dpg.add_text("Gates:")
             dpg.add_separator()
             with dpg.child_window(tag="gate_list", parent="sidebar", width=200, auto_resize_y=True, border=False):
@@ -75,20 +74,13 @@ class GUI(
             dpg.add_button(label="Update Inputs", callback=self.apply_inputs)
         
         with dpg.window(label="Canvas", width=W-200-preview_w, height=H-35, pos=(200,35), tag="canvas", no_resize=True, no_close=True, no_move=True, no_collapse=True, no_scroll_with_mouse=False):
-        # with dpg.window(label="Canvas", width=W-W//8-preview_w, height=H-30, pos=(W//8,30), tag="canvas"):
             with dpg.node_editor(
                 tag="node_editor",
                 callback=self.on_link_created,
                 delink_callback=self.on_link_deleted):
                 pass
 
-        with dpg.window(label="Preview", width=preview_w, height=H-35, pos=(W-preview_w,35), tag="preview", no_resize=True, no_close=True, no_move=True, no_collapse=True):
-            # dpg.add_text("Logical Network Preview:")
-            # dpg.add_separator()
-            # dpg.add_text("", tag="preview_text")
-            # with dpg.child_window(tag="preview_text", width=-1, height=-1, border=False):
-            #     pass
-            # self.update_preview()
+        with dpg.window(label="Preview", width=preview_w, height=H-35, pos=(W-preview_w,35), no_title_bar=True, tag="preview", no_resize=True, no_close=True, no_move=True, no_collapse=True):
             with dpg.group(horizontal=True):
                 dpg.add_text("Preview:")
                 dpg.add_combo(
@@ -119,16 +111,21 @@ class GUI(
                         no_resize=True, no_close=True, no_move=True, 
                         no_collapse=True, no_title_bar=True, show=False):
             with dpg.group(horizontal=True):
+                buttons_width = 160 + 100 + 60 + 70 + 70 + 90 # rough estimate of all items
                 dpg.add_text("Clingo Output", color=(255, 255, 0))
+                dpg.add_spacer(tag="output_spacer", width=W - buttons_width)  # push buttons to the right
+                # dpg.add_text("Clingo Output", color=(255, 255, 0))
                 dpg.add_button(label="Run Network", callback=self.run_network, width=100)
-                # dpg.add_button(label="Clear", callback=lambda: dpg.delete_item("run_output", children_only=True), width=60)
                 dpg.add_button(label="Clear", callback=self.clear_output, width=60)
                 dpg.add_button(label="Std Out", tag="tab_output_btn", callback=lambda: self.switch_output_tab("output"), width=70)
                 dpg.add_button(label="Std Err", tag="tab_errors_btn", callback=lambda: self.switch_output_tab("errors"), width=70)
+                dpg.add_button(label="Formatted", tag="tab_formatted_btn", callback=lambda: self.switch_output_tab("formatted"), width=90)
             dpg.add_separator()
             with dpg.child_window(tag="run_output", width=-1, height=-1, border=False):
                 pass
             with dpg.child_window(tag="run_errors", width=-1, height=-1, border=False, show=False):
+                pass
+            with dpg.child_window(tag="run_formatted", width=-1, height=-1, border=False, show=False):
                 pass
 
         # bind terminal theme
@@ -141,6 +138,9 @@ class GUI(
         self.build_gate_list()
         self.update_preview()
         self.update_input_template()
+
+        if self.CONFIG["window"]["output_open"]:
+            self.toggle_output_window(None, None)
         return 0
     
     def build_gate_list(self):

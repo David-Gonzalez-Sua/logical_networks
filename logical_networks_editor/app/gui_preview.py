@@ -13,7 +13,7 @@ class GUIPreview:
     def toggle_preview_edit(self, sender, app_data):
         if self.CONFIG["window"].get("warn_on_base_edit", True):
             self._show_base_edit_warning()
-            return
+            return 1
         # hide colored, show editor with current content
         if dpg.does_item_exist("preview_colored"):
             dpg.hide_item("preview_colored")
@@ -24,6 +24,7 @@ class GUIPreview:
         dpg.show_item("preview_save_btn")
         dpg.show_item("preview_revert_btn")
         dpg.hide_item("preview_edit_btn")
+        return 0
 
     def _show_base_edit_warning(self):
         if dpg.does_item_exist("base_edit_warning"):
@@ -36,6 +37,7 @@ class GUIPreview:
             with dpg.group(horizontal=True):
                 dpg.add_button(label="Okay", width=80, callback=lambda: self._dismiss_base_warning(False))
                 dpg.add_button(label="Okay, don't show again", width=180, callback=lambda: self._dismiss_base_warning(True))
+        return 0
 
     def _dismiss_base_warning(self, dont_show_again):
         if dont_show_again:
@@ -58,6 +60,7 @@ class GUIPreview:
         dpg.show_item("preview_save_btn")
         dpg.show_item("preview_revert_btn")
         dpg.hide_item("preview_edit_btn")
+        return 0
 
     def _get_current_file_content(self):
         selected = dpg.get_value("preview_selector")
@@ -89,11 +92,12 @@ class GUIPreview:
         
         if not os.path.exists(path):
             self._show_preview_readonly("File not found.")
-            return
+            return 1
         with open(path) as f:
             content = f.read()
         
         self._show_preview_readonly(content)
+        return 0
 
     def revert_preview_file(self, sender, app_data):
         content = self._get_current_file_content()
@@ -102,3 +106,4 @@ class GUIPreview:
         dpg.hide_item("preview_revert_btn")
         dpg.show_item("preview_edit_btn")
         self._show_preview_readonly(content)
+        return 0
