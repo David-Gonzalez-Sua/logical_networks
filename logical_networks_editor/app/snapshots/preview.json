@@ -7,7 +7,7 @@
         "XOR_1",
         "AND_1"
       ],
-      "val": 1
+      "val": "1"
     },
     "XOR_1": {
       "name": "XOR",
@@ -19,7 +19,7 @@
         "XOR_2",
         "AND_2"
       ],
-      "val": null
+      "val": "0"
     },
     "AND_1": {
       "name": "AND",
@@ -30,7 +30,7 @@
       "outputs": [
         "OR_1"
       ],
-      "val": null
+      "val": "1"
     },
     "INPUT_2": {
       "name": "INPUT",
@@ -39,7 +39,7 @@
         "XOR_1",
         "AND_1"
       ],
-      "val": 1
+      "val": "1"
     },
     "XOR_2": {
       "name": "XOR",
@@ -50,7 +50,7 @@
       "outputs": [
         "OUTPUT_1"
       ],
-      "val": null
+      "val": "0"
     },
     "AND_2": {
       "name": "AND",
@@ -61,7 +61,7 @@
       "outputs": [
         "OR_1"
       ],
-      "val": null
+      "val": "0"
     },
     "OR_1": {
       "name": "OR",
@@ -72,7 +72,7 @@
       "outputs": [
         "OUTPUT_2"
       ],
-      "val": null
+      "val": "1"
     },
     "OUTPUT_1": {
       "name": "OUTPUT",
@@ -80,7 +80,7 @@
         "XOR_2"
       ],
       "outputs": [],
-      "val": null
+      "val": "0"
     },
     "OUTPUT_Carry": {
       "name": "OUTPUT",
@@ -88,7 +88,7 @@
         "OR_1"
       ],
       "outputs": [],
-      "val": null
+      "val": "1"
     },
     "INPUT_Carry": {
       "name": "INPUT",
@@ -97,7 +97,7 @@
         "XOR_2",
         "AND_2"
       ],
-      "val": 0
+      "val": "0"
     }
   },
   "links": [

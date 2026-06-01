@@ -116,5 +116,5 @@ class GUIUpdate:
         out_pin = children[-1]
         out_children = dpg.get_item_children(out_pin, slot=1)
         if out_children:
-            val = node["val"] if node["val"] is not None else "out"
+            val = ("    " + str(node["val"])) if node["val"] is not None else "  out"
             dpg.set_value(out_children[0], str(val))

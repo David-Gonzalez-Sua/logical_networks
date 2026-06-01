@@ -34,42 +34,6 @@ def get_input(source=None):
     except (FileNotFoundError, OSError):
         # not a valid path, treat as raw string
         return source
-
-def parse(source=None):
-    content = get_input(source)
-    
-    toks_last = None
-    toks = None
-    toks_next = content.split()
-
-    while not (toks_next and toks_next[0].startswith("OPT") or toks_next[0].startswith("SAT") or toks_next[0].startswith("UNSAT")):
-        toks_last = toks
-        toks = toks_next
-        toks_next = content.split()
-    
-    if toks_next[0].startswith("OPT") or toks_next[0].startswith("SAT"):
-        if toks_next[0].startswith("OPT"):
-            toks = toks_last
-        
-        facts = []
-        values = {}
-        for t in toks:
-            if t.startswith("val"):
-                line = t[4:-1]
-                param = line.split(',')
-                neuron_id = param[0]
-                value = param[1]
-                facts.append(f"val({neuron_id}, {value}).")
-                values[neuron_id] = value
-            else:
-                facts.append(t.replace(",", ", ") + ".")
-
-        return facts, values
-    
-    # In case of unsatisfiability
-    elif toks_next[0].startswith("UNSAT"):
-        print("No solution found.")
-        return {}, []
     
 def parse(source=None):
     content = get_input(source).split("\n")

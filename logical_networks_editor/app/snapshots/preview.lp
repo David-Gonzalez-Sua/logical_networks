@@ -43,5 +43,12 @@ edge("OR_1", "OUTPUT_Carry").
 %% Values:
 % val(neuron_id, value).
 val("INPUT_1", 1).
+val("XOR_1", 0).
+val("AND_1", 1).
 val("INPUT_2", 1).
+val("XOR_2", 0).
+val("AND_2", 0).
+val("OR_1", 1).
+val("OUTPUT_1", 0).
+val("OUTPUT_Carry", 1).
 val("INPUT_Carry", 0).
