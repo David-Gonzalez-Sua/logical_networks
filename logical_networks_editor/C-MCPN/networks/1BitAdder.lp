@@ -1,16 +1,16 @@
 %% Network architecture
 %% Neurons:
-% nueron(type, unique_id)
-nueron("INPUT", "INPUT_1").
-nueron("XOR", "XOR_1").
-nueron("AND", "AND_1").
-nueron("INPUT", "INPUT_2").
-nueron("XOR", "XOR_2").
-nueron("AND", "AND_2").
-nueron("OR", "OR_1").
-nueron("OUTPUT", "OUTPUT_1").
-nueron("OUTPUT", "OUTPUT_Carry").
-nueron("INPUT", "INPUT_Carry").
+% neuron(type, unique_id)
+neuron("INPUT", "INPUT_1").
+neuron("XOR", "XOR_1").
+neuron("AND", "AND_1").
+neuron("INPUT", "INPUT_2").
+neuron("XOR", "XOR_2").
+neuron("AND", "AND_2").
+neuron("OR", "OR_1").
+neuron("OUTPUT", "OUTPUT_1").
+neuron("OUTPUT", "OUTPUT_Carry").
+neuron("INPUT", "INPUT_Carry").
 
 
 %% Edges:
@@ -41,7 +41,7 @@ edge("OR_1", "OUTPUT_Carry").
 
 
 %% Values:
-% val(nueron_id, value).
+% val(neuron_id, value).
 val("INPUT_1", 1).
 val("INPUT_2", 1).
 val("INPUT_Carry", 0).

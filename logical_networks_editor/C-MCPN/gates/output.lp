@@ -1,6 +1,6 @@
 %% gate: OUTPUT
 %% inputs: 1
-%% outputs: 1
+%% outputs: 0
 
 % type("TYPE")
 type("OUTPUT").

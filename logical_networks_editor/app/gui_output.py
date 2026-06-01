@@ -13,6 +13,7 @@ class GUIOutput:
 
     def run_network(self, sender, app_data):
         output_lines = []
+        error_lines = []
 
         # step 1 - extra files from config
         extra_files = []
@@ -136,6 +137,7 @@ class GUIOutput:
             dpg.add_text(line if line else " ", parent="run_errors", color=color,
                         wrap=dpg.get_viewport_width() - 20)
         dpg.set_y_scroll("run_errors", 99999)
+        return 0
 
     ## --------------------------- Output Callbacks -----------------------------------
 

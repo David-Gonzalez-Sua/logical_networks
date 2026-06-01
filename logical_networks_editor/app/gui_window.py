@@ -10,8 +10,12 @@ class GUIWindow:
     def on_viewport_resize(self):
         W = dpg.get_viewport_width()
         H = dpg.get_viewport_height()
-        preview_w = self.CONFIG["window"]["preview_width"]
         
+        output_buttons_width = 180 + 100 + 60 + 70 + 70  # rough estimate of all items in output header
+        if dpg.does_item_exist("output_spacer"):
+            dpg.configure_item("output_spacer", width=W - output_buttons_width)
+        
+        preview_w = self.CONFIG["window"]["preview_width"]
         dpg.configure_item("toolbar", width=W)
         self._resize_for_output(W, H, self.output_shown)
         dpg.configure_item("preview", width=preview_w, pos=(W-preview_w, 35))
