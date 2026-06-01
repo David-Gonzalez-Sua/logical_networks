@@ -62,7 +62,7 @@ class GUIUpdate:
                 color = (255, 180, 80, 255)       # weak constraints - orange
             elif stripped.startswith("#"):
                 color = (255, 220, 50, 255)       # directives - yellow
-            elif stripped.endswith("."):
+            elif stripped.endswith(".") or stripped.endswith(","):
                 color = (220, 220, 220, 255)      # facts - white
             else:
                 color = (160, 160, 160, 255)      # everything else - dim
