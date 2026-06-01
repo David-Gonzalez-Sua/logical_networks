@@ -39,9 +39,9 @@ To run the 1BitAdder sample network on the terminal, use the following command:
 clingo base/main.lp networks/1BitAdder.lp gates/input.lp gates/output.lp gates/and.lp gates/or.lp gates/xor.lp | python3 tools/interpreter.py
 ```
 
-![Python](https://img.shields.io/badge/python-3.11-blue)
-<!-- ![License](https://img.shields.io/badge/license-MIT-green) -->
 > Requires Python 3.14.5+
 > Requires Clingo 5.8.0+
+![Python](https://img.shields.io/badge/python-3.11-blue)
+<!-- ![License](https://img.shields.io/badge/license-MIT-green) -->
 
 <!-- Open preview: Cmd+Shift+V opens it in a new tab, or Cmd+K V opens it side-by-side with your editor. -->

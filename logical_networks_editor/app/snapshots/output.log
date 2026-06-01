@@ -1,0 +1,15 @@
+
+--- Run: 2026-06-01 03:39:33.600393 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor/C-MCPN/gates/and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_1",1) val("INPUT_2",1) val("INPUT_Carry",0) val("XOR_1",0) val("AND_1",1) val("OR_1",1) val("AND_2",0) val("XOR_2",0) val("OUTPUT_1",0) val("OUTPUT_Carry",1)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.002s
