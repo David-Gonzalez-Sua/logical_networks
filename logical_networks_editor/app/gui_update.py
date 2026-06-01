@@ -90,5 +90,31 @@ class GUIUpdate:
         for node_id, val in zip(input_nodes, values):
             self.NETWORK.nodes[node_id]["val"] = val
         
+        for node_id in self.NETWORK.nodes:
+            self.update_node_display(node_id)
+
         self.update_preview()
         return 0
+
+    def update_node_display(self, node_id):
+        node = self.NETWORK.nodes[node_id]
+        uid = node["dpg_id"]
+        children = dpg.get_item_children(uid, slot=1)
+        
+        # update input pin labels
+        for i, pin_id in enumerate(children[:-1]):  # all but last (output)
+            src = node["inputs"][i]
+            if src and self.NETWORK.nodes[src]["val"] is not None:
+                val = self.NETWORK.nodes[src]["val"]
+            else:
+                val = "in"
+            pin_children = dpg.get_item_children(pin_id, slot=1)
+            if pin_children:
+                dpg.set_value(pin_children[0], str(val))
+        
+        # update output pin label
+        out_pin = children[-1]
+        out_children = dpg.get_item_children(out_pin, slot=1)
+        if out_children:
+            val = node["val"] if node["val"] is not None else "out"
+            dpg.set_value(out_children[0], str(val))

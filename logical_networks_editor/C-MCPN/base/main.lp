@@ -14,16 +14,16 @@ val(Neuron, Val) :-
     edge(In1, Neuron),
     edge(In2, Neuron),
     val(In1, Val1),
-    val(In2, Val2),
-    In1 != In2.
+    val(In2, Val2).
+    % In1 != In2.
 
 % 1 input gates
-val(Neuron, Val) :-
-    gate(Type, Val, ValIn),
+val(Neuron, Val, Val1) :-
     neuron(Type, Neuron),
     neuron(_, In),
+    gate(Type, Val, Val1),
     edge(In, Neuron),
-    val(In, ValIn).
+    val(In, Val1).
 
 % 0 input gates
 val(Neuron, Val) :-
@@ -31,6 +31,13 @@ val(Neuron, Val) :-
     gate(Type, Val).
 
 
-%#show val/2.
+% Value constraints
+% 1 { val(Neuron, Val) : values(Val) } 1 :- type(Type).
+1 { val(Neuron, Val) : values(Val) } 1 :- neuron(Type, Neuron), type(Type).
+% 1 { val(Neuron, Val) : neuron(_, Neuron) } 1 :- values(Val).
+
+
+%#show edge/2.
+#show val/2.
 % #show *.
-#show neuron/2.
+%#show neuron/2.
