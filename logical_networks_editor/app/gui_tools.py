@@ -115,7 +115,7 @@ class GUI(
                 dpg.add_text("Clingo Output", color=(255, 255, 0))
                 dpg.add_spacer(tag="output_spacer", width=W - buttons_width)  # push buttons to the right
                 # dpg.add_text("Clingo Output", color=(255, 255, 0))
-                dpg.add_button(label="Run Network", callback=self.run_network, width=100)
+                dpg.add_button(label="Solve Network", callback=self.run_network, width=100)
                 dpg.add_button(label="Clear", callback=self.clear_output, width=60)
                 dpg.add_button(label="Std Out", tag="tab_output_btn", callback=lambda: self.switch_output_tab("output"), width=70)
                 dpg.add_button(label="Std Err", tag="tab_errors_btn", callback=lambda: self.switch_output_tab("errors"), width=70)
