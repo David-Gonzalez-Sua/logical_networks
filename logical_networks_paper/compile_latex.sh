@@ -1,4 +1,4 @@
-#!/opt/local/bin/bash
+#!/bin/bash
 # 
 # Compile the LaTeX files for the paper.
 # Run this script from the 'paper' directory of the project.
