@@ -1,2 +1,5 @@
 # Force shell scripts to always use LF
 *.sh text eol=lf
+
+# Force PDF files to be treated as binary
+*.pdf binary
