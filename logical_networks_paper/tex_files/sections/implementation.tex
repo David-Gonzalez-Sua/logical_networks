@@ -1,0 +1,83 @@
+\section{Implementation}
+
+\subsection{C-MCPN Framework}
+From what we could find in the literature, the C-MCPN Framework is a novel approach to neural network representation within a logical programming paradigm like ASP. The networks themselves have relatively simple representations that can be leveraged to create complex operations. The framework uses three main program types:
+\begin{itemize}
+    \item \textbf{Gate Definitions Program:} Files are in the \texttt{C-MCPN/gates/} directory.
+    \item \textbf{Network Structure Program:} Files are in the \texttt{C-MCPN/networks/} directory.
+    \item \textbf{Value Inference Program:} Files are in the \texttt{C-MCPN/base/} directory.
+\end{itemize}
+
+The files in the gate definitions program define the behavior of each gate, including the number of inputs it should have. Every default gate we included also has a special header used to send meta-information to the C-MCPN Editor. For example, the file defining the AND gate looks like this:
+
+\begin{Verbatim}[frame=single]
+%% gate: AND
+%% inputs: 2
+%% outputs: 1
+
+% type("TYPE")
+type("AND").
+
+% gate(TYPE, OUTPUT, INPUTS)
+gate("AND", Out, In1, In2) :-
+    values(In1), values(In2),
+    Out = (In1 * In2).
+\end{Verbatim}
+
+Note the metadata in the header, and the two rules which guide this gate's definition. The first simply defines the gate, and the second performs an operation on its inputs. Then, the files in the network structure program define the neurons which exist and their connections. For example, the file defining the 1-bit adder includes the following lines:
+
+\begin{Verbatim}[frame=single]
+% neuron(type, unique_id)
+neuron("INPUT", "INPUT_1").
+neuron("XOR", "XOR_1").
+
+% edge(source_id, target_id)
+edge("INPUT_1", "XOR_1").
+
+% { edge(source_id, target_id) : neuron(type, target_id) } max_inputs.
+{ edge(src, "XOR_1") : neuron("XOR", "XOR_1") } 2.
+
+% val(neuron_id, value).
+val("INPUT_1", 1).
+\end{Verbatim}
+
+Note the cardinality constraints which enforce the correct number of inputs for each neuron, as well as the fact which sets the value of the input neuron to 1. Finally, the value inference program performs two important roles. It activates each gate by allowing the edges between neurons to carry values, and it assigns each individual neuron a value based on its gate type. The following lines are from the value inference program, and show how this is implemented:
+
+\begin{Verbatim}[frame=single]
+%% Value domain
+values(0;1).
+
+% Edges carry values from input to output
+edge(In, Neuron_id, Val) :-
+    edge(In, Neuron_id),
+    neuron(_, Neuron_id),
+    neuron(_, In),
+    val(In, Val).
+
+% 2 input gates
+val(Neuron_id, Val) :-
+    gate(Type, Val, Val1, Val2),
+    neuron(Type, Neuron_id),
+    edge(In1, Neuron_id, Val1),
+    edge(In2, Neuron_id, Val2),
+    In1 != In2.
+
+%% Each neuron has one value
+{ val(Neuron_id, Val) : values(Val) } 1 :- neuron(_, Neuron_id).
+
+%% Show values
+#show val/2.
+\end{Verbatim}
+
+Note the first fact which sets the domain of values to be binary and the constraint that ensures each neuron has exactly one value. Most importantly, the rule which carrys the values along the edges is vital to the functioning of the network. Without it, the network gets "stuck" and is unable to infer what the values of the neurons should be. This is a key insight we had during development.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/C-MCPN Framework.pdf}
+    \caption{A visualization of the programs involved in the C-MCPN Framework.}
+    \label{cmcpn_figure}
+\end{figure}
+
+
+
+\subsection{C-MCPN Editor}

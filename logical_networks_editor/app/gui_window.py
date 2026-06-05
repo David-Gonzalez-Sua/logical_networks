@@ -16,8 +16,10 @@ class GUIWindow:
             dpg.configure_item("output_spacer", width=W - output_buttons_width)
         
         preview_w = self.CONFIG["window"]["preview_width"]
+        sidebar_w = self.CONFIG["window"]["sidebar_width"]
         dpg.configure_item("toolbar", width=W)
         self._resize_for_output(W, H, self.output_shown)
+        dpg.configure_item("sidebar", width=sidebar_w)
         dpg.configure_item("preview", width=preview_w, pos=(W-preview_w, 35))
         dpg.configure_item("canvas", width=W-200-preview_w)
         return 0
