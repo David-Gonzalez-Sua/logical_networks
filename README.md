@@ -13,35 +13,51 @@
 
 ## Install & Run
 
-To install and use the app, the two necessary files are located in: logical_networks_editor/
+The install and run scripts are located in `logical_networks_editor/`.
+
+### macOS / Linux
+
+**Dependencies:** [Clingo](https://potassco.org/clingo/) (`brew install clingo` on Mac), Python 3.12+
 
 ```bash
 bash install.sh
 bash run.sh
 ```
 
-To run a network directly on the terminal, the files needed are located in: logical_networks_editor/C-MCPN/
+### Windows
+
+**Dependencies:** [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
+
+```bat
+install.bat
+run.bat
+```
+
+---
+
+## Terminal Usage
+
+To run a network directly on the terminal, the files needed are located in `logical_networks_editor/C-MCPN/`:
 
 ```bash
 clingo base/main.lp networks/[network].lp gates/[gate_1].lp ... gates/[gate_n].lp
 ```
 
-Pipe the clingo output into the interpreter provided for somewhat more readable output:
+Pipe the Clingo output into the interpreter provided for more readable output:
 
 ```bash
 clingo base/main.lp ... | python3 tools/interpreter.py
 ```
 
-To run the 1BitAdder sample network on the terminal, use the following command: 
+To run the 1BitAdder sample network:
 *NOTE: an input and an expansion for this are in development*
 
 ```bash
 clingo base/main.lp networks/1BitAdder.lp gates/input.lp gates/output.lp gates/and.lp gates/or.lp gates/xor.lp | python3 tools/interpreter.py
 ```
 
-> Requires Python 3.14.5+
-> Requires Clingo 5.8.0+
-![Python](https://img.shields.io/badge/python-3.11-blue)
-<!-- ![License](https://img.shields.io/badge/license-MIT-green) -->
+---
 
-<!-- Open preview: Cmd+Shift+V opens it in a new tab, or Cmd+K V opens it side-by-side with your editor. -->
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![Clingo](https://img.shields.io/badge/clingo-5.8.0-orange)
+<!-- ![License](https://img.shields.io/badge/license-MIT-green) -->
