@@ -36,6 +36,7 @@ class GUI(
         H = CONFIG["window"]["height"]
         output_h = CONFIG["window"]["output_height"]
         preview_w = CONFIG["window"]["preview_width"]
+        sidebar_w = CONFIG["window"]["sidebar_width"]
 
         with dpg.window(label="toolbar", width=W, height=35, min_size=[100, 30], pos=(0,0), tag="toolbar", no_title_bar=True, no_scrollbar=True, no_resize=True, no_move=True):
             with dpg.group(horizontal=True):
@@ -48,18 +49,18 @@ class GUI(
                 dpg.add_button(label="Delete Selected", callback=self.delete_selected)
                 dpg.add_button(label="Output: OFF", tag="output_toggle_btn", callback=self.toggle_output_window)
 
-        with dpg.window(label="Sidebar", width=200, height=H-35, pos=(0,35), tag="sidebar", no_title_bar=True, no_resize=True, no_close=True, no_move=True, no_collapse=True):
+        with dpg.window(label="Sidebar", width=sidebar_w, height=H-35, pos=(0,35), tag="sidebar", no_title_bar=True, no_resize=True, no_close=True, no_move=True, no_collapse=True):
             dpg.add_text("Controls:\n- Click and drag to create links\n\n"
                          + "- Select and press Delete/\n  Backspace to delete\n"
                          + "- Use arrow keys to pan\n- Click 'Recenter' to reset\n view\n"
-                         + "- Edit gate definitions in the Gate Editor\n  and click 'Draw' to add to canvas\n"
-                         + "- Close the gate editor to draw neurons with one click\n"
+                         + "- Edit gate definitions in the \n  Gate Editor and click 'Draw' to\n  add to canvas\n"
+                         + "- Close the gate editor to draw\n  neurons with one click\n"
                          + "- Double click a gate to edit its name\n")
             
             dpg.add_separator()
             dpg.add_text("Gates:")
             dpg.add_separator()
-            with dpg.child_window(tag="gate_list", parent="sidebar", width=200, auto_resize_y=True, border=False):
+            with dpg.child_window(tag="gate_list", parent="sidebar", width=sidebar_w-20, auto_resize_y=True, border=False):
                 pass
 
             dpg.add_separator()
@@ -67,13 +68,13 @@ class GUI(
             dpg.add_input_text(
                 tag="input_script",
                 multiline=True,
-                width=180,
+                width=sidebar_w-20,
                 height=150,
                 default_value="inputs = [\n    # Inputs\n]"
             )
             dpg.add_button(label="Update Inputs", callback=self.apply_inputs)
         
-        with dpg.window(label="Canvas", width=W-200-preview_w, height=H-35, pos=(200,35), tag="canvas", no_resize=True, no_close=True, no_move=True, no_collapse=True, no_scroll_with_mouse=False):
+        with dpg.window(label="Canvas", width=W-sidebar_w-preview_w, height=H-35, pos=(sidebar_w,35), tag="canvas", no_resize=True, no_close=True, no_move=True, no_collapse=True, no_scroll_with_mouse=False):
             with dpg.node_editor(
                 tag="node_editor",
                 callback=self.on_link_created,
@@ -146,18 +147,19 @@ class GUI(
     def build_gate_list(self):
         REGISTRY = self.REGISTRY
         editor_open = self.CONFIG["window"]["gate_editor_open"]
+        sidebar_w = self.CONFIG["window"]["sidebar_width"]
         
         with dpg.group(parent="gate_list"):
             dpg.add_button(
                 label="Gate Editor: ON" if editor_open else "Gate Editor: OFF",
                 tag="gate_editor_toggle_btn",
-                width=180,
+                width=sidebar_w-20,
                 callback=self.toggle_gate_editor
             )
             dpg.add_input_text(
                 tag="gate_editor_box",
                 multiline=True,
-                width=180,
+                width=sidebar_w-20,
                 height=150,
                 enabled=False,
                 show=editor_open,
@@ -188,6 +190,6 @@ class GUI(
                     callback=self.gate_btn_callback,
                     user_data={"name": name, "gate": gate},
                     # indent=10,
-                    width=180
+                    width=sidebar_w-20
                     )
         return 0
