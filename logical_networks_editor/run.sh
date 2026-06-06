@@ -1,8 +1,4 @@
 #!/bin/bash
-# Run the application.
-
-cd "$(dirname "$0")" || exit 1
-
-source venv/bin/activate
-
-python3 app/main.py
+DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$DIR/.venv/bin/activate"
+python3 "$DIR/app/main.py"
