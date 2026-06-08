@@ -1,0 +1,44 @@
+# General
+.DS_Store
+__MACOSX/
+.AppleDouble
+.LSOverride
+Icon[
+]
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# More files
+.vscode/
+venv/
+
+__pycache__/
+app/__pycache__/
+# .gitignore
+# requirements.txt
+
+logical_networks_editor/__pycache__/
+logical_networks_editor/app/__pycache__/
+logical_networks_editor/venv/
+logical_networks_editor/.venv/
+logical_networks_editor/C-MCPN/tools/__pycache__/
+
+# Ignore the logs
+logical_networks_editor/app/snapshots/
