@@ -31,7 +31,7 @@ venv/
 
 __pycache__/
 app/__pycache__/
-# .gitignore
+.gitignore
 # requirements.txt
 
 logical_networks_editor/__pycache__/
@@ -41,4 +41,4 @@ logical_networks_editor/.venv/
 logical_networks_editor/C-MCPN/tools/__pycache__/
 
 # Ignore the logs
-logical_networks_editor/app/snapshots/
+logical_networks/logical_networks_editor/app/snapshots/errors.log
