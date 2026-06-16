@@ -39,6 +39,14 @@ logical_networks_editor/app/__pycache__/
 logical_networks_editor/venv/
 logical_networks_editor/.venv/
 logical_networks_editor/C-MCPN/tools/__pycache__/
+logical_networks_editor/app/scripts/__pycache__/
+logical_networks_editor/app/scripts/output/__pycache__/
+logical_networks_editor/app/scripts/input/__pycache__/
 
-# Ignore the logs
-logical_networks/logical_networks_editor/app/snapshots/errors.log
+# Ignore the logs and previews
+logical_networks_editor/app/snapshots/
+logical_networks_editor/app/snapshots/errors.log
+logical_networks_editor/app/snapshots/formatted.log
+logical_networks_editor/app/snapshots/output.log
+logical_networks_editor/app/snapshots/preview.json
+logical_networks_editor/app/snapshots/preview.lp

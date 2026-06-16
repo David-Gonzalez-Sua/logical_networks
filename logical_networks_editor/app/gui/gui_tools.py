@@ -3,12 +3,12 @@
 
 import dearpygui.dearpygui as dpg
 
-import gui_canvas as canvas
-import gui_files as files
-import gui_update as update
-import gui_output as output
-import gui_window as window
-import gui_preview as preview
+import gui.gui_canvas as canvas
+import gui.gui_files as files
+import gui.gui_update as update
+import gui.gui_output as output
+import gui.gui_window as window
+import gui.gui_preview as preview
 
 
 class GUI(
