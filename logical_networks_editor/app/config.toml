@@ -17,7 +17,7 @@ base_folder = "C-MCPN/base"
 gates_folder = "C-MCPN/gates"
 networks_folder = "C-MCPN/networks"
 snapshots_folder = "app/snapshots"
-output_scripts_folder = "app/output_scripts"
+output_scripts_folder = "app/scripts/output"
 output_interpreter_folder = "C-MCPN/tools"
 
 [defaults]

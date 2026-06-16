@@ -3,7 +3,7 @@
 import dearpygui.dearpygui as dpg
 
 import tools
-import gui_tools as gui
+import gui.gui_tools as gui
 import network_serializer as network
 
 

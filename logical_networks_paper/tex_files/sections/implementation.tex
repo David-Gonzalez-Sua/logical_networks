@@ -1,7 +1,7 @@
 \section{Implementation}
 
 \subsection{C-MCPN Framework}
-From what we could find in the literature, the C-MCPN Framework is a novel approach to neural network representation within a logical programming paradigm like ASP. The networks themselves have relatively simple representations that can be leveraged to create complex operations. The framework uses three main program types:
+From what we could find in the literature, the C-MCPN Framework is a novel approach to neural network representation within a logical programming paradigm like ASP. The networks themselves have relatively simple representations that can be leveraged to create complex operations. The framework, which can be seen in Figure \ref{cmcpn_framework}, uses three main program types:
 \begin{itemize}
     \item \textbf{Gate Definitions Program:} Files are in the \texttt{C-MCPN/gates/} directory.
     \item \textbf{Network Structure Program:} Files are in the \texttt{C-MCPN/networks/} directory.
@@ -75,12 +75,47 @@ Note the first fact which sets the domain of values to be binary and the constra
     \centering
     \includegraphics[width=0.8\textwidth]{figures/C-MCPN Framework.pdf}
     \caption{A visualization of the programs involved in the C-MCPN Framework.}
-    \label{cmcpn_figure}
+    \label{cmcpn_framework}
 \end{figure}
 
 \subsection{C-MCPN Editor}
+In the \texttt{app/} directory of the project, we have the code for the C-MCPN Editor. The main features of the editor include the ability to add/remove neurons, connect/disconnect them, copy/paste them, and run inference on the network. The editor allows the files to be edited directly from the interface, transforming it into more of an interactive development environment (IDE) for logical networks. It includes a preview feature which allows users to see the structure of the network in ASP format before and after running the inference with simple syntax highlighting; helpful for debugging and understanding how the network is functioning. There is also an option to create new logic gates that the neurons can use, allowing for a wider range of applications. 
 
+Custom networks are saveable to JSON or ASP format and loadable from JSON format, making it easy to work on them over multiple sessions and share them with others. Saving the network to ASP format allows direct use with the C-MCPN Framework from the terminal instead of IDE. 
 
+The inputs for the inference use a Python script, allowing users to create complex inputs for their custom networks. The output can also be parsed with savable Python scripts built directly in the editor, allowing the user to choose how they want to process the results. Finally, it is worth noting that the editor includes a reorganization algorithm which automatically rearranges the neurons to make the network easier to read and understand after changes are made. This algorithm is based on the Sugiyama algorithm for layered graph drawing \cite{Sugiyama1981}.
+
+A screenshot of the editor can be seen in Figure \ref{cmcpn_editor}, showing a sample 1-bit adder network.
+
+\subsubsection{Files - General}
+There are a few folders and files to be aware of in this directory, including the following:
+\begin{itemize}
+    \item \texttt{app/scripts/}: This folder contains the python scripts used to add the inputs and format the output from the ASP programs.
+    \item \texttt{app/gui/}: This folder contains the code for the graphical user interface of the editor, explained in more detail in Section \ref{gui_section}.
+    \item \texttt{app/config.toml:} This file contains the settings for the editor.
+    \item \texttt{app/main.py:} The main entry point for the editor, which initializes the GUI, establishes a few event handlers, and runs the application.
+    \item \texttt{app/network\_serializer.py:} Contains the network class used to store the structure and values of the logical networks in both JSON and ASP format.
+    \item \texttt{app/tools.py:} Contains utility functions for finding the working directory of the project, and loading the config file and gate definitions.
+\end{itemize}
+
+\subsubsection{Files - GUI} \label{gui_section}
+As mentioned earlier, this is the only folder with significant AI input. Most of that work was done in the \texttt{app/gui/} subdirectory where AI assistance was used mainly for integrating the DearPyGui library. This folder contains multiple modules which handle different aspects of the editor:
+\begin{itemize}
+    \item \texttt{app/gui/gui\_canvas.py:} Contains the code handling various canvas interactions, such as creating and connecting nodes.
+    \item \texttt{app/gui/gui\_files.py:} Contains the code for saving and loading networks from files.
+    \item \texttt{app/gui/gui\_output.py:} Contains the code for running the ASP programs and resizing the output to fit the editor's visualization.
+    \item \texttt{app/gui/gui\_preview.py:} Contains the code for previewing the network structure in ASP format before and after running the inference.
+    \item \texttt{app/gui/gui\_update.py:} Contains the code for updating the visualization and structure of the network when changes are made.
+    \item \texttt{app/gui/gui\_window.py:} Contains the code for resizing the editor window along with the dropdown for the gate editor.
+    \item \texttt{app/gui/gui\_tools.py:} Uses all of the previous modules to build the GUI and retrieve the gate list from the gate definitions. Here is where the various windows are created and organized.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/C-MCPN Editor 0\_0\_1.png}
+    \caption{A screenshot of the C-MCPN Editor, showing a sample 1-bit adder network.}
+    \label{cmcpn_editor}
+\end{figure}
 
 
 
