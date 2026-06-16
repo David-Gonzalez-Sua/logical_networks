@@ -94,28 +94,32 @@ The inputs for the inference use a Python script, allowing users to create compl
 
 A screenshot of the editor can be seen in Figure \ref{cmcpn_editor}, showing a sample 1-bit adder network.
 
-\subsubsection{Files - General}
-There are a few folders and files to be aware of in this directory, including the following:
-\begin{itemize}
-    \item \texttt{app/scripts/}: This folder contains the python scripts used to add the inputs and format the output from the ASP programs.
-    \item \texttt{app/gui/}: This folder contains the code for the graphical user interface of the editor, explained in more detail in Section \ref{gui_section}.
-    \item \texttt{app/config.toml:} This file contains the settings for the editor.
-    \item \texttt{app/main.py:} The main entry point for the editor, which initializes the GUI, establishes a few event handlers, and runs the application.
-    \item \texttt{app/network\_serializer.py:} Contains the network class used to store the structure and values of the logical networks in both JSON and ASP format.
-    \item \texttt{app/tools.py:} Contains utility functions for finding the working directory of the project, and loading the config file and gate definitions.
-\end{itemize}
+%% Removing this content for now--I think this is just too deep a dive into the application construction.
+%% I'd call this "outside the scope" of the paper unless there are one or two important points that we want to list elsewhere.
+%% \subsubsection{File Organization}
+%% %\subsubsection{Files - General}
 
-\subsubsection{Files - GUI} \label{gui_section}
-As mentioned earlier, this is the only folder with significant AI input. Most of that work was done in the \texttt{app/gui/} subdirectory where AI assistance was used mainly for integrating the DearPyGui library. This folder contains multiple modules which handle different aspects of the editor:
-\begin{itemize}
-    \item \texttt{app/gui/gui\_canvas.py:} Contains the code handling various canvas interactions, such as creating and connecting nodes.
-    \item \texttt{app/gui/gui\_files.py:} Contains the code for saving and loading networks from files.
-    \item \texttt{app/gui/gui\_output.py:} Contains the code for running the ASP programs and resizing the output to fit the editor's visualization.
-    \item \texttt{app/gui/gui\_preview.py:} Contains the code for previewing the network structure in ASP format before and after running the inference.
-    \item \texttt{app/gui/gui\_update.py:} Contains the code for updating the visualization and structure of the network when changes are made.
-    \item \texttt{app/gui/gui\_window.py:} Contains the code for resizing the editor window along with the dropdown for the gate editor.
-    \item \texttt{app/gui/gui\_tools.py:} Uses all of the previous modules to build the GUI and retrieve the gate list from the gate definitions. Here is where the various windows are created and organized.
-\end{itemize}
+%% There are a few folders and files to be aware of in this directory, including the following:
+%% \begin{itemize}
+%%     \item \texttt{app/scripts/}: This folder contains the python scripts used to add the inputs and format the output from the ASP programs.
+%%     \item \texttt{app/gui/}: This folder contains the code for the graphical user interface of the editor, explained in more detail in Section \ref{gui_section}.
+%%     \item \texttt{app/config.toml:} This file contains the settings for the editor.
+%%     \item \texttt{app/main.py:} The main entry point for the editor, which initializes the GUI, establishes a few event handlers, and runs the application.
+%%     \item \texttt{app/network\_serializer.py:} Contains the network class used to store the structure and values of the logical networks in both JSON and ASP format.
+%%     \item \texttt{app/tools.py:} Contains utility functions for finding the working directory of the project, and loading the config file and gate definitions.
+%% \end{itemize}
+
+%% \subsubsection{Files - GUI} \label{gui_section}
+%% As mentioned earlier, this is the only folder with significant AI input. Most of that work was done in the \texttt{app/gui/} subdirectory where AI assistance was used mainly for integrating the DearPyGui library. This folder contains multiple modules which handle different aspects of the editor:
+%% \begin{itemize}
+%%     \item \texttt{app/gui/gui\_canvas.py:} Contains the code handling various canvas interactions, such as creating and connecting nodes.
+%%     \item \texttt{app/gui/gui\_files.py:} Contains the code for saving and loading networks from files.
+%%     \item \texttt{app/gui/gui\_output.py:} Contains the code for running the ASP programs and resizing the output to fit the editor's visualization.
+%%     \item \texttt{app/gui/gui\_preview.py:} Contains the code for previewing the network structure in ASP format before and after running the inference.
+%%     \item \texttt{app/gui/gui\_update.py:} Contains the code for updating the visualization and structure of the network when changes are made.
+%%     \item \texttt{app/gui/gui\_window.py:} Contains the code for resizing the editor window along with the dropdown for the gate editor.
+%%     \item \texttt{app/gui/gui\_tools.py:} Uses all of the previous modules to build the GUI and retrieve the gate list from the gate definitions. Here is where the various windows are created and organized.
+%% \end{itemize}
 
 \begin{figure}[h]
     \centering
@@ -126,6 +130,8 @@ As mentioned earlier, this is the only folder with significant AI input. Most of
 
 \subsection{AI-Assisted Development}
 Claude (Anthropic) was used as a programming assistant throughout development of the editor, helping with DearPyGui module integration, debugging, and some code generation. All design decisions, research direction, and domain-specific logic (ASP, gate definitions, network structure) were conscious decisions by the authors. Each line of code generated by Claude was reviewed, edited, and approved by the authors before being added to the codebase. In order to maintain a supervisory-level of control the agent was not given direct access to the codebase or the repository. The file that Claude had input in are contained in the \texttt{app/} directory of the project, allowing users the ability to inspect these files if they so desire.
+
+Use of Claude was employed only in the above described sections in order to accelerate the development process under circumstances of limited resources.\footnote{The authorship of this paper is without the assistance of any AI system, including planning, writing, editing, and repository maintenance.}
 
 % MAYBE PUT THIS IN THE FUTURE WORK SECTION?
 % This last goal was especially important to us, as we believe the C-MCPN Editor could become a powerful tool for education and customized personal AI assistants in the future. NOTE: MAYBE  
