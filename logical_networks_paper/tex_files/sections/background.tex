@@ -51,37 +51,35 @@ In this case rather than the literal {\tt apple}, we use a \emph{variable} to al
 
 \subsubsection{An Illustrative Example: 3-Colorability}
 
-As an illustrative example regarding how to model problems in Clingo, we will use the graph 3-Colorability problem, as it is presented in \emph{ASP$\forall$: Answer Set Programming "Algorithms"} (Guerin et al., 2026--need cite). ASP$\forall$ is an Open Educational Resource (OER) for answer set programming in the Clingo dialect. These implementations provide minimal examples of how to model problems in Clingo, and graph-based implementations are of particular interest to us as ANNs are also graphical in nature.
+As an illustrative example regarding how to model problems in Clingo, we will use the graph 3-Colorability problem, as it is presented in \emph{ASP$\forall$: Answer Set Programming "Algorithms"} \textbf{Guerin et al., 2026--need cite}. The problem is in NP-Complete, meaning that while it is deceptively easy to state it is is computationally expensive to solve. A simplified statement of the problems is ``Given a graph, G, assign one of 3 colors to the vertices of G such that no two adjacent vertices share a color.''
 
-The 3-Colorability problem is deceptively easy to state, but is computationally expensive to solve exactly. A simplified statement of the problems is ``Given a graph, G, assign one of 3 colors to the vertices of G such that no two adjacent vertices share a color.''
+E.g., Consider the following graph and solution:
 
-E.g., Consider the following graph and proposed solution:
+\begin{figure}
+  \begin{minipage}[t]{.49\linewidth}
+    \includegraphics[scale=.15]{tex_files/sections/figures/graph}
+  \end{minipage}
+  \begin{minipage}[t]{.49\linewidth}
+    \includegraphics[scale=.15]{tex_files/sections/figures/graph_colored}
+  \end{minipage}
+  \caption{An Example Graph Coloring}\label{graph_color}
+\end{figure}
 
-\begin{minipage}[t]{.49\linewidth}
-%%   \includegraphics{figures/graph.png}
-     \includegraphics[scale=.15]{tex_files/sections/figures/graph}
-\end{minipage}
-\begin{minipage}[t]{.49\linewidth}
-  \includegraphics[scale=.15]{tex_files/sections/figures/graph_colored}
-\end{minipage}
+While the example and coloring are rather trivial, we can see that under the provided assignment no two colors are connected by an edge.
 
-\emph{Need to fix formatting.}
-
-In this particular case, color assignment is rather trivial--any assignment of all three colors to the vertices will lead to a valid coloring.
-
-The implementation for 3-Colorability provided by ASP$\forall$ is specified in terms of an \emph{instance} as well as a \emph{solution} file. The instance encodes input information in the form of predicates\footnote{Unlike many programming language paradigms, ASP languages often lack traditional IO systems, moving these features to dedicated parsers in other languages.}, and the solution provides a general implementation for inference over any provided instance model.
+In Clingo we specify the \emph{reasoning} behind the problem, and not the \emph{steps} required to find a solution (that is the work of the solver). This is typically divided into an \emph{instance} (i.e., input) and a \emph{solution} (the actual problem, abstracted away from any particular instance). E.g.,
 
 \begin{verbatim}
 node(1..3).
-node(1, 2).
-node(1, 3).
-node(2, 3).
+edge(1, 2). edge(1, 3). edge(2, 3).
 \end{verbatim}
 
+specifies the (uncolored) model in Figure \ref{graph_color}. {\tt 1..3} is elaborated by the system to attribute the property {\tt node} to all of 1, 2, and 3. Connectivity is specified by the {\tt edge} predicate.
 
+The actual solution is presented with commentary explaining the plain-language meaning of each step as it relates to the actual statement of the problem.
 \begin{verbatim}
 % Set of available colors.
-  color(1..3).
+color(red ; green ; blue).
   
 % Edges are symmetric.
 % Assumes potentially directed description of an undirected graph.
@@ -97,23 +95,9 @@ edge(M, N) :- edge(N, M).
 #show color/2.
 \end{verbatim}
 
+In this example we provide a \emph{cardinality constraint}, {\tt 1 \{ color(N, C) : color(C) \} 1 }. The 1 on each side corresponds to an \emph{upper} and \emph{lower} bound, respectively, stating that there must be \emph{exactly one} color assignment to each node. Additionally, the {\tt \#show} declaration is ready by the system that \emph{only} the color predicate of arity 2 is to be printed.\footnote{Clingo lacks traditional IO systems, and output is purely in the form of predicates--which can get rather confusing unless output is simplified.}
 
+Solving the instance results in the assignment:
 \begin{verbatim}
-clingo version 5.6.2
-
-Reading from clingo_test.lp
-
-Solving...
-  
-Answer: 1
-
-color(1,2) color(2,3) color(3,1)
-
-SATISFIABLE
-
-
-Models : 1+
-Calls : 1
-Time : 0.013s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
-CPU Time : 0.002s
+color(1,red) color(2,green) color(3,blue)
 \end{verbatim}
