@@ -49,7 +49,7 @@ This describes a preference over what fruit will be eaten. I.e., ``If a fruit is
 
 In this case rather than the literal {\tt apple}, we use a \emph{variable} to allow for inference. I.e., The {\tt Fruit} can be \emph{any} contextually-relevant literal in the program, so long as it possesses the required properties. Note that this functions differently from its analogous notion in imperative language--rather than a pattern to be matched variables typically serve as typed memory locations that are manipulated by the program.
 
-\subsubsection{Problem Modeling in Clingo: 3-Colorability}
+\subsubsection{An Illustrative Example: 3-Colorability}
 
 As an illustrative example regarding how to model problems in Clingo, we will use the graph 3-Colorability problem, as it is presented in \emph{ASP$\forall$: Answer Set Programming "Algorithms"} (Guerin et al., 2026--need cite). ASP$\forall$ is an Open Educational Resource (OER) for answer set programming in the Clingo dialect. These implementations provide minimal examples of how to model problems in Clingo, and graph-based implementations are of particular interest to us as ANNs are also graphical in nature.
 
@@ -57,11 +57,11 @@ The 3-Colorability problem is deceptively easy to state, but is computationally 
 
 E.g., Consider the following graph and proposed solution:
 
-\begin{minipage}[b]{.49\linewidth}
+\begin{minipage}[t]{.49\linewidth}
 %%   \includegraphics{figures/graph.png}
      \includegraphics[scale=.15]{tex_files/sections/figures/graph}
 \end{minipage}
-\begin{minipage}{.49\linewidth}
+\begin{minipage}[t]{.49\linewidth}
   \includegraphics[scale=.15]{tex_files/sections/figures/graph_colored}
 \end{minipage}
 
