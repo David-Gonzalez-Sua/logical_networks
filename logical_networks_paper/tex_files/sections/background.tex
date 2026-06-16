@@ -23,42 +23,31 @@ We believe that one path towards a solution is to combine different AI methodolo
 
 \subsection{Answer Set Programming (ASP)}
 
-Symbolic AI has served as a foundation for many of the earliest AI models and
-advancements. This form of AI relies on manipulation of symbols to represent knowledge and perform inference over models for the purpose of reasoning. These types of AI are explicitly rule-based, meaning that their decision-making systems are much more deterministic (Bhuyanet al., 2024; Liang et al., 2025; Meli et al., 2024--need cite).
+%% Symbolic AI has served as a foundation for many of the earliest AI models and
+%% advancements. This form of AI relies on manipulation of symbols to represent knowledge and perform inference over models for the purpose of reasoning. These types of AI are explicitly rule-based, meaning that their decision-making systems are much more deterministic (Bhuyanet al., 2024; Liang et al., 2025; Meli et al., 2024--need cite).
 
-The Prolog language is a classical example of these sorts of declarative (logical) programming language [cite]. Its syntax and semantics are largely derived from quantified, predicate logic, and has had a profound impact on the presentation of logic programming that continues into modern systems. Similarly, Boolean Satisfiability (SAT) solvers have served as a lower-level, contemporary form of logical programming. Throughout the 1990s and into the 2000s, these systems have expanded massively in their ability to solve large problems efficiently.
-
-Modern ASP systems combine a simple, yet powerful syntax that is inspired by Prolog, with the efficiency of SAT systems. This empowers the user to write concise programs that can solve computationally-difficult problem instances with rather remarkable speed and efficiency.
+Answer Set Programming serves as an amalgamation of Prolog-style (i.e., quantified logic) with powerful advances in satisfiability (SAT) solvers that occurred throught the 1990s and into the 2000s, expanding significantly in terms of the model sizes they are capable of processing and computational efficiency. In this section we will discuss the basic syntax and semantics of the ASP language, Clingo, which serves as a technological foundation of C-MPCN. \textbf{cite a relevant paper}.
 
 \subsubsection{Syntax and Semantics}
 
-In this section we will elaborate basic features of the Clingo language [cite]--a contemporary ASP language that serves as the basis for {\tt C-MCPN}. In particular, we describe the nature of \emph{facts}, \emph{rules}, and \emph{cardinality constraints} that are used in our representations\footnote{A full review of the ASP family's syntax and semantics is outside the scope of this work, we seek to provide minimal instruction. For users with previous experience in Prolog or a similar logical dialect, the syntactic roots of ASP languages should be at somewhat familiar.}.
+%% In this section we will elaborate basic features of the Clingo language [cite]--a contemporary ASP language that serves as the basis for {\tt C-MCPN}. In particular, we describe the nature of \emph{facts}, \emph{rules}, and \emph{cardinality constraints} that are used in our representations\footnote{A full review of the ASP family's syntax and semantics is outside the scope of this work, we seek to provide minimal instruction. For users with previous experience in Prolog or a similar logical dialect, the syntactic roots of ASP languages should be at somewhat familiar.}.
 
-The most atomic units in Clingo are \emph{facts}, presented as predicate-based statements. The basic syntax is in the form { \tt property(atom)}, which ascribes a property, {\tt property}, to a symbol {\tt atom}.
-
-E.g.,
+The atomic units in an ASP dialect such as Clingo are \emph{literals}, which describe ideas and \emph{facts} that serve as statements that are held to be true. The basic syntax is the application of a \emph{property} to a literal, {\tt property(atom)}. E.g.,
 \begin{verbatim}
 red(apple).
 \end{verbatim}
-is a complete statement (and program) in Clingo, attributing a property of {red} to an atom named {\tt apple}. You will note that in this, and future examples, our code operates in a declarative, and non-algorithmic context. Rather than providing discrete instructions to the processor regarding specific steps to solve a problem, these logical languages allow us to \emph{describe} the nature of the world and the problem that we wish to solve, as well as what a solution \emph{looks like} in our domain. It is the role of the \emph{solver} to find a solution that matches our description.
+is a complete statement (and program), attributing a property of {red} to an idea named {\tt apple}. Such statements are \emph{purely declarative}, providing a \emph{description} of the problem (vs. specific processor instructions). I.e., we describe \emph{what} needs solving vs. \emph{how} to solve the problem in traditional imperative/algorithmic contexts.
 
-Further knowledge can be \emph{inferred} through combinations of predicates that create \emph{rules} of the form: {\tt consequent :- antecedent}, mirroring the \emph{implication} from formal logic (e.g., $consequent \leftarrow antecedent$). Such rules specify that the \emph{truth} of the {\tt consequent} follows logically from the truth of the {\tt antecedent}.
 
-For example,
+Further knowledge is\emph{inferred} using aggregate statements known as \emph{rules}, taking the form: {\tt consequent :- antecedent}. This mirrors an \emph{implication} from formal logic, as the {\tt :-} symbol is read equivalently to $\leftarrow$. In such a statement the consequent \emph{must} be true whenever the antecedent is true. E.g., consider the statement:
+
 \begin{verbatim}
-  eat(apple) :- red(apple), ripe(apple).
+  eat(Fruit) :- red(Fruit), ripe(Fruit).
 \end{verbatim}
 
-describes a preference over what fruit will be eaten. Specifically, the modeled preference indicates that ``if an apple is red and it is also ripe, then we eat the apple.''
+This describes a preference over what fruit will be eaten. I.e., ``If a fruit is red and ripe, then we eat the fruit.''
 
-More generally, we often phrase rules around \emph{variables} for a greater degree of generality in our software. In this way we can describe the nature of entire sets of items, rather than specific atoms. These are identified by an uppercase starting symbol, and are treated as \emph{patterns} to be matched by the system (i.e., variables can match specific atoms based on context).
-
-I.e.,
-\begin{verbatim}
-eat(Fruit) :- red(Fruit), ripe(Fruit).
-\end{verbatim}
-
-In this case, {\tt Fruit} would match any contextually-relevant symbol, like the atom {\tt apple} that we introduced earlier. In this case the use of variables could extend the notions of edibility, redness, and ripeness to other possible fruits.
+In this case rather than the literal {\tt apple}, we use a \emph{variable} to allow for inference. I.e., The {\tt Fruit} can be \emph{any} contextually-relevant literal in the program, so long as it possesses the required properties. Note that this functions differently from its analogous notion in imperative language--rather than a pattern to be matched variables typically serve as typed memory locations that are manipulated by the program.
 
 \subsubsection{Problem Modeling in Clingo: 3-Colorability}
 
