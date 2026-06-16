@@ -1,10 +1,23 @@
 \section{Background}
-
+,
 \subsection{Artificial Neural Networks (ANNs)}
 
 \subsubsection{Efficiency and Environmental Immpacts}
 
-words here.
+The introduction of big data (in particular by scraping the broader Internet) changed the landscape for AI, allowing statistical models to flex their strength, in particular because these models require massive amounts of data for  training purposes \parencite{Helm2020,Bhuyan2024}. This incredible need for information highlights an important drawback in the form of \emph{data efficiency} \parencite{Cropper2020}. This notable lack of efficiency translates to a significant need in terms of resources.
+
+As an example, let us consider a the cost to train a single model, ChatGPT-3. According to DeVries \textbf{(et al.? I can't find the bib right now.)}, the training of GPT-3 required around 1.3 million kWh \emph{just} to be trained \parencite{DeVries2023}. With some quick, back-of-the-envelope calculations, we can put this into perspective. Consider that the average American household uses approximately 10,791 kWh per year \textbf{is the source EIA2025?}. Dividing these out we find that the model's energy use was proportional to:
+
+\[1{,}300{,}000~\text{kWh} \times \frac{1~\text{household}}{10{,}791~\text{kWh/year}} \approx 120.5~\text{households}.\]
+
+Similarly, we could produce a rough, \emph{lower bound} of how much water was likely used for training. A termoelectric power station can use approximately 43.8 L/kWh of water \parencite{Gordon2024}. That would put the \emph{indirect} water costs of training GPT-3 at approximately 56,940,000 L, approximated by:
+\[1{,}300{,}000~\text{kWh} \times 43.8~\frac{\text{L}}{\text{kWh}} = 56{,}940{,}000~\text{L}\]%}
+
+Given that an adult male averages approximately 4L of fresh water, that number represents sufficient water to sustain a lower bound of approximately 39,000 adults for a year \textbf{Citations needed: 4L., possible arithmetic needed to spell out 39K}. To put this number into perspective, this would likely be sufficient to provide fresh water to approximately the city of Brighton, CO, for a year.
+
+Note that this figure includes {only} the indirect costs to generate the electricity--massive cooling costs for data center equipment would likely add significantly to our calculation. While these calculations are remarkably overly-simplified, we hope that it puts into perspective how the technology is already unsustainable. This highlights the dire need for more efficient AI and ML technologies \parencite{DeVries2023}. The discovery of models that are sufficiently sustainable to curb this resource use is an open problem.
+
+We believe that one path towards a solution is to combine different AI methodologies, in particular those technologies that are known for higher efficiency. One possible candidate would be the use of satisfiability solvers, in particular modern Answer Set Programming languages, to accelerate the learning and inference processes.
 
 \subsection{Answer Set Programming (ASP)}
 
