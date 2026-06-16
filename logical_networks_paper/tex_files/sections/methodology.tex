@@ -4,39 +4,39 @@
 % Sentence we could add to intro. I dont like the wording, but I like the idea: "Our goal in part was to create a framework that allowed more people to understand and build neural networks, and this projject was a great first step."
 
 \subsection{Constructing the Logical Network}
-The bulk of our time on this project was spent on constructing the framework for logical networks, and testing it on an 8-bit adder. We chose this example because it is a simple problem that is still complex enough to demonstrate the capabilities of our framework. 
+%The bulk of our time on this project was spent on constructing the framework for logical networks, and testing it on an 8-bit adder. We chose this example because it is a simple problem that is still complex enough to demonstrate the capabilities of our framework. 
 
-A natural starting point for the framework was to create the structure of a sample graph, a 1-bit adder. It is easy to add too much information to each fact, and our final implementaion ended up with a much more minimalistic approach. Clingo is most effective with simple facts that encode a lot of information, marking one of the contributions our framework has to the field of both logic programming and neural networks. 
+%A natural starting point for the framework was to create the structure of a sample graph, a 1-bit adder. It is easy to add too much information to each fact, and our final implementaion ended up with a much more minimalistic approach. Clingo is most effective with simple facts that encode a lot of information, marking one of the contributions our framework has to the field of both logic programming and neural networks. 
 
-For our example network we used neurons with three types of well established logic gates: AND, OR, and XOR. In Table \ref{definition_table} we show the definitions of these gates, and their truth tables. Using a combination of these and more gates, one is able to construct complex logical operations\footnote{An elegent and simple proof of Clingo's Turing completeness falls out of the C-MCPN Framework.}. Moreover, we believe that the C-MCPN Framework has the potential to be used for a wide range of applications in the future, especially if its capabilities are further explored and developed.
+%% For our example network we used neurons with three types of well established logic gates: AND, OR, and XOR. In Table \ref{definition_table} we show the definitions of these gates, and their truth tables. Using a combination of these and more gates, one is able to construct complex logical operations\footnote{An elegent and simple proof of Clingo's Turing completeness falls out of the C-MCPN Framework.}. Moreover, we believe that the C-MCPN Framework has the potential to be used for a wide range of applications in the future, especially if its capabilities are further explored and developed.
 
-% McCulloch-Pitts Representation of some Logical Gates and their Truth Tables
-\begin{table}[h]
-\begin{center}
-\fbox{
-\begin{tabular}{|cc|c|cc|c|cc|c|}
-    \hline
-    \multicolumn{3}{|c|}{\textbf{AND}} & \multicolumn{3}{c|}{\textbf{OR}} & \multicolumn{3}{c|}{\textbf{XOR}} \\
-    \multicolumn{3}{|c|}{$g(\vec{x}) = x_1 \cdot x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = x_1 + x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = |x_1 - x_2|,\ \theta = 1$} \\[1em]
+%% % McCulloch-Pitts Representation of some Logical Gates and their Truth Tables
+%% \begin{table}[h]
+%% \begin{center}
+%% \fbox{
+%% \begin{tabular}{|cc|c|cc|c|cc|c|}
+%%     \hline
+%%     \multicolumn{3}{|c|}{\textbf{AND}} & \multicolumn{3}{c|}{\textbf{OR}} & \multicolumn{3}{c|}{\textbf{XOR}} \\
+%%     \multicolumn{3}{|c|}{$g(\vec{x}) = x_1 \cdot x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = x_1 + x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = |x_1 - x_2|,\ \theta = 1$} \\[1em]
 
-    \hdashline
-    \multicolumn{2}{|c}{} & \multicolumn{3}{c}{Activation: } & \multicolumn{4}{c|}{$f(\vec{x}) = \begin{cases} 0 & \text{if } g(\vec{x}) < \theta,\\ 1 & \text{if } g(\vec{x}) \geq \theta. \end{cases}$} \\[1em]
-    \hdashline
+%%     \hdashline
+%%     \multicolumn{2}{|c}{} & \multicolumn{3}{c}{Activation: } & \multicolumn{4}{c|}{$f(\vec{x}) = \begin{cases} 0 & \text{if } g(\vec{x}) < \theta,\\ 1 & \text{if } g(\vec{x}) \geq \theta. \end{cases}$} \\[1em]
+%%     \hdashline
 
-    \multicolumn{3}{|c|}{AND} & \multicolumn{3}{c|}{OR} & \multicolumn{3}{c|}{XOR} \\
-    $x_1$ & $x_2$ & $f(\vec{x})$ & $x_1$ & $x_2$ & $f(\vec{x})$ & $x_1$ & $x_2$ & $f(\vec{x})$ \\
-    \hline
-    T & T & T & T & T & T & T & T & F \\
-    T & F & F & T & F & T & T & F & T \\
-    F & T & F & F & T & T & F & T & T \\
-    F & F & F & F & F & F & F & F & F \\
-    \hline
-\end{tabular}
-}
-\caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
-\label{definition_table}
-\end{center}
-\end{table}
+%%     \multicolumn{3}{|c|}{AND} & \multicolumn{3}{c|}{OR} & \multicolumn{3}{c|}{XOR} \\
+%%     $x_1$ & $x_2$ & $f(\vec{x})$ & $x_1$ & $x_2$ & $f(\vec{x})$ & $x_1$ & $x_2$ & $f(\vec{x})$ \\
+%%     \hline
+%%     T & T & T & T & T & T & T & T & F \\
+%%     T & F & F & T & F & T & T & F & T \\
+%%     F & T & F & F & T & T & F & T & T \\
+%%     F & F & F & F & F & F & F & F & F \\
+%%     \hline
+%% \end{tabular}
+%% }
+%% \caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
+%% \label{definition_table}
+%% \end{center}
+%% \end{table}
 
 \subsection{Constructing the Editor}
 The framework is usable directly from the terminal, but we also built the C-MCPN Editor to make it more accessible and easier to use. The editor allows users to construct and visualize logical networks using the C-MCPN Framework. Installing and running the editor is relatively straightforward, and we provide detailed instructions in the README of the project. 
