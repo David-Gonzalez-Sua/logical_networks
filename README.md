@@ -24,14 +24,11 @@ Built-in "gate" neurons can be dragged and dropped into the editor's main canvas
 
 The install and run scripts are located in `logical_networks_editor/`.
 
-On all systems:
-[Clingo](https://potassco.org/clingo/)
-* `apt install clingo` on Linux
-* `brew install clingo` on Mac
-
 ### macOS / Linux
 
-**Dependencies:**  Python 3.12+
+**Dependencies:**  Python 3.12+ [Clingo](https://potassco.org/clingo/)
+* `apt install clingo` on Linux
+* `brew install clingo` on Mac
 
 ```bash
 bash install.sh
