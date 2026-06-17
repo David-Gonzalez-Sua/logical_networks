@@ -26,7 +26,7 @@ The install and run scripts are located in `logical_networks_editor/`.
 
 ### macOS / Linux
 
-**Dependencies:**  Python 3.12+ [Clingo](https://potassco.org/clingo/)
+**Dependencies:**  [Python 3.12+](https://www.python.org/downloads/) [Clingo](https://potassco.org/clingo/)
 * `apt install clingo` on Linux
 * `brew install clingo` on Mac
 
