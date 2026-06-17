@@ -1,55 +1,55 @@
 % remember: include the thing about how edges were necessary not just for the structure, but to carry the values. the network seems to get "stuck" otherwise. Maybe in the implementation tho
-\section{Methodology}
+%\section{Methodology}
 % Sentence I liked that I might add somewhere: "The idea was to create the basic building blocks of a logical network, and use those to push the limits of our framework."
 % Sentence we could add to intro. I dont like the wording, but I like the idea: "Our goal in part was to create a framework that allowed more people to understand and build neural networks, and this projject was a great first step."
 
-\subsection{Constructing the Logical Network}
-The bulk of our time on this project was spent on constructing the framework for logical networks, and testing it on an 8-bit adder. We chose this example because it is a simple problem that is still complex enough to demonstrate the capabilities of our framework. 
+%\subsection{Constructing the Logical Network}
+%The bulk of our time on this project was spent on constructing the framework for logical networks, and testing it on an 8-bit adder. We chose this example because it is a simple problem that is still complex enough to demonstrate the capabilities of our framework. 
 
-A natural starting point for the framework was to create the structure of a sample graph, a 1-bit adder. It is easy to add too much information to each fact, and our final implementaion ended up with a much more minimalistic approach. Clingo is most effective with simple facts that encode a lot of information, marking one of the contributions our framework has to the field of both logic programming and neural networks. 
+%A natural starting point for the framework was to create the structure of a sample graph, a 1-bit adder. It is easy to add too much information to each fact, and our final implementaion ended up with a much more minimalistic approach. Clingo is most effective with simple facts that encode a lot of information, marking one of the contributions our framework has to the field of both logic programming and neural networks. 
 
-For our example network we used neurons with three types of well established logic gates: AND, OR, and XOR. In Table \ref{definition_table} we show the definitions of these gates, and their truth tables. Using a combination of these and more gates, one is able to construct complex logical operations\footnote{An elegent and simple proof of Clingo's Turing completeness falls out of the C-MCPN Framework.}. Moreover, we believe that the C-MCPN Framework has the potential to be used for a wide range of applications in the future, especially if its capabilities are further explored and developed.
+%% For our example network we used neurons with three types of well established logic gates: AND, OR, and XOR. In Table \ref{definition_table} we show the definitions of these gates, and their truth tables. Using a combination of these and more gates, one is able to construct complex logical operations\footnote{An elegent and simple proof of Clingo's Turing completeness falls out of the C-MCPN Framework.}. Moreover, we believe that the C-MCPN Framework has the potential to be used for a wide range of applications in the future, especially if its capabilities are further explored and developed.
 
-% McCulloch-Pitts Representation of some Logical Gates and their Truth Tables
-\begin{table}[h]
-\begin{center}
-\fbox{
-\begin{tabular}{|cc|c|cc|c|cc|c|}
-    \hline
-    \multicolumn{3}{|c|}{\textbf{AND}} & \multicolumn{3}{c|}{\textbf{OR}} & \multicolumn{3}{c|}{\textbf{XOR}} \\
-    \multicolumn{3}{|c|}{$g(\vec{x}) = x_1 \cdot x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = x_1 + x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = |x_1 - x_2|,\ \theta = 1$} \\[1em]
+%% % McCulloch-Pitts Representation of some Logical Gates and their Truth Tables
+%% \begin{table}[h]
+%% \begin{center}
+%% \fbox{
+%% \begin{tabular}{|cc|c|cc|c|cc|c|}
+%%     \hline
+%%     \multicolumn{3}{|c|}{\textbf{AND}} & \multicolumn{3}{c|}{\textbf{OR}} & \multicolumn{3}{c|}{\textbf{XOR}} \\
+%%     \multicolumn{3}{|c|}{$g(\vec{x}) = x_1 \cdot x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = x_1 + x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = |x_1 - x_2|,\ \theta = 1$} \\[1em]
 
-    \hdashline
-    \multicolumn{2}{|c}{} & \multicolumn{3}{c}{Activation: } & \multicolumn{4}{c|}{$f(\vec{x}) = \begin{cases} 0 & \text{if } g(\vec{x}) < \theta,\\ 1 & \text{if } g(\vec{x}) \geq \theta. \end{cases}$} \\[1em]
-    \hdashline
+%%     \hdashline
+%%     \multicolumn{2}{|c}{} & \multicolumn{3}{c}{Activation: } & \multicolumn{4}{c|}{$f(\vec{x}) = \begin{cases} 0 & \text{if } g(\vec{x}) < \theta,\\ 1 & \text{if } g(\vec{x}) \geq \theta. \end{cases}$} \\[1em]
+%%     \hdashline
 
-    \multicolumn{3}{|c|}{AND} & \multicolumn{3}{c|}{OR} & \multicolumn{3}{c|}{XOR} \\
-    $x_1$ & $x_2$ & $f(\vec{x})$ & $x_1$ & $x_2$ & $f(\vec{x})$ & $x_1$ & $x_2$ & $f(\vec{x})$ \\
-    \hline
-    T & T & T & T & T & T & T & T & F \\
-    T & F & F & T & F & T & T & F & T \\
-    F & T & F & F & T & T & F & T & T \\
-    F & F & F & F & F & F & F & F & F \\
-    \hline
-\end{tabular}
-}
-\caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
-\label{definition_table}
-\end{center}
-\end{table}
+%%     \multicolumn{3}{|c|}{AND} & \multicolumn{3}{c|}{OR} & \multicolumn{3}{c|}{XOR} \\
+%%     $x_1$ & $x_2$ & $f(\vec{x})$ & $x_1$ & $x_2$ & $f(\vec{x})$ & $x_1$ & $x_2$ & $f(\vec{x})$ \\
+%%     \hline
+%%     T & T & T & T & T & T & T & T & F \\
+%%     T & F & F & T & F & T & T & F & T \\
+%%     F & T & F & F & T & T & F & T & T \\
+%%     F & F & F & F & F & F & F & F & F \\
+%%     \hline
+%% \end{tabular}
+%% }
+%% \caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
+%% \label{definition_table}
+%% \end{center}
+%% \end{table}
 
-\subsection{Constructing the Editor}
-The framework is usable directly from the terminal, but we also built the C-MCPN Editor to make it more accessible and easier to use. The editor allows users to construct and visualize logical networks using the C-MCPN Framework. Installing and running the editor is relatively straightforward, and we provide detailed instructions in the README of the project. 
+%% \subsection{Constructing the Editor}
+%% The framework is usable directly from the terminal, but we also built the C-MCPN Editor to make it more accessible and easier to use. The editor allows users to construct and visualize logical networks using the C-MCPN Framework. Installing and running the editor is relatively straightforward, and we provide detailed instructions in the README of the project. 
 
-When building this software we kept a few key design principles in mind. First, we wanted to make it as easy as possible for users to create and visualize logical networks. Second, due to data ethics considerations we wanted the app to remain entirely local to the user's machine. Finally, we wanted to make it easy to extend the editor in the future to support a wider range of applications. 
+%% When building this software we kept a few key design principles in mind. First, we wanted to make it as easy as possible for users to create and visualize logical networks. Second, due to data ethics considerations we wanted the app to remain entirely local to the user's machine. Finally, we wanted to make it easy to extend the editor in the future to support a wider range of applications. 
 
 % Reworded. Not sure which to keep yet.
 % Alongside the framework, we also built an editor for constructing and visualizing logical networks using the C-MCPN Framework. It is an entirely local desktop application which we felt would be more accessible to a wider range of users. The framework works well in a terminal, but having a live visual representation of the networks is a powerful tool for understanding and debugging them.
 
-The editor is currently built in Python\footnote{Python 3.8.5 is required (in part?) due to its native support for the tomlib package.} using the DearPyGui library, allowing us to take advantage of its node-based editing capabilities. This meant we could keep the dependencies of the editor to a minimum, and focus on building the features we wanted.
+%The editor is currently built in Python\footnote{Python 3.8.5 is required (in part?) due to its native support for the tomlib package.} using the DearPyGui library, allowing us to take advantage of its node-based editing capabilities. This meant we could keep the dependencies of the editor to a minimum, and focus on building the features we wanted.
 
-Building the editor in this way also allowed us to easily integrate it with the C-MCPN Framework, as we could directly use the same two-layered data structures for both; one for the network architecture, and one for the values of each neuron. We also ensured that it was easy to add new gates to the editor. This was an important design choice, as it allows the editor to be easily extended in the future to support a wider range of applications. One more feature of note is the reorganization algorithm. We used a modified version of the Sugiyama algorithm, taking just the layer assignment step and a simplified node positioning step \cite{Sugiyama1981}.
+%Building the editor in this way also allowed us to easily integrate it with the C-MCPN Framework, as we could directly use the same two-layered data structures for both; one for the network architecture, and one for the values of each neuron. We also ensured that it was easy to add new gates to the editor. This was an important design choice, as it allows the editor to be easily extended in the future to support a wider range of applications. One more feature of note is the reorganization algorithm. We used a modified version of the Sugiyama algorithm, taking just the layer assignment step and a simplified node positioning step \cite{Sugiyama1981}.
 % Possible citation: Sugiyama, K., Tagawa, S., & Toda, M. (1981). Methods for visual understanding of hierarchical system structures. IEEE Transactions on Systems, Man, and Cybernetics, 11(2), 109–125. I got this from the wiki so I need to check it still.
 
-\subsubsection{AI-Assisted Editing}
-Claude (Anthropic) was used as a programming assistant throughout development of the editor, helping with DearPyGui module integration, debugging, and some code generation. All design decisions, research direction, and domain-specific logic (ASP, gate definitions, network structure) were made by the authors. Every line generated by Claude was reviewed, edited, and approved by the authors before being added to the codebase, and it did not have direct access to the codebase at any point. All of the files Claude had input in are contained in the \texttt{app/} directory of the project, though not all files in this directory had input from Claude.
+%% \subsubsection{AI-Assisted Editing}
+%% Claude (Anthropic) was used as a programming assistant throughout development of the editor, helping with DearPyGui module integration, debugging, and some code generation. All design decisions, research direction, and domain-specific logic (ASP, gate definitions, network structure) were made by the authors. Every line generated by Claude was reviewed, edited, and approved by the authors before being added to the codebase, and it did not have direct access to the codebase at any point. All of the files Claude had input in are contained in the \texttt{app/} directory of the project, though not all files in this directory had input from Claude.
