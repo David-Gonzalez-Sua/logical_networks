@@ -1,6 +1,6 @@
 # C-MCPN: The Clingo McCulloch-Pitts Network Editor
 
-The Clingo McCullough-Pitts Network Editor (C-MCPN) is an internally designed system for research into more efficient [artificial neural network](https://en.wikipedia.org/wiki/Neural_network_(machine_learning) (ANN) representations, inference, and learning.
+The Clingo McCullough-Pitts Network Editor (C-MCPN) is an internally designed system for research into more efficient [artificial neural network](https://en.wikipedia.org/wiki/Neural_network_(machine_learning)) (ANN) representations, inference, and learning.
 
 C-MCPN is designed to represent, and provide inference over, [McCullough-Pitts Networks](https://en.wikipedia.org/wiki/Artificial_neuron#McCulloch%E2%80%93Pitts_(MCP)_neuron) (MCPNs). MCPNs are an early form of ANNs, preceding advancements in ANN neurons and structures that paved the way for machine learning over ANNs.
 
