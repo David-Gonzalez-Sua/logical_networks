@@ -1,8 +1,14 @@
-# C-MCPN: Clingo McCulloch-Pitts Network Editor
+# C-MCPN: The Clingo McCulloch-Pitts Network Editor
 
-**David J. Gonzalez Sua** · University of Northern Colorado
+The Clingo McCullough-Pitts Network Editor (C-MCPN) is an internally designed system for research into more efficient artificial neural network (ANN) representations, inference, and learning.
 
-**Joshua T. Guerin Ph.D.** · University of Northern Colorado
+The rise of large language model (LLM) and other machine learning (ML) technologies has created an exciting and simultaneously disquieting atmosphere. Massive footprints in terms of physical real estate, water and power usage, heat generation, and other issues related to contemporary machine learning training and inference are simultaneously altering the public perception of computing, both in both positive and negative ways.
+
+C-MCPN is a part of a larger research network that seeks to create more efficient processes, in particular with respect to problems that require significant computational power. We hope to use existing technology from artificial intelligence, in particular satisfiability systems, to create a more sustainable computational landscape.
+
+## McCullough-Pitts Networks
+
+
 
 ---
 
@@ -60,3 +66,8 @@ clingo base/main.lp networks/1BitAdder.lp gates/input.lp gates/output.lp gates/a
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![Clingo](https://img.shields.io/badge/clingo-5.8.0-orange)
 <!-- ![License](https://img.shields.io/badge/license-MIT-green) -->
+
+# Attributions
+**David J. Gonzalez Sua** · University of Northern Colorado
+
+**Joshua T. Guerin Ph.D.** · University of Northern Colorado
