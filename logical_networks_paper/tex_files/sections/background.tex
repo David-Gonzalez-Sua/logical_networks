@@ -22,7 +22,7 @@ Note that this figure includes {only} the indirect costs to generate the electri
 We believe that one path towards a solution is to combine different AI methodologies, in particular those technologies that are known for higher efficiency. One possible candidate would be the use of satisfiability solvers, in particular modern Answer Set Programming languages, to accelerate the learning and inference processes.
 
 \subsection{Answer Set Programming (ASP)}
-Answer Set Programming serves as an amalgamation of Prolog-style (i.e., quantified logic) with powerful advances in satisfiability (SAT) solvers that occurred throught the 1990s and into the 2000s, expanding significantly in terms of the model sizes they are capable of processing and computational efficiency. In this section we will discuss the basic syntax and semantics of the ASP language, Clingo, which serves as a technological foundation of C-MPCN. \textbf{cite a relevant paper}.
+Answer Set Programming serves as an amalgamation of Prolog-style (i.e., quantified logic) with powerful advances in satisfiability (SAT) solvers that occurred throught the 1990s and into the 2000s, expanding significantly in terms of the model sizes they are capable of processing and computational efficiency. In this section we will discuss the basic syntax and semantics of the ASP language, Clingo, which serves as a technological foundation of C-MPCN \parencite{Gebser2019,Cabalar2023}.
 
 \subsubsection{Syntax and Semantics}
 The atomic units in an ASP dialect such as Clingo are \emph{literals}, which describe ideas and \emph{facts} that serve as statements that are held to be true. The basic syntax is the application of a \emph{property} to a literal, {\tt property(atom)}. E.g.,
