@@ -61,7 +61,7 @@ clingo base/main.lp ... | python3 tools/interpreter.py
 ![Clingo](https://img.shields.io/badge/clingo-5.8.0-orange)
 <!-- ![License](https://img.shields.io/badge/license-MIT-green) -->
 
-# Attributions
+# Attribution
 C-MCPN was developed in collaboration with the -redacted for publication- research group. For citation purposes, you can reference:
 
 **redacted**
