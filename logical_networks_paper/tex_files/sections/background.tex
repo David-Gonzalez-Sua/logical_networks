@@ -7,15 +7,15 @@
 \subsection{Answer Set Programming (ASP)}
 
 Symbolic AI has served as a foundation for many of the earliest AI models and
-advancements. This form of AI relies on manipulation of symbols to represent knowledge and perform inference over models for the purpose of reasoning. These types of AI are explicitly rule-based, meaning that their decision-making systems are much more deterministic (Bhuyanet al., 2024; Liang et al., 2025; Meli et al., 2024--need cite).
+advancements. This form of AI relies on manipulation of symbols to represent knowledge and perform inference over models for the purpose of reasoning. These types of AI are explicitly rule-based, meaning that their decision-making systems are much more deterministic \parencite{Bhuyan2024,Liang2025}.
 
-The Prolog language is a classical example of these sorts of declarative (logical) programming language [cite]. Its syntax and semantics are largely derived from quantified, predicate logic, and has had a profound impact on the presentation of logic programming that continues into modern systems. Similarly, Boolean Satisfiability (SAT) solvers have served as a lower-level, contemporary form of logical programming. Throughout the 1990s and into the 2000s, these systems have expanded massively in their ability to solve large problems efficiently.
+The Prolog language is a classical example of these sorts of declarative (logical) programming language \parencite{Colmerauer1996}. Its syntax and semantics are largely derived from quantified, predicate logic, and has had a profound impact on the presentation of logic programming that continues into modern systems. Similarly, Boolean Satisfiability (SAT) solvers have served as a lower-level, contemporary form of logical programming. Throughout the 1990s and into the 2000s, these systems have expanded massively in their ability to solve large problems efficiently.
 
-Modern ASP systems combine a simple, yet powerful syntax that is inspired by Prolog, with the efficiency of SAT systems. This empowers the user to write concise programs that can solve computationally-difficult problem instances with rather remarkable speed and efficiency.
+Modern ASP systems combine a simple, yet powerful syntax that is inspired by Prolog, with the efficiency of SAT systems \parencite{Guerin2026}. This empowers the user to write concise programs that can solve computationally-difficult problem instances with rather remarkable speed and efficiency.
 
 \subsubsection{Syntax and Semantics}
 
-In this section we will elaborate basic features of the Clingo language [cite]--a contemporary ASP language that serves as the basis for {\tt C-MCPN}. In particular, we describe the nature of \emph{facts}, \emph{rules}, and \emph{cardinality constraints} that are used in our representations\footnote{A full review of the ASP family's syntax and semantics is outside the scope of this work, we seek to provide minimal instruction. For users with previous experience in Prolog or a similar logical dialect, the syntactic roots of ASP languages should be at somewhat familiar.}.
+In this section we will elaborate basic features of the Clingo language \parencite{Gebser2019,Cabalar2023}--a contemporary ASP language that serves as the basis for {\tt C-MCPN}. In particular, we describe the nature of \emph{facts}, \emph{rules}, and \emph{cardinality constraints} that are used in our representations\footnote{A full review of the ASP family's syntax and semantics is outside the scope of this work, we seek to provide minimal instruction. For users with previous experience in Prolog or a similar logical dialect, the syntactic roots of ASP languages should be at somewhat familiar.}.
 
 The most atomic units in Clingo are \emph{facts}, presented as predicate-based statements. The basic syntax is in the form { \tt property(atom)}, which ascribes a property, {\tt property}, to a symbol {\tt atom}.
 
@@ -45,7 +45,7 @@ In this case, {\tt Fruit} would match any contextually-relevant symbol, like the
 
 \subsubsection{Problem Modeling in Clingo: 3-Colorability}
 
-As an illustrative example regarding how to model problems in Clingo, we will use the graph 3-Colorability problem, as it is presented in \emph{ASP$\forall$: Answer Set Programming "Algorithms"} (Guerin et al., 2026--need cite). ASP$\forall$ is an Open Educational Resource (OER) for answer set programming in the Clingo dialect. These implementations provide minimal examples of how to model problems in Clingo, and graph-based implementations are of particular interest to us as ANNs are also graphical in nature.
+As an illustrative example regarding how to model problems in Clingo, we will use the graph 3-Colorability problem, as it is presented in \emph{ASP$\forall$: Answer Set Programming "Algorithms"} \parencite{Guerin2026}. ASP$\forall$ is an Open Educational Resource (OER) for answer set programming in the Clingo dialect. These implementations provide minimal examples of how to model problems in Clingo, and graph-based implementations are of particular interest to us as ANNs are also graphical in nature.
 
 The 3-Colorability problem is deceptively easy to state, but is computationally expensive to solve exactly. A simplified statement of the problems is ``Given a graph, G, assign one of 3 colors to the vertices of G such that no two adjacent vertices share a color.''
 
