@@ -16,6 +16,8 @@ C-MCPN is designed as a terminal-based utility, and is (optionally) enhanced wit
 
 ![C-MCPN Graphical Interface](figures/editor.png)
 
+Built-in "gate" neurons can be dragged and dropped into the editor's main canvas, and connections can be made similarly by mouse click and drag. For more advanced functionality users can provide specifications for neurons outside of the provided set for more generalized use.
+
 ---
 
 ## Installation and Use
@@ -33,7 +35,7 @@ bash run.sh
 
 ### Windows
 
-**Dependencies:** [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
+**Dependencies:** [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html), the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 ```bat
 install.bat
@@ -42,7 +44,7 @@ run.bat
 
 ---
 
-## Terminal Usage
+### Terminal Overview
 
 To run a network directly on the terminal, the files needed are located in `logical_networks_editor/C-MCPN/`:
 
