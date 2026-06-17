@@ -12,11 +12,11 @@ The rise of large language model (LLM) and other machine learning (ML) technolog
 C-MCPN is a part of a larger research network that seeks to create more efficient processes, in particular with respect to problems that require significant computational power. We hope to use existing technology from artificial intelligence, in particular satisfiability systems, to create a more sustainable computational landscape.
 
 ## Application Overview
-C-MCPN is designed as a terminal-based utility, and is (optionally) enhanced with a graphical user interface (GUI) for user efficiency and convenience. The GUI allows for a drag-and-drop interface for rapid prototyping of ANN nodes and structures. As a domain to ground the software, we have included the ANN representations of a number of basic digital logic "gates", allowing for convenient experimentation in digital hardware as a starting point for the user.
+C-MCPN is designed as a terminal-based utility, and is (optionally) enhanced with a graphical user interface (GUI) for user efficiency and convenience. The GUI allows for a drag-and-drop interface for rapid prototyping of ANN nodes and structures. As a domain to ground the software, we have included the ANN representations of a number of basic digital logic "gates", allowing for convenient experimentation in digital hardware as a built-in starting point for the user.
 
 ---
 
-## Install & Run
+## Installation and Use
 
 The install and run scripts are located in `logical_networks_editor/`.
 
@@ -68,6 +68,6 @@ clingo base/main.lp networks/1BitAdder.lp gates/input.lp gates/output.lp gates/a
 <!-- ![License](https://img.shields.io/badge/license-MIT-green) -->
 
 # Attributions
-**David J. Gonzalez Sua** · University of Northern Colorado
+C-MCPN was developed in collaboration with the -redacted for publication- research group. For citation purposes, you can reference:
 
-**Joshua T. Guerin Ph.D.** · University of Northern Colorado
+**redacted**
