@@ -42,7 +42,6 @@ install.bat
 run.bat
 ```
 
----
 
 ### Terminal Overview
 
@@ -57,15 +56,6 @@ Pipe the Clingo output into the interpreter provided for more readable output:
 ```bash
 clingo base/main.lp ... | python3 tools/interpreter.py
 ```
-
-To run the 1BitAdder sample network:
-*NOTE: an input and an expansion for this are in development*
-
-```bash
-clingo base/main.lp networks/1BitAdder.lp gates/input.lp gates/output.lp gates/and.lp gates/or.lp gates/xor.lp | python3 tools/interpreter.py
-```
-
----
 
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![Clingo](https://img.shields.io/badge/clingo-5.8.0-orange)
