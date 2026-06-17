@@ -18,8 +18,6 @@ C-MCPN is designed as a terminal-based utility, and is (optionally) enhanced wit
 
 Built-in "gate" neurons can be dragged and dropped into the editor's main canvas, and connections can be made similarly by mouse click and drag. For more advanced functionality users can provide specifications for neurons outside of the provided set for more generalized use.
 
----
-
 ## Installation and Use
 
 The install and run scripts are located in `logical_networks_editor/`.
