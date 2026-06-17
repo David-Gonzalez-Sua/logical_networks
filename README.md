@@ -1,5 +1,5 @@
 # C-MCPN
-##The Clingo McCulloch-Pitts Network Editor
+## The Clingo McCulloch-Pitts Network Editor
 
 **David J. Gonzalez Sua** · University of Northern Colorado
 
