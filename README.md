@@ -14,6 +14,8 @@ C-MCPN was produced by the *reserach group redacted* that seeks to create more e
 ## Application Overview
 C-MCPN is designed as a terminal-based utility, and is (optionally) enhanced with a graphical user interface (GUI) for user efficiency and convenience. The GUI allows for a drag-and-drop interface for rapid prototyping of ANN nodes and structures. As a domain to ground the software, we have included the ANN representations of a number of basic digital logic "gates", allowing for convenient experimentation in digital hardware as a built-in starting point for the user.
 
+![C-MCPN Graphical Interface](figures/editor.png)
+
 ---
 
 ## Installation and Use
