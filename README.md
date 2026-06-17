@@ -1,7 +1,12 @@
 # C-MCPN: The Clingo McCulloch-Pitts Network Editor
 
-The Clingo McCullough-Pitts Network Editor (C-MCPN) is an internally designed system for research into more efficient artificial neural network (ANN) representations, inference, and learning.
+The Clingo McCullough-Pitts Network Editor (C-MCPN) is an internally designed system for research into more efficient [artificial neural network](https://en.wikipedia.org/wiki/Neural_network_(machine_learning) (ANN) representations, inference, and learning.
 
+C-MCPN is designed to represent, and provide inference over, [McCullough-Pitts Networks](https://en.wikipedia.org/wiki/Artificial_neuron#McCulloch%E2%80%93Pitts_(MCP)_neuron) (MCPNs). MCPNs are an early form of ANNs, preceding advancements in ANN neurons and structures that paved the way for machine learning over ANNs.
+
+At its core, C-MCPN uses advanced satisfiability technology to represent and provide inference over ANNs. In particular, our representations and "algorithms" are in the language of Clingo, an [Answer Set Programming language](https://en.wikipedia.org/wiki/Answer_set_programming) from [Potassco Technologies](https://potassco.org/). 
+
+## Background
 The rise of large language model (LLM) and other machine learning (ML) technologies has created an exciting and simultaneously disquieting atmosphere. Massive footprints in terms of physical real estate, water and power usage, heat generation, and other issues related to contemporary machine learning training and inference are simultaneously altering the public perception of computing, both in both positive and negative ways.
 
 C-MCPN is a part of a larger research network that seeks to create more efficient processes, in particular with respect to problems that require significant computational power. We hope to use existing technology from artificial intelligence, in particular satisfiability systems, to create a more sustainable computational landscape.
