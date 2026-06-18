@@ -4,6 +4,15 @@ Our work is related to the merging of ANN technology with more efficient Answer 
 \subsection{Artificial Neural Networks (ANNs)}
 \textbf{Note:} \emph{As far as I can tell we are basically missing this section in the other paper(?), which we will need. In the other paper, section 2.3, there are a lot of citations and descriptions around the general subject, but nothing like ``here is the definition of an ANN as an example.''}
 
+Artificial Neural Networks (ANNs) are a class of machine learning models inspired by the structure and function of biological neural networks. The basic building blocks of ANNs are artificial neurons, and their origins can be traced back to the work of McCulloch and Pitts in the 1940s \parencite{McCulloch1943}. These early models were designed to mimic the behavior of biological neurons, using a simple thresholding function to determine whether a neuron would fire based on its inputs. The name for the C-MCPN was inspired by this early work, though our implementation is not a pure McCulloch-Pitts model which uses a threshold function as a simple activation function. A slightly more generalized version of a threshold logic unit (TLU) which can be seen in Figure \ref{tlu_neuron}. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/TLU.png}
+    \caption{A diagram of a 2-input Threshold Logic Unit (TLU)}
+    \label{tlu_neuron}
+\end{figure}
+
 \subsubsection{Environmental Impacts}
 
 The introduction of big data (in particular by scraping the broader Internet) changed the landscape for AI, allowing statistical models to flex their strength, in particular because these models require massive amounts of data for  training purposes \parencite{Helm2020,Bhuyan2024}. This incredible need for information highlights an important drawback in the form of \emph{data efficiency} \parencite{Cropper2020}. This notable lack of efficiency translates to a significant need in terms of resources.
@@ -100,6 +109,8 @@ For our example network we used neurons with three types of well established log
 
 % McCulloch-Pitts Representation of some Logical Gates and their Truth Tables
 \begin{table}[h]
+\caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
+\label{definition_table}
 \begin{center}
 \fbox{
 \begin{tabular}{|cc|c|cc|c|cc|c|}
@@ -121,12 +132,10 @@ For our example network we used neurons with three types of well established log
     \hline
 \end{tabular}
 }
-\caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
-\label{definition_table}
 \end{center}
 \end{table}
 
-\textbf{Did this table come from somewhere that needs citing, or did you come up with the layout and content?}
+\textbf{Did this table come from somewhere that needs citing, or did you come up with the layout and content? :- I came up with it, I spent a ton of time stitching together a couple of other tables I had made. I came up with all of the content, but it didn't seem too complex so I didn't think it needed a citation or anything.}
 
 The representation of such an artificial neuron requries both the \emph{structure} designation, as well as the function used to \emph{activate} the neuron. When activated the neuron will propagate a singnal to its output given the provided input signals.
 
