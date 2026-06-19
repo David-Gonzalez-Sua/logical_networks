@@ -66,10 +66,11 @@ def parse(source=None):
         if t.startswith("val"):
             line = t[4:-1]
             param = line.split(',')
-            neuron_id = param[0]
+            neuron_id_raw = param[0]
+            neuron_id_clean = neuron_id_raw.strip('"')
             value = param[1]
-            facts.append(f"val({neuron_id}, {value}).")
-            values[neuron_id] = value
+            facts.append(f"val({neuron_id_raw}, {value}).")
+            values[neuron_id_clean] = value
         else:
             facts.append(t.replace(",", ", ") + ".")
     
@@ -78,5 +79,5 @@ def parse(source=None):
 if __name__ == "__main__":
     # called directly from CLI or as a pipe
     source = sys.argv[1] if len(sys.argv) > 1 else None
-    values, facts = parse(source)
+    facts, values = parse(source)
     print(facts)

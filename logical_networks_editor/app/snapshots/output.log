@@ -73,3 +73,228 @@ Models       : 1
 Calls        : 1
 Time         : 0.003s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
 CPU Time     : 0.002s
+
+--- Run: 2026-06-19 13:13:51.786405 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.024s)
+val("INPUT_Carry",0) val("A_bit_0",1) val("B_bit_0",1) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0) val("XOR_1",0) val("AND_3",0) val("AND_5",0) val("XOR_7",0) val("AND_7",0) val("XOR_9",0) val("AND_9",0) val("XOR_11",0) val("AND_11",0) val("XOR_13",0) val("AND_13",0) val("XOR_15",0) val("AND_15",0) val("AND_1",1) val("XOR_3",1) val("XOR_5",1) val("OR_8",0) val("AND_16",0) val("XOR_16",0) val("OR_7",0) val("AND_14",0) val("XOR_14",0) val("OR_6",0) val("AND_12",0) val("XOR_12",0) val("OR_5",0) val("AND_10",0) val("XOR_10",0) val("OR_4",0) val("AND_8",0) val("XOR_8",1) val("OR_3",1) val("AND_6",1) val("XOR_6",0) val("OR_2",1) val("AND_4",1) val("XOR_4",0) val("OR_1",1) val("AND_2",0) val("XOR_2",0) val("Out_bit_0",0) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.024s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.031s
+
+--- Run: 2026-06-19 13:21:01.227367 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.000s)
+val("INPUT_Carry",0) val("A_bit_0",1) val("B_bit_0",1) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0) val("XOR_1",0) val("AND_3",0) val("AND_5",0) val("XOR_7",0) val("AND_7",0) val("XOR_9",0) val("AND_9",0) val("XOR_11",0) val("AND_11",0) val("XOR_13",0) val("AND_13",0) val("XOR_15",0) val("AND_15",0) val("AND_1",1) val("XOR_3",1) val("XOR_5",1) val("OR_8",0) val("AND_16",0) val("XOR_16",0) val("OR_7",0) val("AND_14",0) val("XOR_14",0) val("OR_6",0) val("AND_12",0) val("XOR_12",0) val("OR_5",0) val("AND_10",0) val("XOR_10",0) val("OR_4",0) val("AND_8",0) val("XOR_8",1) val("OR_3",1) val("AND_6",1) val("XOR_6",0) val("OR_2",1) val("AND_4",1) val("XOR_4",0) val("OR_1",1) val("AND_2",0) val("XOR_2",0) val("Out_bit_0",0) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.000s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.016s
+
+--- Run: 2026-06-19 13:21:13.818878 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.016s)
+val("INPUT_Carry",0) val("XOR_1",0) val("AND_1",1) val("XOR_2",0) val("AND_2",0) val("OR_1",1) val("XOR_3",1) val("AND_3",0) val("XOR_4",0) val("AND_4",1) val("OR_2",1) val("XOR_5",1) val("AND_5",0) val("XOR_6",0) val("AND_6",1) val("OR_3",1) val("XOR_7",0) val("AND_7",0) val("XOR_8",1) val("AND_8",0) val("OR_4",0) val("XOR_9",0) val("AND_9",0) val("XOR_10",0) val("AND_10",0) val("OR_5",0) val("XOR_11",0) val("AND_11",0) val("XOR_12",0) val("AND_12",0) val("OR_6",0) val("XOR_13",0) val("AND_13",0) val("XOR_14",0) val("AND_14",0) val("OR_7",0) val("XOR_15",0) val("AND_15",0) val("XOR_16",0) val("AND_16",0) val("OR_8",0) val("A_bit_0",1) val("Out_bit_0",0) val("B_bit_0",1) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.016s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.016s
+
+--- Run: 2026-06-19 13:25:49.447579 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.007s)
+val("INPUT_Carry",0) val("XOR_1",0) val("AND_1",1) val("XOR_2",0) val("AND_2",0) val("OR_1",1) val("XOR_3",1) val("AND_3",0) val("XOR_4",0) val("AND_4",1) val("OR_2",1) val("XOR_5",1) val("AND_5",0) val("XOR_6",0) val("AND_6",1) val("OR_3",1) val("XOR_7",0) val("AND_7",0) val("XOR_8",1) val("AND_8",0) val("OR_4",0) val("XOR_9",0) val("AND_9",0) val("XOR_10",0) val("AND_10",0) val("OR_5",0) val("XOR_11",0) val("AND_11",0) val("XOR_12",0) val("AND_12",0) val("OR_6",0) val("XOR_13",0) val("AND_13",0) val("XOR_14",0) val("AND_14",0) val("OR_7",0) val("XOR_15",0) val("AND_15",0) val("XOR_16",0) val("AND_16",0) val("OR_8",0) val("A_bit_0",1) val("Out_bit_0",0) val("B_bit_0",1) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.007s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.016s
+
+--- Run: 2026-06-19 13:26:24.718543 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_Carry",0) val("XOR_1",0) val("AND_1",1) val("XOR_2",0) val("AND_2",0) val("OR_1",1) val("XOR_3",1) val("AND_3",0) val("XOR_4",0) val("AND_4",1) val("OR_2",1) val("XOR_5",1) val("AND_5",0) val("XOR_6",0) val("AND_6",1) val("OR_3",1) val("XOR_7",0) val("AND_7",0) val("XOR_8",1) val("AND_8",0) val("OR_4",0) val("XOR_9",0) val("AND_9",0) val("XOR_10",0) val("AND_10",0) val("OR_5",0) val("XOR_11",0) val("AND_11",0) val("XOR_12",0) val("AND_12",0) val("OR_6",0) val("XOR_13",0) val("AND_13",0) val("XOR_14",0) val("AND_14",0) val("OR_7",0) val("XOR_15",0) val("AND_15",0) val("XOR_16",0) val("AND_16",0) val("OR_8",0) val("A_bit_0",1) val("Out_bit_0",0) val("B_bit_0",1) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
+
+--- Run: 2026-06-19 13:33:43.500664 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_Carry",0) val("XOR_1",0) val("AND_1",1) val("XOR_2",0) val("AND_2",0) val("OR_1",1) val("XOR_3",1) val("AND_3",0) val("XOR_4",0) val("AND_4",1) val("OR_2",1) val("XOR_5",1) val("AND_5",0) val("XOR_6",0) val("AND_6",1) val("OR_3",1) val("XOR_7",0) val("AND_7",0) val("XOR_8",1) val("AND_8",0) val("OR_4",0) val("XOR_9",0) val("AND_9",0) val("XOR_10",0) val("AND_10",0) val("OR_5",0) val("XOR_11",0) val("AND_11",0) val("XOR_12",0) val("AND_12",0) val("OR_6",0) val("XOR_13",0) val("AND_13",0) val("XOR_14",0) val("AND_14",0) val("OR_7",0) val("XOR_15",0) val("AND_15",0) val("XOR_16",0) val("AND_16",0) val("OR_8",0) val("A_bit_0",1) val("Out_bit_0",0) val("B_bit_0",1) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
+
+--- Run: 2026-06-19 13:34:08.076622 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.005s)
+val("INPUT_Carry",0) val("A_bit_0",1) val("B_bit_0",1) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0) val("XOR_1",0) val("AND_3",0) val("AND_5",0) val("XOR_7",0) val("AND_7",0) val("XOR_9",0) val("AND_9",0) val("XOR_11",0) val("AND_11",0) val("XOR_13",0) val("AND_13",0) val("XOR_15",0) val("AND_15",0) val("AND_1",1) val("XOR_3",1) val("XOR_5",1) val("OR_8",0) val("AND_16",0) val("XOR_16",0) val("OR_7",0) val("AND_14",0) val("XOR_14",0) val("OR_6",0) val("AND_12",0) val("XOR_12",0) val("OR_5",0) val("AND_10",0) val("XOR_10",0) val("OR_4",0) val("AND_8",0) val("XOR_8",1) val("OR_3",1) val("AND_6",1) val("XOR_6",0) val("OR_2",1) val("AND_4",1) val("XOR_4",0) val("OR_1",1) val("AND_2",0) val("XOR_2",0) val("Out_bit_0",0) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.005s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.016s
+
+--- Run: 2026-06-19 13:37:35.785915 ---
+[INFO] Running 2 files: main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/base\main.lp ...
+Solving...
+Answer: 1 (Time: 0.000s)
+
+SATISFIABLE
+
+Models       : 1
+Calls        : 1
+Time         : 0.000s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
+
+--- Run: 2026-06-19 13:37:45.267901 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_Carry",0) val("A_bit_0",1) val("B_bit_0",1) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0) val("XOR_1",0) val("AND_3",0) val("AND_5",0) val("XOR_7",0) val("AND_7",0) val("XOR_9",0) val("AND_9",0) val("XOR_11",0) val("AND_11",0) val("XOR_13",0) val("AND_13",0) val("XOR_15",0) val("AND_15",0) val("AND_1",1) val("XOR_3",1) val("XOR_5",1) val("OR_8",0) val("AND_16",0) val("XOR_16",0) val("OR_7",0) val("AND_14",0) val("XOR_14",0) val("OR_6",0) val("AND_12",0) val("XOR_12",0) val("OR_5",0) val("AND_10",0) val("XOR_10",0) val("OR_4",0) val("AND_8",0) val("XOR_8",1) val("OR_3",1) val("AND_6",1) val("XOR_6",0) val("OR_2",1) val("AND_4",1) val("XOR_4",0) val("OR_1",1) val("AND_2",0) val("XOR_2",0) val("Out_bit_0",0) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
+
+--- Run: 2026-06-19 13:39:16.790422 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_Carry",0) val("A_bit_0",1) val("B_bit_0",1) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0) val("XOR_1",0) val("AND_3",0) val("AND_5",0) val("XOR_7",0) val("AND_7",0) val("XOR_9",0) val("AND_9",0) val("XOR_11",0) val("AND_11",0) val("XOR_13",0) val("AND_13",0) val("XOR_15",0) val("AND_15",0) val("AND_1",1) val("XOR_3",1) val("XOR_5",1) val("OR_8",0) val("AND_16",0) val("XOR_16",0) val("OR_7",0) val("AND_14",0) val("XOR_14",0) val("OR_6",0) val("AND_12",0) val("XOR_12",0) val("OR_5",0) val("AND_10",0) val("XOR_10",0) val("OR_4",0) val("AND_8",0) val("XOR_8",1) val("OR_3",1) val("AND_6",1) val("XOR_6",0) val("OR_2",1) val("AND_4",1) val("XOR_4",0) val("OR_1",1) val("AND_2",0) val("XOR_2",0) val("Out_bit_0",0) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.016s
+
+--- Run: 2026-06-19 13:40:02.910921 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_Carry",0) val("A_bit_0",1) val("B_bit_0",1) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0) val("XOR_1",0) val("AND_3",0) val("AND_5",0) val("XOR_7",0) val("AND_7",0) val("XOR_9",0) val("AND_9",0) val("XOR_11",0) val("AND_11",0) val("XOR_13",0) val("AND_13",0) val("XOR_15",0) val("AND_15",0) val("AND_1",1) val("XOR_3",1) val("XOR_5",1) val("OR_8",0) val("AND_16",0) val("XOR_16",0) val("OR_7",0) val("AND_14",0) val("XOR_14",0) val("OR_6",0) val("AND_12",0) val("XOR_12",0) val("OR_5",0) val("AND_10",0) val("XOR_10",0) val("OR_4",0) val("AND_8",0) val("XOR_8",1) val("OR_3",1) val("AND_6",1) val("XOR_6",0) val("OR_2",1) val("AND_4",1) val("XOR_4",0) val("OR_1",1) val("AND_2",0) val("XOR_2",0) val("Out_bit_0",0) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
+
+--- Run: 2026-06-19 13:41:21.627266 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.005s)
+val("INPUT_Carry",0) val("XOR_1",0) val("AND_1",1) val("XOR_2",0) val("AND_2",0) val("OR_1",1) val("XOR_3",1) val("AND_3",0) val("XOR_4",0) val("AND_4",1) val("OR_2",1) val("XOR_5",1) val("AND_5",0) val("XOR_6",0) val("AND_6",1) val("OR_3",1) val("XOR_7",0) val("AND_7",0) val("XOR_8",1) val("AND_8",0) val("OR_4",0) val("XOR_9",0) val("AND_9",0) val("XOR_10",0) val("AND_10",0) val("OR_5",0) val("XOR_11",0) val("AND_11",0) val("XOR_12",0) val("AND_12",0) val("OR_6",0) val("XOR_13",0) val("AND_13",0) val("XOR_14",0) val("AND_14",0) val("OR_7",0) val("XOR_15",0) val("AND_15",0) val("XOR_16",0) val("AND_16",0) val("OR_8",0) val("A_bit_0",1) val("Out_bit_0",0) val("B_bit_0",1) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
+
+--- Run: 2026-06-19 13:44:00.786687 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_Carry",0) val("A_bit_0",1) val("B_bit_0",1) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0) val("XOR_1",0) val("AND_3",0) val("AND_5",0) val("XOR_7",0) val("AND_7",0) val("XOR_9",0) val("AND_9",0) val("XOR_11",0) val("AND_11",0) val("XOR_13",0) val("AND_13",0) val("XOR_15",0) val("AND_15",0) val("AND_1",1) val("XOR_3",1) val("XOR_5",1) val("OR_8",0) val("AND_16",0) val("XOR_16",0) val("OR_7",0) val("AND_14",0) val("XOR_14",0) val("OR_6",0) val("AND_12",0) val("XOR_12",0) val("OR_5",0) val("AND_10",0) val("XOR_10",0) val("OR_4",0) val("AND_8",0) val("XOR_8",1) val("OR_3",1) val("AND_6",1) val("XOR_6",0) val("OR_2",1) val("AND_4",1) val("XOR_4",0) val("OR_1",1) val("AND_2",0) val("XOR_2",0) val("Out_bit_0",0) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
+
+--- Run: 2026-06-19 13:44:10.673420 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_Carry",0) val("XOR_1",0) val("AND_1",1) val("XOR_2",0) val("AND_2",0) val("OR_1",1) val("XOR_3",1) val("AND_3",0) val("XOR_4",0) val("AND_4",1) val("OR_2",1) val("XOR_5",1) val("AND_5",0) val("XOR_6",0) val("AND_6",1) val("OR_3",1) val("XOR_7",0) val("AND_7",0) val("XOR_8",1) val("AND_8",0) val("OR_4",0) val("XOR_9",0) val("AND_9",0) val("XOR_10",0) val("AND_10",0) val("OR_5",0) val("XOR_11",0) val("AND_11",0) val("XOR_12",0) val("AND_12",0) val("OR_6",0) val("XOR_13",0) val("AND_13",0) val("XOR_14",0) val("AND_14",0) val("OR_7",0) val("XOR_15",0) val("AND_15",0) val("XOR_16",0) val("AND_16",0) val("OR_8",0) val("A_bit_0",1) val("Out_bit_0",0) val("B_bit_0",1) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
+
+--- Run: 2026-06-19 13:44:14.734243 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_Carry",0) val("XOR_1",0) val("AND_1",1) val("XOR_2",0) val("AND_2",0) val("OR_1",1) val("XOR_3",1) val("AND_3",0) val("XOR_4",0) val("AND_4",1) val("OR_2",1) val("XOR_5",1) val("AND_5",0) val("XOR_6",0) val("AND_6",1) val("OR_3",1) val("XOR_7",0) val("AND_7",0) val("XOR_8",1) val("AND_8",0) val("OR_4",0) val("XOR_9",0) val("AND_9",0) val("XOR_10",0) val("AND_10",0) val("OR_5",0) val("XOR_11",0) val("AND_11",0) val("XOR_12",0) val("AND_12",0) val("OR_6",0) val("XOR_13",0) val("AND_13",0) val("XOR_14",0) val("AND_14",0) val("OR_7",0) val("XOR_15",0) val("AND_15",0) val("XOR_16",0) val("AND_16",0) val("OR_8",0) val("A_bit_0",1) val("Out_bit_0",0) val("B_bit_0",1) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s

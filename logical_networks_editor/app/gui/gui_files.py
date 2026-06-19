@@ -18,6 +18,8 @@ class GUIFiles:
         return 0
     
     def quick_save(self, sender, app_data):
+        self.NETWORK.input_script = dpg.get_value("input_script")
+
         if self.last_save_name:
             path = tools.resource_path(self.CONFIG["paths"]["networks_folder"])
             self.NETWORK.export_to_json(f"{path}/json/{self.last_save_name}.json")
@@ -46,9 +48,10 @@ class GUIFiles:
         name = dpg.get_value("save_name_input")
         if not name:
             return 1
-        path = tools.resource_path(self.CONFIG["paths"]["networks_folder"])
+        
         self.NETWORK.input_script = dpg.get_value("input_script")
 
+        path = tools.resource_path(self.CONFIG["paths"]["networks_folder"])
         self.NETWORK.export_to_json(f"{path}/json/{name}.json")
         self.NETWORK.export_to_lp(f"{path}/{name}.lp")
         self.last_save_name = name
@@ -83,12 +86,19 @@ class GUIFiles:
         path = tools.resource_path(self.CONFIG["paths"]["networks_folder"]) + f"/json/{name}.json"
         self.NETWORK.load_from_json(path)
         self.last_save_name = name
-        self.rebuild_from_network()
-        dpg.delete_item("load_popup")
+
+        self.reload_canvas(None, None)
         
+        dpg.delete_item("load_popup")        
         self.current_input_script = None
         dpg.set_value("input_script", self.NETWORK.input_script)
+        
         self.apply_inputs(None, None)
+        output_script_path = tools.resource_path(self.CONFIG["paths"]["output_scripts_folder"]) + f"/{self.NETWORK.output_script}.py"
+        if os.path.exists(output_script_path):
+            with open(output_script_path) as f:
+                dpg.set_value("output_script_editor", f.read())
+
         return 0
     
     ## ------------------------------ Gate Callbacks ------------------------------

@@ -67,10 +67,10 @@ class GUIUpdate:
             node["val"] = None
         
         input_nodes = self.NETWORK.input_nodes
-        lines = ["inputs = ["]
+        lines = ["inputs = {"]
         for nid in input_nodes:
-            lines.append(f"    None,  # {nid}")
-        lines.append("]")
+            lines.append(f'    "{nid}": None,')
+        lines.append("}")
         template = "\n".join(lines)
         dpg.set_value("input_script", template)
         self.NETWORK.input_script = template
@@ -92,6 +92,10 @@ class GUIUpdate:
             self._log_error(f"Input script error: {e}")
             return 1
         
+        if not isinstance(values, dict):
+            self._log_scripting_error("[Input Script Error] 'inputs' must be a dictionary.")
+            return 1
+
         input_nodes = self.NETWORK.input_nodes
         
         if len(values) != len(input_nodes):
@@ -101,13 +105,19 @@ class GUIUpdate:
             self._log_error("All inputs must be set.")
         #     # return 1
         
+        # validate all current input nodes have entries (extras in the dict are just ignored)
+        missing = [nid for nid in input_nodes if nid not in values]
+        if missing:
+            self._log_error(f"[Input Script Error] Missing values for: {missing}")
+
         # reset all node values first
         for node_id in self.NETWORK.nodes:
             self.NETWORK.nodes[node_id]["val"] = None
         
         # apply new input values
-        for node_id, val in zip(input_nodes, values):
-            self.NETWORK.nodes[node_id]["val"] = val
+        for nid in input_nodes:
+            if nid in values:
+                self.NETWORK.nodes[nid]["val"] = values[nid]
         
         # update displays
         for node_id in self.NETWORK.nodes:

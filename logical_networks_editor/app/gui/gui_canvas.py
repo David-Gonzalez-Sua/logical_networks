@@ -150,7 +150,7 @@ class GUICanvas:
     
     def delete_selected_keypress(self, sender, app_data):
         # block if any modal popup is open
-        for tag in ["rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup", "help_popup"]:
+        for tag in ["settings_popup", "rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup", "help_popup"]:
             if dpg.does_item_exist(tag) and dpg.is_item_shown(tag):
                 return 1
         
@@ -161,7 +161,7 @@ class GUICanvas:
         return 0
     
     def on_node_double_click(self, sender, app_data):
-        pos = dpg.get_mouse_pos()
+        pos = dpg.get_mouse_pos(local=False)
         if dpg.does_item_exist("rename_popup"):
             dpg.delete_item("rename_popup")
 
@@ -205,7 +205,21 @@ class GUICanvas:
         # update dpg label
         dpg.set_item_label(self.NETWORK.nodes[new_id]["dpg_id"], new_id)
         dpg.delete_item("rename_popup")
+
+        self._regenerate_input_template_preserving_values()
         self.update_preview()
+        return 0
+    
+    def _regenerate_input_template_preserving_values(self):
+        input_nodes = self.NETWORK.input_nodes
+        lines = ["inputs = {"]
+        for nid in input_nodes:
+            val = self.NETWORK.nodes[nid]["val"]
+            lines.append(f'    "{nid}": {val},')
+        lines.append("}")
+        template = "\n".join(lines)
+        dpg.set_value("input_script", template)
+        self.NETWORK.input_script = template
         return 0
 
     def copy_selected(self, sender, app_data):
@@ -237,7 +251,7 @@ class GUICanvas:
     
     def copy_selected_keypress(self, sender, app_data):
         # block if any modal popup is open
-        for tag in ["rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup", "help_popup"]:
+        for tag in ["settings_popup", "rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup", "help_popup"]:
             if dpg.does_item_exist(tag) and dpg.is_item_shown(tag):
                 return 1
         
@@ -253,19 +267,26 @@ class GUICanvas:
         
         old_to_new = {}
         
-        # find the lowest free vertical position below existing nodes
+        # find lowest point of existing nodes
         max_y = 0
         for node in self.NETWORK.nodes.values():
             pos = dpg.get_item_pos(node["dpg_id"])
             max_y = max(max_y, pos[1])
-        paste_y_offset = max_y + 150
+        
+        # find the topmost y among the nodes being pasted, to normalize relative positions
+        clipboard_min_y = min(
+            dpg.get_item_pos(self.NETWORK.nodes[e["old_id"]]["dpg_id"])[1]
+            for e in self.clipboard if e["old_id"] in self.NETWORK.nodes
+        ) if self.clipboard else 0
+        
+        paste_y_offset = max_y + 150 - clipboard_min_y
         
         # pass 1 - create nodes
         for entry in self.clipboard:
             gate_type = entry["type"]
             gate = self.REGISTRY.get(gate_type)
             if gate is None:
-                continue  # INPUT/OUTPUT or missing gate, handle via registry lookup
+                continue
             
             self.NETWORK.counts[gate_type] = self.NETWORK.counts.get(gate_type, 0) + 1
             new_id = f"{gate_type}_{self.NETWORK.counts[gate_type]}"
@@ -282,7 +303,7 @@ class GUICanvas:
             self.NETWORK.add_node(new_id, gate_type, gate["inputs"], uid)
             
             old_pos = dpg.get_item_pos(self.NETWORK.nodes[entry["old_id"]]["dpg_id"]) if entry["old_id"] in self.NETWORK.nodes else [20, 20]
-            dpg.set_item_pos(uid, [old_pos[0], paste_y_offset + old_pos[1]])
+            dpg.set_item_pos(uid, [old_pos[0], old_pos[1] + paste_y_offset])
             
             old_to_new[entry["old_id"]] = new_id
         
@@ -310,7 +331,7 @@ class GUICanvas:
     
     def paste_clipboard_keypress(self, sender, app_data):
         # block if any modal popup is open
-        for tag in ["rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup", "help_popup"]:
+        for tag in ["settings_popup", "rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup", "help_popup"]:
             if dpg.does_item_exist(tag) and dpg.is_item_shown(tag):
                 return 1
         
@@ -323,6 +344,11 @@ class GUICanvas:
     ## -------------------------- Canvas Utility Functions ----------------------------
     
     def pan(self, dx, dy):
+        # block if any modal popup is open
+        for tag in ["settings_popup", "rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup", "help_popup"]:
+            if dpg.does_item_exist(tag) and dpg.is_item_shown(tag):
+                return 1
+            
         if not dpg.is_item_hovered("node_editor"):
             return 1
 
@@ -331,9 +357,16 @@ class GUICanvas:
             dpg.set_item_pos(node["dpg_id"], [pos[0]+dx, pos[1]+dy])
         return 0
 
-    def recenter(self):
-        for node_id, node in self.NETWORK.nodes.items():
-            dpg.set_item_pos(node["dpg_id"], [0, 0])
+    def reload_canvas(self, sender, app_data):
+        dpg.delete_item("node_editor")
+        with dpg.node_editor(
+            tag="node_editor",
+            parent="canvas",
+            callback=self.on_link_created,
+            delink_callback=self.on_link_deleted
+        ):
+            pass
+        self.rebuild_from_network()
         return 0
 
     def reorganize(self):
