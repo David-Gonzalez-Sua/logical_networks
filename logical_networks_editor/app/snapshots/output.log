@@ -1,0 +1,30 @@
+
+--- Run: 2026-06-19 15:15:34.564335 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.003s)
+val("INPUT_Carry",1) val("A_bit_0",1) val("B_bit_0",0) val("AND_1",0) val("XOR_1",1) val("OR_1",1) val("AND_2",1) val("XOR_2",0) val("Out_bit_0",0) val("Out_bit_carry",1)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.003s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
+
+--- Run: 2026-06-19 15:15:40.662615 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor\C-MCPN/gates\and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_Carry",0) val("A_bit_0",1) val("B_bit_0",1) val("A_bit_1",1) val("A_bit_2",0) val("A_bit_3",0) val("A_bit_4",0) val("A_bit_5",0) val("A_bit_6",0) val("A_bit_7",0) val("B_bit_1",0) val("B_bit_3",0) val("B_bit_2",1) val("B_bit_4",0) val("B_bit_5",0) val("B_bit_6",0) val("B_bit_7",0) val("XOR_1",0) val("AND_3",0) val("AND_5",0) val("XOR_7",0) val("AND_7",0) val("XOR_9",0) val("AND_9",0) val("XOR_11",0) val("AND_11",0) val("XOR_13",0) val("AND_13",0) val("XOR_15",0) val("AND_15",0) val("AND_1",1) val("XOR_3",1) val("XOR_5",1) val("OR_8",0) val("AND_16",0) val("XOR_16",0) val("OR_7",0) val("AND_14",0) val("XOR_14",0) val("OR_6",0) val("AND_12",0) val("XOR_12",0) val("OR_5",0) val("AND_10",0) val("XOR_10",0) val("OR_4",0) val("AND_8",0) val("XOR_8",1) val("OR_3",1) val("AND_6",1) val("XOR_6",0) val("OR_2",1) val("AND_4",1) val("XOR_4",0) val("OR_1",1) val("AND_2",0) val("XOR_2",0) val("Out_bit_0",0) val("Out_bit_1",0) val("Out_bit_2",0) val("Out_bit_3",1) val("Out_bit_4",0) val("Out_bit_5",0) val("Out_bit_6",0) val("Out_bit_7",0) val("Out_bit_carry",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
