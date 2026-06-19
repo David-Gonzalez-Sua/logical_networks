@@ -11,7 +11,7 @@ class GUIWindow:
         W = dpg.get_viewport_width()
         H = dpg.get_viewport_height()
         
-        output_buttons_width = 160 + 100 + 60 + 70 + 70 + 90 # rough estimate of all items in output header
+        output_buttons_width = 160 + 100 + 60 + 75 + 75 + 140 + 140 + 5 # rough estimate of all items in output header
         if dpg.does_item_exist("output_spacer"):
             dpg.configure_item("output_spacer", width=W - output_buttons_width)
         

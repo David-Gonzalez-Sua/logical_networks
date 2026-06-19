@@ -2,3 +2,27 @@
 --- Run: 2026-06-19 00:04:02.872056 ---
 
 --- Run: 2026-06-19 00:04:19.104291 ---
+
+--- Run: 2026-06-19 09:34:05.505695 ---
+
+--- Run: 2026-06-19 10:01:33.284946 ---
+
+--- Run: 2026-06-19 11:22:21.187973 ---
+/Users/davidgonzalez/Documents/GitHub/logical_networks/logical_networks_editor/C-MCPN/base/main.lp:9:5-24: info: atom does not occur in any rule head:
+  edge(In,Neuron_id)
+
+/Users/davidgonzalez/Documents/GitHub/logical_networks/logical_networks_editor/C-MCPN/base/main.lp:10:5-25: info: atom does not occur in any rule head:
+  neuron(#P0,#X1)
+
+/Users/davidgonzalez/Documents/GitHub/logical_networks/logical_networks_editor/C-MCPN/base/main.lp:16:5-32: info: atom does not occur in any rule head:
+  gate(Type,Val,Val1,Val2)
+
+/Users/davidgonzalez/Documents/GitHub/logical_networks/logical_networks_editor/C-MCPN/base/main.lp:17:5-28: info: atom does not occur in any rule head:
+  neuron(Type,Neuron_id)
+
+/Users/davidgonzalez/Documents/GitHub/logical_networks/logical_networks_editor/C-MCPN/base/main.lp:26:5-26: info: atom does not occur in any rule head:
+  gate(Type,Val,Val1)
+
+/Users/davidgonzalez/Documents/GitHub/logical_networks/logical_networks_editor/C-MCPN/base/main.lp:27:5-28: info: atom does not occur in any rule head:
+  neuron(Type,Neuron_id)
+

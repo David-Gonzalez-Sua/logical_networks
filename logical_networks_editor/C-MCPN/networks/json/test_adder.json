@@ -1,0 +1,561 @@
+{
+  "nodes": {
+    "INPUT_1": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_1",
+        "AND_1"
+      ],
+      "val": "1"
+    },
+    "XOR_1": {
+      "type": "XOR",
+      "inputs": [
+        "INPUT_1",
+        "INPUT_2"
+      ],
+      "outputs": [
+        "XOR_2",
+        "AND_2"
+      ],
+      "val": "0"
+    },
+    "AND_1": {
+      "type": "AND",
+      "inputs": [
+        "INPUT_1",
+        "INPUT_2"
+      ],
+      "outputs": [
+        "OR_1"
+      ],
+      "val": "1"
+    },
+    "INPUT_2": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_1",
+        "AND_1"
+      ],
+      "val": "1"
+    },
+    "XOR_2": {
+      "type": "XOR",
+      "inputs": [
+        "XOR_1",
+        "INPUT_Carry"
+      ],
+      "outputs": [
+        "OUTPUT_1"
+      ],
+      "val": "0"
+    },
+    "AND_2": {
+      "type": "AND",
+      "inputs": [
+        "XOR_1",
+        "INPUT_Carry"
+      ],
+      "outputs": [
+        "OR_1"
+      ],
+      "val": "0"
+    },
+    "OR_1": {
+      "type": "OR",
+      "inputs": [
+        "AND_2",
+        "AND_1"
+      ],
+      "outputs": [
+        "OUTPUT_2",
+        "XOR_4",
+        "AND_4"
+      ],
+      "val": "1"
+    },
+    "OUTPUT_1": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_2"
+      ],
+      "outputs": [],
+      "val": "0"
+    },
+    "INPUT_Carry": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_2",
+        "AND_2"
+      ],
+      "val": "0"
+    },
+    "INPUT_3": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_3",
+        "AND_3"
+      ],
+      "val": null
+    },
+    "XOR_3": {
+      "type": "XOR",
+      "inputs": [
+        "INPUT_3",
+        "INPUT_4"
+      ],
+      "outputs": [
+        "XOR_4",
+        "AND_4"
+      ],
+      "val": null
+    },
+    "AND_3": {
+      "type": "AND",
+      "inputs": [
+        "INPUT_3",
+        "INPUT_4"
+      ],
+      "outputs": [
+        "OR_2"
+      ],
+      "val": null
+    },
+    "INPUT_4": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_3",
+        "AND_3"
+      ],
+      "val": null
+    },
+    "XOR_4": {
+      "type": "XOR",
+      "inputs": [
+        "OR_1",
+        "XOR_3"
+      ],
+      "outputs": [
+        "OUTPUT_2"
+      ],
+      "val": null
+    },
+    "AND_4": {
+      "type": "AND",
+      "inputs": [
+        "OR_1",
+        "XOR_3"
+      ],
+      "outputs": [
+        "OR_2"
+      ],
+      "val": null
+    },
+    "OR_2": {
+      "type": "OR",
+      "inputs": [
+        "AND_4",
+        "AND_3"
+      ],
+      "outputs": [
+        "AND_6"
+      ],
+      "val": null
+    },
+    "OUTPUT_2": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_4"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "XOR_5": {
+      "type": "XOR",
+      "inputs": [
+        "INPUT_5",
+        "INPUT_6"
+      ],
+      "outputs": [
+        "XOR_6",
+        "AND_6"
+      ],
+      "val": null
+    },
+    "AND_5": {
+      "type": "AND",
+      "inputs": [
+        "INPUT_5",
+        "INPUT_6"
+      ],
+      "outputs": [
+        "OR_3"
+      ],
+      "val": null
+    },
+    "XOR_6": {
+      "type": "XOR",
+      "inputs": [
+        null,
+        "XOR_5"
+      ],
+      "outputs": [
+        "OUTPUT_3"
+      ],
+      "val": null
+    },
+    "AND_6": {
+      "type": "AND",
+      "inputs": [
+        "OR_2",
+        "XOR_5"
+      ],
+      "outputs": [
+        "OR_3"
+      ],
+      "val": null
+    },
+    "OR_3": {
+      "type": "OR",
+      "inputs": [
+        "AND_6",
+        "AND_5"
+      ],
+      "outputs": [
+        "XOR_8",
+        "AND_8"
+      ],
+      "val": null
+    },
+    "OUTPUT_3": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_6"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "XOR_7": {
+      "type": "XOR",
+      "inputs": [
+        "INPUT_7",
+        "INPUT_8"
+      ],
+      "outputs": [
+        "XOR_8",
+        "AND_8"
+      ],
+      "val": null
+    },
+    "AND_7": {
+      "type": "AND",
+      "inputs": [
+        "INPUT_7",
+        "INPUT_8"
+      ],
+      "outputs": [
+        "OR_4"
+      ],
+      "val": null
+    },
+    "XOR_8": {
+      "type": "XOR",
+      "inputs": [
+        "OR_3",
+        "XOR_7"
+      ],
+      "outputs": [
+        "OUTPUT_4"
+      ],
+      "val": null
+    },
+    "AND_8": {
+      "type": "AND",
+      "inputs": [
+        "OR_3",
+        "XOR_7"
+      ],
+      "outputs": [
+        "OR_4"
+      ],
+      "val": null
+    },
+    "OR_4": {
+      "type": "OR",
+      "inputs": [
+        "AND_8",
+        "AND_7"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "OUTPUT_4": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_8"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "INPUT_5": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_5",
+        "AND_5"
+      ],
+      "val": null
+    },
+    "INPUT_6": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_5",
+        "AND_5"
+      ],
+      "val": null
+    },
+    "INPUT_7": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_7",
+        "AND_7"
+      ],
+      "val": null
+    },
+    "INPUT_8": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_7",
+        "AND_7"
+      ],
+      "val": null
+    }
+  },
+  "links": [
+    {
+      "source": "INPUT_1",
+      "target": "XOR_1",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_1",
+      "target": "AND_1",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_2",
+      "target": "XOR_1",
+      "target_input_index": 1
+    },
+    {
+      "source": "INPUT_2",
+      "target": "AND_1",
+      "target_input_index": 1
+    },
+    {
+      "source": "INPUT_Carry",
+      "target": "XOR_2",
+      "target_input_index": 1
+    },
+    {
+      "source": "INPUT_Carry",
+      "target": "AND_2",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_1",
+      "target": "XOR_2",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_1",
+      "target": "AND_2",
+      "target_input_index": 0
+    },
+    {
+      "source": "AND_1",
+      "target": "OR_1",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_2",
+      "target": "OR_1",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_2",
+      "target": "OUTPUT_1",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_3",
+      "target": "XOR_3",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_3",
+      "target": "AND_3",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_4",
+      "target": "XOR_3",
+      "target_input_index": 1
+    },
+    {
+      "source": "INPUT_4",
+      "target": "AND_3",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_3",
+      "target": "OR_2",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_4",
+      "target": "OR_2",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_4",
+      "target": "OUTPUT_2",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_3",
+      "target": "XOR_4",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_3",
+      "target": "AND_4",
+      "target_input_index": 1
+    },
+    {
+      "source": "OR_1",
+      "target": "XOR_4",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_1",
+      "target": "AND_4",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_5",
+      "target": "XOR_5",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_5",
+      "target": "AND_5",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_6",
+      "target": "XOR_5",
+      "target_input_index": 1
+    },
+    {
+      "source": "INPUT_6",
+      "target": "AND_5",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_5",
+      "target": "OR_3",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_6",
+      "target": "OR_3",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_6",
+      "target": "OUTPUT_3",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_7",
+      "target": "XOR_7",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_7",
+      "target": "AND_7",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_8",
+      "target": "XOR_7",
+      "target_input_index": 1
+    },
+    {
+      "source": "INPUT_8",
+      "target": "AND_7",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_7",
+      "target": "OR_4",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_8",
+      "target": "OR_4",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_8",
+      "target": "OUTPUT_4",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_7",
+      "target": "XOR_8",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_7",
+      "target": "AND_8",
+      "target_input_index": 1
+    },
+    {
+      "source": "OR_3",
+      "target": "XOR_8",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_3",
+      "target": "AND_8",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_5",
+      "target": "XOR_6",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_5",
+      "target": "AND_6",
+      "target_input_index": 1
+    },
+    {
+      "source": "OR_2",
+      "target": "AND_6",
+      "target_input_index": 0
+    }
+  ],
+  "output_script": "default",
+  "input_script": "inputs = [\n    None,  # INPUT_1\n    None,  # INPUT_2\n    None,  # INPUT_Carry\n    None,  # INPUT_3\n    None,  # INPUT_4\n    None,  # INPUT_5\n    None,  # INPUT_6\n    None,  # INPUT_7\n    None,  # INPUT_8\n]\n\nimport random\nfor x in inputs:\n    x = rand.randint(0,1)"
+}

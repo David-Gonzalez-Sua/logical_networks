@@ -150,7 +150,7 @@ class GUICanvas:
     
     def delete_selected_keypress(self, sender, app_data):
         # block if any modal popup is open
-        for tag in ["rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup"]:
+        for tag in ["rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup", "help_popup"]:
             if dpg.does_item_exist(tag) and dpg.is_item_shown(tag):
                 return 1
         
@@ -206,6 +206,118 @@ class GUICanvas:
         dpg.set_item_label(self.NETWORK.nodes[new_id]["dpg_id"], new_id)
         dpg.delete_item("rename_popup")
         self.update_preview()
+        return 0
+
+    def copy_selected(self, sender, app_data):
+        selected_nodes = dpg.get_selected_nodes("node_editor")
+        if not selected_nodes:
+            return 1
+        
+        self.clipboard = []
+        node_id_map = {}  # old_id -> data needed to recreate
+        
+        for dpg_id in selected_nodes:
+            node_id = next(k for k, v in self.NETWORK.nodes.items() if v["dpg_id"] == dpg_id)
+            node = self.NETWORK.nodes[node_id]
+            self.clipboard.append({
+                "old_id": node_id,
+                "type": node["type"],
+                "inputs": list(node["inputs"]),
+                "outputs": list(node["outputs"])
+            })
+        
+        # also copy links that exist between copied nodes
+        copied_ids = {c["old_id"] for c in self.clipboard}
+        self.clipboard_links = []
+        for link_id, (src, tgt, idx) in self.NETWORK.links.items():
+            if src in copied_ids and tgt in copied_ids:
+                self.clipboard_links.append((src, tgt, idx))
+        
+        return 0
+    
+    def copy_selected_keypress(self, sender, app_data):
+        # block if any modal popup is open
+        for tag in ["rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup", "help_popup"]:
+            if dpg.does_item_exist(tag) and dpg.is_item_shown(tag):
+                return 1
+        
+        if not dpg.is_item_hovered("node_editor"):
+            return 1
+        
+        self.copy_selected(sender, app_data)
+        return 0
+
+    def paste_clipboard(self, sender, app_data):
+        if not hasattr(self, 'clipboard') or not self.clipboard:
+            return 1
+        
+        old_to_new = {}
+        
+        # find the lowest free vertical position below existing nodes
+        max_y = 0
+        for node in self.NETWORK.nodes.values():
+            pos = dpg.get_item_pos(node["dpg_id"])
+            max_y = max(max_y, pos[1])
+        paste_y_offset = max_y + 150
+        
+        # pass 1 - create nodes
+        for entry in self.clipboard:
+            gate_type = entry["type"]
+            gate = self.REGISTRY.get(gate_type)
+            if gate is None:
+                continue  # INPUT/OUTPUT or missing gate, handle via registry lookup
+            
+            self.NETWORK.counts[gate_type] = self.NETWORK.counts.get(gate_type, 0) + 1
+            new_id = f"{gate_type}_{self.NETWORK.counts[gate_type]}"
+            uid = dpg.generate_uuid()
+            
+            with dpg.node(label=new_id, parent="node_editor", tag=uid):
+                for i in range(gate["inputs"]):
+                    with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Input):
+                        dpg.add_text("in")
+                for i in range(gate["outputs"]):
+                    with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output):
+                        dpg.add_text("out")
+            
+            self.NETWORK.add_node(new_id, gate_type, gate["inputs"], uid)
+            
+            old_pos = dpg.get_item_pos(self.NETWORK.nodes[entry["old_id"]]["dpg_id"]) if entry["old_id"] in self.NETWORK.nodes else [20, 20]
+            dpg.set_item_pos(uid, [old_pos[0], paste_y_offset + old_pos[1]])
+            
+            old_to_new[entry["old_id"]] = new_id
+        
+        # pass 2 - recreate links between copied nodes only
+        for src, tgt, idx in self.clipboard_links:
+            if src in old_to_new and tgt in old_to_new:
+                new_src = old_to_new[src]
+                new_tgt = old_to_new[tgt]
+                
+                source_uid = self.NETWORK.nodes[new_src]["dpg_id"]
+                target_uid = self.NETWORK.nodes[new_tgt]["dpg_id"]
+                source_children = dpg.get_item_children(source_uid, slot=1)
+                target_children = dpg.get_item_children(target_uid, slot=1)
+                
+                source_out_pin = source_children[-1]
+                target_in_pin = target_children[idx]
+                
+                link_uid = dpg.generate_uuid()
+                dpg.add_node_link(source_out_pin, target_in_pin, parent="node_editor", tag=link_uid)
+                self.NETWORK.add_link(link_uid, new_src, new_tgt, idx)
+        
+        self.update_preview()
+        self.update_input_template()
+        return 0
+    
+    def paste_clipboard_keypress(self, sender, app_data):
+        # block if any modal popup is open
+        for tag in ["rename_popup", "save_popup", "load_popup", "error_popup", "clear_confirm_popup", "help_popup"]:
+            if dpg.does_item_exist(tag) and dpg.is_item_shown(tag):
+                return 1
+        
+        if not dpg.is_item_hovered("node_editor"):
+            return 1
+        
+        self.paste_clipboard(sender, app_data)
         return 0
 
     ## -------------------------- Canvas Utility Functions ----------------------------

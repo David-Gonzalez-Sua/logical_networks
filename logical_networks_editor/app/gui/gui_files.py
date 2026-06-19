@@ -86,6 +86,7 @@ class GUIFiles:
         self.rebuild_from_network()
         dpg.delete_item("load_popup")
         
+        self.current_input_script = None
         dpg.set_value("input_script", self.NETWORK.input_script)
         self.apply_inputs(None, None)
         return 0

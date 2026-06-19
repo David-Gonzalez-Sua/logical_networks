@@ -28,3 +28,48 @@ Models       : 1+
 Calls        : 1
 Time         : 0.004s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
 CPU Time     : 0.002s
+
+--- Run: 2026-06-19 09:34:05.505430 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor/C-MCPN/gates/and.lp ...
+Solving...
+Answer: 1 (Time: 0.004s)
+val("INPUT_1",1) val("INPUT_2",1) val("INPUT_Carry",0) val("XOR_1",0) val("AND_1",1) val("OR_1",1) val("AND_2",0) val("XOR_2",0) val("OUTPUT_1",0)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.004s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.002s
+
+--- Run: 2026-06-19 10:01:33.284579 ---
+[INFO] Running 7 files: and.lp input.lp or.lp output.lp xor.lp main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor/C-MCPN/gates/and.lp ...
+Solving...
+Answer: 1 (Time: 0.006s)
+val("INPUT_1",1) val("INPUT_2",2) val("INPUT_Carry",3) val("INPUT_3",4) val("INPUT_4",5) val("INPUT_5",6) val("INPUT_6",7) val("INPUT_7",8) val("INPUT_8",9)
+SATISFIABLE
+
+Models       : 1+
+Calls        : 1
+Time         : 0.006s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.003s
+
+--- Run: 2026-06-19 11:22:21.187634 ---
+[INFO] Running 2 files: main.lp preview.lp
+
+clingo version 5.8.0
+Reading from ...al_networks_editor/C-MCPN/base/main.lp ...
+Solving...
+Answer: 1 (Time: 0.003s)
+
+SATISFIABLE
+
+Models       : 1
+Calls        : 1
+Time         : 0.003s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.002s

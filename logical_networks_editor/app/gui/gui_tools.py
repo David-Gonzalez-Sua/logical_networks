@@ -54,7 +54,10 @@ class GUI(
                 dpg.add_button(label="Reorganize", callback=self.reorganize)
                 dpg.add_button(label="Clear", callback=self.clear_canvas)
                 dpg.add_button(label="Delete Selected", callback=self.delete_selected)
+                dpg.add_button(label="Copy Selected", callback=self.copy_selected)
+                dpg.add_button(label="Paste", callback=self.paste_clipboard)
                 dpg.add_button(label="Output: OFF", tag="output_toggle_btn", callback=self.toggle_output_window)
+                # dpg.add_button(label="Help", callback=self.show_help_popup)
 
         with dpg.window(label="Sidebar", width=sidebar_w, height=H-35, pos=(0,35), tag="sidebar", no_title_bar=True, no_resize=True, no_close=True, no_move=True, no_collapse=True):
             dpg.add_text("Controls:\n- Click and drag to create links\n\n"
@@ -80,7 +83,7 @@ class GUI(
                 default_value="inputs = [\n    # Inputs\n]",
                 callback=self.apply_inputs
             )
-            dpg.add_button(label="Refresh", callback=self.update_input_template, width=sidebar_w-40)
+            dpg.add_button(label="Refresh Template", callback=self.update_input_template, width=sidebar_w-40)
             with dpg.group(horizontal=True):
                 dpg.add_button(label="Revert", callback=self.revert_input_script, width=(sidebar_w-48)//2)
                 dpg.add_button(label="Update", tag="input_script_rerun_btn", callback=self.apply_inputs, width=(sidebar_w-48)//2)
@@ -135,15 +138,16 @@ class GUI(
                         no_resize=True, no_close=True, no_move=True, 
                         no_collapse=True, no_title_bar=True, show=False):
             with dpg.group(horizontal=True):
-                buttons_width = 160 + 100 + 60 + 70 + 70 + 90 # rough estimate of all items
+                buttons_width = 160 + 100 + 60 + 75 + 75 + 140 + 140 + 5 # rough estimate of all items
                 dpg.add_text("Clingo Output", color=(255, 255, 0))
                 dpg.add_spacer(tag="output_spacer", width=W - buttons_width)  # push buttons to the right
                 # dpg.add_text("Clingo Output", color=(255, 255, 0))
                 dpg.add_button(label="Solve Network", callback=self.run_network, width=100)
                 dpg.add_button(label="Clear", callback=self.clear_output, width=60)
-                dpg.add_button(label="Std Out", tag="tab_output_btn", callback=lambda: self.switch_output_tab("output"), width=70)
-                dpg.add_button(label="Std Err", tag="tab_errors_btn", callback=lambda: self.switch_output_tab("errors"), width=70)
-                dpg.add_button(label="Formatted", tag="tab_formatted_btn", callback=lambda: self.switch_output_tab("formatted"), width=90)
+                dpg.add_button(label="Std Out", tag="tab_output_btn", callback=lambda: self.switch_output_tab("output"), width=75)
+                dpg.add_button(label="Std Err", tag="tab_errors_btn", callback=lambda: self.switch_output_tab("errors"), width=75)
+                dpg.add_button(label="Formatted Output", tag="tab_formatted_btn", callback=lambda: self.switch_output_tab("formatted"), width=140)
+                dpg.add_button(label="Scripting Errors", tag="tab_scripting_btn", callback=lambda: self.switch_output_tab("scripting"), width=140)
             dpg.add_separator()
             with dpg.child_window(tag="run_output", width=-1, height=-1, border=False):
                 pass
@@ -151,7 +155,8 @@ class GUI(
                 pass
             with dpg.child_window(tag="run_formatted", width=-1, height=-1, border=False, show=False):
                 pass
-
+            with dpg.child_window(tag="run_scripting", width=-1, height=-1, border=False, show=False):
+                pass
         # bind terminal theme
         with dpg.theme() as terminal_theme:
             with dpg.theme_component(dpg.mvAll):

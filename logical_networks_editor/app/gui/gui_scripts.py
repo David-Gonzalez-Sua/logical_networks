@@ -59,11 +59,13 @@ class GUIScripts:
         name = dpg.get_value("load_input_script_listbox")
         if not name:
             return 1
+        
         folder = tools.resource_path(self.CONFIG["paths"]["input_scripts_folder"])
         path = os.path.join(folder, f"{name}.py")
         if not os.path.exists(path):
             dpg.delete_item("load_input_script_popup")
             return 1
+        
         with open(path) as f:
             dpg.set_value("input_script", f.read())
         self.current_input_script = name
@@ -72,17 +74,20 @@ class GUIScripts:
         return 0
 
     def revert_input_script(self, sender, app_data):
-        name = getattr(self, 'current_input_script', None)
-        if not name:
-            dpg.set_value("input_script", "inputs = [\n    # Inputs\n]")
-            self.apply_inputs(None, None)
-            return 0
-        folder = tools.resource_path(self.CONFIG["paths"]["input_scripts_folder"])
-        path = os.path.join(folder, f"{name}.py")
-        if os.path.exists(path):
-            with open(path) as f:
-                dpg.set_value("input_script", f.read())
-            self.apply_inputs(None, None)
+        if self.current_input_script:
+            folder = tools.resource_path(self.CONFIG["paths"]["input_scripts_folder"])
+            path = os.path.join(folder, f"{self.current_input_script}.py")
+            if os.path.exists(path):
+                with open(path) as f:
+                    dpg.set_value("input_script", f.read())
+                self.apply_inputs(None, None)
+                return 0
+            else:
+                self.current_input_script = None  # stale reference, fall through
+        
+        # fallback to the network's saved input script
+        dpg.set_value("input_script", self.NETWORK.input_script)
+        self.apply_inputs(None, None)
         return 0
 
     ## ------------------------- Output Scripts -------------------------

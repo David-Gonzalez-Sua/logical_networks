@@ -61,17 +61,25 @@ class GUIUpdate:
     
     ## ------------------------------ Input/Output Callbacks --------------------------------
     
-    def update_input_template(self):
+    def update_input_template(self, sender=None, app_data=None):
+        # reset all node vals first
+        for node in self.NETWORK.nodes.values():
+            node["val"] = None
+        
         input_nodes = self.NETWORK.input_nodes
         lines = ["inputs = ["]
         for nid in input_nodes:
-            val = self.NETWORK.nodes[nid]["val"]
-            lines.append(f"    {val},  # {nid}")
+            lines.append(f"    None,  # {nid}")
         lines.append("]")
         template = "\n".join(lines)
         dpg.set_value("input_script", template)
         self.NETWORK.input_script = template
-        self.current_input_script = None  # no longer tracking a named script
+        self.current_input_script = None
+        
+        # update displays so pins go back to "in"/"out"
+        for node_id in self.NETWORK.nodes:
+            self.update_node_display(node_id)
+        
         return 0
     
     def apply_inputs(self, sender, app_data):
@@ -81,17 +89,17 @@ class GUIUpdate:
             exec(script, {}, local)
             values = local.get("inputs", [])
         except Exception as e:
-            # print(f"Input script error: {e}")
+            self._log_error(f"Input script error: {e}")
             return 1
         
         input_nodes = self.NETWORK.input_nodes
         
         if len(values) != len(input_nodes):
-            print(f"Expected {len(input_nodes)} inputs, got {len(values)}")
+            self._log_error(f"Expected {len(input_nodes)} inputs, got {len(values)}")
             return 1
         if any(v is None for v in values):
-            print("All inputs must be set.")
-            return 1
+            self._log_error("All inputs must be set.")
+        #     # return 1
         
         # reset all node values first
         for node_id in self.NETWORK.nodes:
@@ -119,6 +127,13 @@ class GUIUpdate:
         except Exception as e:
             print(f"Error loading default output script: {e}")
             return 1
+
+    def _log_error(self, message):
+        if dpg.does_item_exist("run_scripting"):
+            dpg.add_text(message, parent="run_scripting", color=(255, 80, 80, 255), wrap=dpg.get_viewport_width() - 20)
+            dpg.set_y_scroll("run_scripting", 99999)
+        else:
+            print(message)
 
     ## ------------------------------ Node Display Update --------------------------------
 
