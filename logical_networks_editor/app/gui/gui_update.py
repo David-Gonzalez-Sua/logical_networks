@@ -59,16 +59,31 @@ class GUIUpdate:
             dpg.add_text(line if line else " ", parent=parent, color=color)
         return 0
     
+    ## ------------------------------ Input/Output Callbacks --------------------------------
+
+    # def update_input_template(self):
+    #     input_nodes = self.NETWORK.input_nodes
+        
+    #     lines = ["inputs = ["]        
+    #     for nid in input_nodes:
+    #         val = self.NETWORK.nodes[nid]["val"]
+    #         lines.append(f"    {val},  # {nid}")
+    #     lines.append("]")
+        
+    #     dpg.set_value("input_script", "\n".join(lines))
+    #     return 0
+    
     def update_input_template(self):
         input_nodes = self.NETWORK.input_nodes
-        
-        lines = ["inputs = ["]        
+        lines = ["inputs = ["]
         for nid in input_nodes:
             val = self.NETWORK.nodes[nid]["val"]
             lines.append(f"    {val},  # {nid}")
         lines.append("]")
-        
-        dpg.set_value("input_script", "\n".join(lines))
+        template = "\n".join(lines)
+        dpg.set_value("input_script", template)
+        self.NETWORK.input_script = template
+        self.current_input_script = None  # no longer tracking a named script
         return 0
     
     def apply_inputs(self, sender, app_data):
@@ -104,6 +119,20 @@ class GUIUpdate:
 
         self.update_preview()
         return 0
+
+    def load_default_output_script(self, sender, app_data):
+        try:
+            default_output_path = tools.resource_path(self.CONFIG["paths"]["output_scripts_folder"]) + "/default.py"
+            if os.path.exists(default_output_path):
+                self.NETWORK.output_script = "default"
+                with open(default_output_path) as f:
+                    dpg.set_value("output_script_editor", f.read())
+            return 0
+        except Exception as e:
+            print(f"Error loading default output script: {e}")
+            return 1
+
+    ## ------------------------------ Node Display Update --------------------------------
 
     def update_node_display(self, node_id):
         node = self.NETWORK.nodes[node_id]

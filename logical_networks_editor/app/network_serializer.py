@@ -41,6 +41,8 @@ class Network:
         self.links = {}
         self.input_nodes = []  # list of node_ids that are inputs
         self.counts = {}  # for generating unique node IDs of each type
+        self.output_script = "default"
+        self.input_script = "inputs = [\n    # Inputs\n]"
 
     def add_node(self, node_id, node_type, max_inputs, dpg_id=None):
         try:
@@ -134,7 +136,9 @@ class Network:
                 "links": [
                     {"source": src, "target": tgt, "target_input_index": idx}
                     for src, tgt, idx in self.links.values()
-                ]
+                ],
+                "output_script": self.output_script,
+                "input_script": self.input_script
             }
             with open(path, "w") as f:
                 json.dump(export, f, indent=2)
@@ -178,6 +182,9 @@ class Network:
 
             # rebuild input nodes list
             self.input_nodes = [nid for nid, n in self.nodes.items() if n["type"] == "INPUT"]
+
+            self.output_script = data.get("output_script", "default")
+            self.input_script = data.get("input_script", "inputs = [\n    # Inputs\n]")
         
         except Exception as e:
             print(f"Error loading from JSON: {e}")

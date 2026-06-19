@@ -10,6 +10,7 @@ import gui.gui_output as output
 import gui.gui_window as window
 import gui.gui_preview as preview
 import gui.gui_gates as gates
+import gui.gui_scripts as scripts
 
 
 class GUI(
@@ -19,7 +20,8 @@ class GUI(
     output.GUIOutput,
     window.GUIWindow,
     preview.GUIPreview,
-    gates.GUIGates
+    gates.GUIGates,
+    scripts.GUIScripts
 ):
     def __init__(self, CONFIG, REGISTRY, NETWORK):
         self.CONFIG = CONFIG
@@ -28,6 +30,7 @@ class GUI(
         
         self.last_save_name = None
         self.current_gate_in_editor = None
+        self.current_input_script = None
         self.output_shown = False
     
     def build_gui(self):
@@ -37,6 +40,7 @@ class GUI(
         W = CONFIG["window"]["width"]
         H = CONFIG["window"]["height"]
         output_h = CONFIG["window"]["output_height"]
+        output_script_h = CONFIG["window"]["output_script_height"]
         preview_w = CONFIG["window"]["preview_width"]
         sidebar_w = CONFIG["window"]["sidebar_width"]
 
@@ -63,7 +67,7 @@ class GUI(
             dpg.add_separator()
             dpg.add_text("Gates:")
             dpg.add_separator()
-            with dpg.child_window(tag="gate_list", parent="sidebar", width=sidebar_w-20, auto_resize_y=True, border=False):
+            with dpg.child_window(tag="gate_list", parent="sidebar", width=sidebar_w-40, auto_resize_y=True, border=False):
                 pass
 
             dpg.add_separator()
@@ -71,12 +75,18 @@ class GUI(
             dpg.add_input_text(
                 tag="input_script",
                 multiline=True,
-                width=sidebar_w-20,
+                width=sidebar_w-40,
                 height=150,
                 default_value="inputs = [\n    # Inputs\n]",
                 callback=self.apply_inputs
             )
-            # dpg.add_button(label="Update Inputs", callback=self.apply_inputs)
+            dpg.add_button(label="Refresh", callback=self.update_input_template, width=sidebar_w-40)
+            with dpg.group(horizontal=True):
+                dpg.add_button(label="Revert", callback=self.revert_input_script, width=(sidebar_w-48)//2)
+                dpg.add_button(label="Update", tag="input_script_rerun_btn", callback=self.apply_inputs, width=(sidebar_w-48)//2)
+            with dpg.group(horizontal=True):
+                dpg.add_button(label="Save As", callback=self.save_input_script_as, width=(sidebar_w-48)//2)
+                dpg.add_button(label="Load", callback=self.load_input_script_popup, width=(sidebar_w-48)//2)
         
         with dpg.window(label="Canvas", width=W-sidebar_w-preview_w, height=H-35, pos=(sidebar_w,35), tag="canvas", no_resize=True, no_close=True, no_move=True, no_collapse=True, no_scroll_with_mouse=False):
             with dpg.node_editor(
@@ -99,7 +109,7 @@ class GUI(
                 dpg.add_button(label="Save", tag="preview_save_btn", callback=self.save_preview_file, width=50, show=False)
                 dpg.add_button(label="Revert", tag="preview_revert_btn", callback=self.revert_preview_file, width=60, show=False)
             dpg.add_separator()
-            with dpg.child_window(tag="preview_text", width=-1, height=-1, border=False):
+            with dpg.child_window(tag="preview_text", width=-1, height=-(output_script_h + 55), border=False):
                 dpg.add_child_window(tag="preview_colored", width=-1, height=-1, border=False)
                 dpg.add_input_text(
                     tag="preview_editor",
@@ -110,7 +120,16 @@ class GUI(
                     enabled=False,
                     show=False
                 )
-        
+
+            dpg.add_separator()
+            dpg.add_text("Output Script:")
+            with dpg.child_window(tag="output_script_editor_wrapper", width=-1, height=output_script_h, border=False):
+                dpg.add_input_text(tag="output_script_editor", multiline=True, width=-1, height=-1, default_value="")
+            with dpg.group(horizontal=True):
+                dpg.add_button(label="Save As", callback=self.save_output_script_as, width=(preview_w-40)//3)
+                dpg.add_button(label="Load", callback=self.load_output_script_popup, width=(preview_w-40)//3)
+                dpg.add_button(label="Revert", callback=self.revert_output_script, width=(preview_w-40)//3)
+
         with dpg.window(label="Output", tag="output_window", 
                         pos=(0, H-35), width=W, height=output_h,
                         no_resize=True, no_close=True, no_move=True, 
@@ -143,6 +162,7 @@ class GUI(
         self.build_gate_list()
         self.update_preview()
         self.update_input_template()
+        self.load_default_output_script(None, None)
 
         if self.CONFIG["window"]["output_open"]:
             self.toggle_output_window(None, None)
@@ -158,10 +178,10 @@ class GUI(
             dpg.add_button(
                 label="Gate Editor: ON" if editor_open else "Gate Editor: OFF",
                 tag="gate_editor_toggle_btn",
-                width=sidebar_w-20,
+                width=sidebar_w-40,
                 callback=self.toggle_gate_editor
             )
-            with dpg.child_window(tag="gate_editor_box_wrapper", width=sidebar_w-20, height=editor_h, show=editor_open, border=True):
+            with dpg.child_window(tag="gate_editor_box_wrapper", width=sidebar_w-40, height=editor_h, show=editor_open, border=True):
                 dpg.add_child_window(tag="gate_editor_colored", width=-1, height=-1, border=False)
                 dpg.add_input_text(
                     tag="gate_editor_box",
@@ -209,7 +229,7 @@ class GUI(
                 label="New Custom Gate",
                 tag="gate_btn_NEW",
                 callback=self.select_custom_template,
-                width=sidebar_w-20
+                width=sidebar_w-40
             )
 
         dpg.add_separator(parent="gate_list")
@@ -222,6 +242,6 @@ class GUI(
                     callback=self.gate_btn_callback,
                     user_data={"type": gate_type, "gate": gate},
                     # indent=10,
-                    width=sidebar_w-20
+                    width=sidebar_w-40
                     )
         return 0
