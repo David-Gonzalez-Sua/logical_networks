@@ -1,0 +1,1133 @@
+{
+  "nodes": {
+    "INPUT_Carry": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_2",
+        "AND_2"
+      ],
+      "val": 0
+    },
+    "XOR_1": {
+      "type": "XOR",
+      "inputs": [
+        "A_bit_0",
+        "B_bit_0"
+      ],
+      "outputs": [
+        "XOR_2",
+        "AND_2"
+      ],
+      "val": null
+    },
+    "AND_1": {
+      "type": "AND",
+      "inputs": [
+        "A_bit_0",
+        "B_bit_0"
+      ],
+      "outputs": [
+        "OR_1"
+      ],
+      "val": null
+    },
+    "XOR_2": {
+      "type": "XOR",
+      "inputs": [
+        "INPUT_Carry",
+        "XOR_1"
+      ],
+      "outputs": [
+        "Out_bit_0"
+      ],
+      "val": null
+    },
+    "AND_2": {
+      "type": "AND",
+      "inputs": [
+        "INPUT_Carry",
+        "XOR_1"
+      ],
+      "outputs": [
+        "OR_1"
+      ],
+      "val": null
+    },
+    "OR_1": {
+      "type": "OR",
+      "inputs": [
+        "AND_2",
+        "AND_1"
+      ],
+      "outputs": [
+        "XOR_4",
+        "AND_4"
+      ],
+      "val": null
+    },
+    "XOR_3": {
+      "type": "XOR",
+      "inputs": [
+        "A_bit_1",
+        "B_bit_1"
+      ],
+      "outputs": [
+        "XOR_4",
+        "AND_4"
+      ],
+      "val": null
+    },
+    "AND_3": {
+      "type": "AND",
+      "inputs": [
+        "A_bit_1",
+        "B_bit_1"
+      ],
+      "outputs": [
+        "OR_2"
+      ],
+      "val": null
+    },
+    "XOR_4": {
+      "type": "XOR",
+      "inputs": [
+        "OR_1",
+        "XOR_3"
+      ],
+      "outputs": [
+        "Out_bit_1"
+      ],
+      "val": null
+    },
+    "AND_4": {
+      "type": "AND",
+      "inputs": [
+        "OR_1",
+        "XOR_3"
+      ],
+      "outputs": [
+        "OR_2"
+      ],
+      "val": null
+    },
+    "OR_2": {
+      "type": "OR",
+      "inputs": [
+        "AND_4",
+        "AND_3"
+      ],
+      "outputs": [
+        "XOR_6",
+        "AND_6"
+      ],
+      "val": null
+    },
+    "XOR_5": {
+      "type": "XOR",
+      "inputs": [
+        "A_bit_2",
+        "B_bit_2"
+      ],
+      "outputs": [
+        "XOR_6",
+        "AND_6"
+      ],
+      "val": null
+    },
+    "AND_5": {
+      "type": "AND",
+      "inputs": [
+        "A_bit_2",
+        "B_bit_2"
+      ],
+      "outputs": [
+        "OR_3"
+      ],
+      "val": null
+    },
+    "XOR_6": {
+      "type": "XOR",
+      "inputs": [
+        "OR_2",
+        "XOR_5"
+      ],
+      "outputs": [
+        "Out_bit_2"
+      ],
+      "val": null
+    },
+    "AND_6": {
+      "type": "AND",
+      "inputs": [
+        "OR_2",
+        "XOR_5"
+      ],
+      "outputs": [
+        "OR_3"
+      ],
+      "val": null
+    },
+    "OR_3": {
+      "type": "OR",
+      "inputs": [
+        "AND_6",
+        "AND_5"
+      ],
+      "outputs": [
+        "XOR_8",
+        "AND_8"
+      ],
+      "val": null
+    },
+    "XOR_7": {
+      "type": "XOR",
+      "inputs": [
+        "A_bit_3",
+        "B_bit_3"
+      ],
+      "outputs": [
+        "XOR_8",
+        "AND_8"
+      ],
+      "val": null
+    },
+    "AND_7": {
+      "type": "AND",
+      "inputs": [
+        "A_bit_3",
+        "B_bit_3"
+      ],
+      "outputs": [
+        "OR_4"
+      ],
+      "val": null
+    },
+    "XOR_8": {
+      "type": "XOR",
+      "inputs": [
+        "OR_3",
+        "XOR_7"
+      ],
+      "outputs": [
+        "Out_bit_3"
+      ],
+      "val": null
+    },
+    "AND_8": {
+      "type": "AND",
+      "inputs": [
+        "OR_3",
+        "XOR_7"
+      ],
+      "outputs": [
+        "OR_4"
+      ],
+      "val": null
+    },
+    "OR_4": {
+      "type": "OR",
+      "inputs": [
+        "AND_8",
+        "AND_7"
+      ],
+      "outputs": [
+        "XOR_10",
+        "AND_10"
+      ],
+      "val": null
+    },
+    "XOR_9": {
+      "type": "XOR",
+      "inputs": [
+        "A_bit_4",
+        "B_bit_4"
+      ],
+      "outputs": [
+        "XOR_10",
+        "AND_10"
+      ],
+      "val": null
+    },
+    "AND_9": {
+      "type": "AND",
+      "inputs": [
+        "A_bit_4",
+        "B_bit_4"
+      ],
+      "outputs": [
+        "OR_5"
+      ],
+      "val": null
+    },
+    "XOR_10": {
+      "type": "XOR",
+      "inputs": [
+        "OR_4",
+        "XOR_9"
+      ],
+      "outputs": [
+        "Out_bit_4"
+      ],
+      "val": null
+    },
+    "AND_10": {
+      "type": "AND",
+      "inputs": [
+        "OR_4",
+        "XOR_9"
+      ],
+      "outputs": [
+        "OR_5"
+      ],
+      "val": null
+    },
+    "OR_5": {
+      "type": "OR",
+      "inputs": [
+        "AND_10",
+        "AND_9"
+      ],
+      "outputs": [
+        "XOR_12",
+        "AND_12"
+      ],
+      "val": null
+    },
+    "XOR_11": {
+      "type": "XOR",
+      "inputs": [
+        "A_bit_5",
+        "B_bit_5"
+      ],
+      "outputs": [
+        "XOR_12",
+        "AND_12"
+      ],
+      "val": null
+    },
+    "AND_11": {
+      "type": "AND",
+      "inputs": [
+        "A_bit_5",
+        "B_bit_5"
+      ],
+      "outputs": [
+        "OR_6"
+      ],
+      "val": null
+    },
+    "XOR_12": {
+      "type": "XOR",
+      "inputs": [
+        "OR_5",
+        "XOR_11"
+      ],
+      "outputs": [
+        "Out_bit_5"
+      ],
+      "val": null
+    },
+    "AND_12": {
+      "type": "AND",
+      "inputs": [
+        "OR_5",
+        "XOR_11"
+      ],
+      "outputs": [
+        "OR_6"
+      ],
+      "val": null
+    },
+    "OR_6": {
+      "type": "OR",
+      "inputs": [
+        "AND_12",
+        "AND_11"
+      ],
+      "outputs": [
+        "XOR_14",
+        "AND_14"
+      ],
+      "val": null
+    },
+    "XOR_13": {
+      "type": "XOR",
+      "inputs": [
+        "A_bit_6",
+        "B_bit_6"
+      ],
+      "outputs": [
+        "XOR_14",
+        "AND_14"
+      ],
+      "val": null
+    },
+    "AND_13": {
+      "type": "AND",
+      "inputs": [
+        "A_bit_6",
+        "B_bit_6"
+      ],
+      "outputs": [
+        "OR_7"
+      ],
+      "val": null
+    },
+    "XOR_14": {
+      "type": "XOR",
+      "inputs": [
+        "OR_6",
+        "XOR_13"
+      ],
+      "outputs": [
+        "Out_bit_6"
+      ],
+      "val": null
+    },
+    "AND_14": {
+      "type": "AND",
+      "inputs": [
+        "OR_6",
+        "XOR_13"
+      ],
+      "outputs": [
+        "OR_7"
+      ],
+      "val": null
+    },
+    "OR_7": {
+      "type": "OR",
+      "inputs": [
+        "AND_14",
+        "AND_13"
+      ],
+      "outputs": [
+        "XOR_16",
+        "AND_16"
+      ],
+      "val": null
+    },
+    "XOR_15": {
+      "type": "XOR",
+      "inputs": [
+        "A_bit_7",
+        "B_bit_7"
+      ],
+      "outputs": [
+        "XOR_16",
+        "AND_16"
+      ],
+      "val": null
+    },
+    "AND_15": {
+      "type": "AND",
+      "inputs": [
+        "A_bit_7",
+        "B_bit_7"
+      ],
+      "outputs": [
+        "OR_8"
+      ],
+      "val": null
+    },
+    "XOR_16": {
+      "type": "XOR",
+      "inputs": [
+        "OR_7",
+        "XOR_15"
+      ],
+      "outputs": [
+        "Out_bit_7"
+      ],
+      "val": null
+    },
+    "AND_16": {
+      "type": "AND",
+      "inputs": [
+        "OR_7",
+        "XOR_15"
+      ],
+      "outputs": [
+        "OR_8"
+      ],
+      "val": null
+    },
+    "OR_8": {
+      "type": "OR",
+      "inputs": [
+        "AND_16",
+        "AND_15"
+      ],
+      "outputs": [
+        "Out_bit_carry"
+      ],
+      "val": null
+    },
+    "A_bit_0": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_1",
+        "AND_1"
+      ],
+      "val": 1
+    },
+    "Out_bit_0": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_2"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "B_bit_0": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_1",
+        "AND_1"
+      ],
+      "val": 1
+    },
+    "Out_bit_1": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_4"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "Out_bit_2": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_6"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "Out_bit_3": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_8"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "Out_bit_4": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_10"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "Out_bit_5": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_12"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "Out_bit_6": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_14"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "Out_bit_7": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_16"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "Out_bit_carry": {
+      "type": "OUTPUT",
+      "inputs": [
+        "OR_8"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "A_bit_1": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_3",
+        "AND_3"
+      ],
+      "val": 1
+    },
+    "A_bit_2": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_5",
+        "AND_5"
+      ],
+      "val": 0
+    },
+    "A_bit_3": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_7",
+        "AND_7"
+      ],
+      "val": 0
+    },
+    "A_bit_4": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_9",
+        "AND_9"
+      ],
+      "val": 0
+    },
+    "A_bit_5": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_11",
+        "AND_11"
+      ],
+      "val": 0
+    },
+    "A_bit_6": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_13",
+        "AND_13"
+      ],
+      "val": 0
+    },
+    "A_bit_7": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_15",
+        "AND_15"
+      ],
+      "val": 0
+    },
+    "B_bit_1": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_3",
+        "AND_3"
+      ],
+      "val": 0
+    },
+    "B_bit_3": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_7",
+        "AND_7"
+      ],
+      "val": 0
+    },
+    "B_bit_2": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_5",
+        "AND_5"
+      ],
+      "val": 1
+    },
+    "B_bit_4": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_9",
+        "AND_9"
+      ],
+      "val": 0
+    },
+    "B_bit_5": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_11",
+        "AND_11"
+      ],
+      "val": 0
+    },
+    "B_bit_6": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_13",
+        "AND_13"
+      ],
+      "val": 0
+    },
+    "B_bit_7": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_15",
+        "AND_15"
+      ],
+      "val": 0
+    }
+  },
+  "links": [
+    {
+      "source": "A_bit_0",
+      "target": "XOR_1",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_0",
+      "target": "AND_1",
+      "target_input_index": 0
+    },
+    {
+      "source": "B_bit_0",
+      "target": "XOR_1",
+      "target_input_index": 1
+    },
+    {
+      "source": "B_bit_0",
+      "target": "AND_1",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_1",
+      "target": "XOR_2",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_1",
+      "target": "AND_2",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_1",
+      "target": "OR_1",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_2",
+      "target": "OR_1",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_2",
+      "target": "Out_bit_0",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_1",
+      "target": "XOR_3",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_1",
+      "target": "AND_3",
+      "target_input_index": 0
+    },
+    {
+      "source": "B_bit_1",
+      "target": "XOR_3",
+      "target_input_index": 1
+    },
+    {
+      "source": "B_bit_1",
+      "target": "AND_3",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_3",
+      "target": "XOR_4",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_3",
+      "target": "AND_4",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_3",
+      "target": "OR_2",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_4",
+      "target": "OR_2",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_4",
+      "target": "Out_bit_1",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_1",
+      "target": "XOR_4",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_1",
+      "target": "AND_4",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_2",
+      "target": "XOR_5",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_2",
+      "target": "AND_5",
+      "target_input_index": 0
+    },
+    {
+      "source": "B_bit_2",
+      "target": "XOR_5",
+      "target_input_index": 1
+    },
+    {
+      "source": "B_bit_2",
+      "target": "AND_5",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_5",
+      "target": "XOR_6",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_5",
+      "target": "AND_6",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_5",
+      "target": "OR_3",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_6",
+      "target": "OR_3",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_6",
+      "target": "Out_bit_2",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_3",
+      "target": "XOR_7",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_3",
+      "target": "AND_7",
+      "target_input_index": 0
+    },
+    {
+      "source": "B_bit_3",
+      "target": "XOR_7",
+      "target_input_index": 1
+    },
+    {
+      "source": "B_bit_3",
+      "target": "AND_7",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_7",
+      "target": "XOR_8",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_7",
+      "target": "AND_8",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_7",
+      "target": "OR_4",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_8",
+      "target": "OR_4",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_8",
+      "target": "Out_bit_3",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_3",
+      "target": "XOR_8",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_3",
+      "target": "AND_8",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_2",
+      "target": "XOR_6",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_2",
+      "target": "AND_6",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_4",
+      "target": "XOR_9",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_4",
+      "target": "AND_9",
+      "target_input_index": 0
+    },
+    {
+      "source": "B_bit_4",
+      "target": "XOR_9",
+      "target_input_index": 1
+    },
+    {
+      "source": "B_bit_4",
+      "target": "AND_9",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_9",
+      "target": "XOR_10",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_9",
+      "target": "AND_10",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_9",
+      "target": "OR_5",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_10",
+      "target": "OR_5",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_10",
+      "target": "Out_bit_4",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_5",
+      "target": "XOR_11",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_5",
+      "target": "AND_11",
+      "target_input_index": 0
+    },
+    {
+      "source": "B_bit_5",
+      "target": "XOR_11",
+      "target_input_index": 1
+    },
+    {
+      "source": "B_bit_5",
+      "target": "AND_11",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_11",
+      "target": "XOR_12",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_11",
+      "target": "AND_12",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_11",
+      "target": "OR_6",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_12",
+      "target": "OR_6",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_12",
+      "target": "Out_bit_5",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_5",
+      "target": "XOR_12",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_5",
+      "target": "AND_12",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_6",
+      "target": "XOR_13",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_6",
+      "target": "AND_13",
+      "target_input_index": 0
+    },
+    {
+      "source": "B_bit_6",
+      "target": "XOR_13",
+      "target_input_index": 1
+    },
+    {
+      "source": "B_bit_6",
+      "target": "AND_13",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_13",
+      "target": "XOR_14",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_13",
+      "target": "AND_14",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_13",
+      "target": "OR_7",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_14",
+      "target": "OR_7",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_14",
+      "target": "Out_bit_6",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_7",
+      "target": "XOR_15",
+      "target_input_index": 0
+    },
+    {
+      "source": "A_bit_7",
+      "target": "AND_15",
+      "target_input_index": 0
+    },
+    {
+      "source": "B_bit_7",
+      "target": "XOR_15",
+      "target_input_index": 1
+    },
+    {
+      "source": "B_bit_7",
+      "target": "AND_15",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_15",
+      "target": "XOR_16",
+      "target_input_index": 1
+    },
+    {
+      "source": "XOR_15",
+      "target": "AND_16",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_15",
+      "target": "OR_8",
+      "target_input_index": 1
+    },
+    {
+      "source": "AND_16",
+      "target": "OR_8",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_16",
+      "target": "Out_bit_7",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_7",
+      "target": "XOR_16",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_7",
+      "target": "AND_16",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_6",
+      "target": "XOR_14",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_6",
+      "target": "AND_14",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_4",
+      "target": "XOR_10",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_4",
+      "target": "AND_10",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_Carry",
+      "target": "XOR_2",
+      "target_input_index": 0
+    },
+    {
+      "source": "INPUT_Carry",
+      "target": "AND_2",
+      "target_input_index": 0
+    },
+    {
+      "source": "OR_8",
+      "target": "Out_bit_carry",
+      "target_input_index": 0
+    }
+  ],
+  "output_script": "BitAdder",
+  "input_script": "# Decimal Inputs\nA = 3\nB = 5\n\n# Number of Bits:\nbits = 8\n\ninputs = {\"INPUT_Carry\": 0}\n\n# binary string, LSB first\na_bits = format(A, f'0{bits}b')[::-1]\nb_bits = format(B, f'0{bits}b')[::-1]\n\nfor i in range(bits):\n    inputs[f\"A_bit_{i}\"] = int(a_bits[i])\n    inputs[f\"B_bit_{i}\"] = int(b_bits[i])"
+}

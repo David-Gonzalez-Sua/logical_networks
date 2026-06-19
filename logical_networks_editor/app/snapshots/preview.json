@@ -1,6 +1,6 @@
 {
   "nodes": {},
   "links": [],
-  "output_script": "default",
-  "input_script": "inputs = [\n    # Inputs\n]"
+  "output_script": "",
+  "input_script": "inputs = {\n    # Inputs\n}"
 }

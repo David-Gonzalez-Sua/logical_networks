@@ -1,19 +1,10 @@
 {
   "nodes": {
-    "INPUT_1": {
-      "type": "INPUT",
-      "inputs": [],
-      "outputs": [
-        "XOR_1",
-        "AND_1"
-      ],
-      "val": 1
-    },
     "XOR_1": {
       "type": "XOR",
       "inputs": [
-        "INPUT_1",
-        "INPUT_2"
+        "A_bit_0",
+        "B_bit_0"
       ],
       "outputs": [
         "XOR_2",
@@ -24,39 +15,30 @@
     "AND_1": {
       "type": "AND",
       "inputs": [
-        "INPUT_1",
-        "INPUT_2"
+        "A_bit_0",
+        "B_bit_0"
       ],
       "outputs": [
         "OR_1"
       ],
       "val": null
     },
-    "INPUT_2": {
-      "type": "INPUT",
-      "inputs": [],
-      "outputs": [
-        "XOR_1",
-        "AND_1"
-      ],
-      "val": 1
-    },
     "XOR_2": {
       "type": "XOR",
       "inputs": [
-        "XOR_1",
-        "INPUT_Carry"
+        "INPUT_Carry",
+        "XOR_1"
       ],
       "outputs": [
-        "OUTPUT_1"
+        "Out_bit_0"
       ],
       "val": null
     },
     "AND_2": {
       "type": "AND",
       "inputs": [
-        "XOR_1",
-        "INPUT_Carry"
+        "INPUT_Carry",
+        "XOR_1"
       ],
       "outputs": [
         "OR_1"
@@ -70,24 +52,8 @@
         "AND_1"
       ],
       "outputs": [
-        "OUTPUT_2"
+        "Out_bit_carry"
       ],
-      "val": null
-    },
-    "OUTPUT_1": {
-      "type": "OUTPUT",
-      "inputs": [
-        "XOR_2"
-      ],
-      "outputs": [],
-      "val": null
-    },
-    "OUTPUT_Carry": {
-      "type": "OUTPUT",
-      "inputs": [
-        "OR_1"
-      ],
-      "outputs": [],
       "val": null
     },
     "INPUT_Carry": {
@@ -98,46 +64,80 @@
         "AND_2"
       ],
       "val": 0
+    },
+    "A_bit_0": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_1",
+        "AND_1"
+      ],
+      "val": 1
+    },
+    "B_bit_0": {
+      "type": "INPUT",
+      "inputs": [],
+      "outputs": [
+        "XOR_1",
+        "AND_1"
+      ],
+      "val": 0
+    },
+    "Out_bit_0": {
+      "type": "OUTPUT",
+      "inputs": [
+        "XOR_2"
+      ],
+      "outputs": [],
+      "val": null
+    },
+    "Out_bit_carry": {
+      "type": "OUTPUT",
+      "inputs": [
+        "OR_1"
+      ],
+      "outputs": [],
+      "val": null
     }
   },
   "links": [
     {
-      "source": "INPUT_1",
+      "source": "A_bit_0",
       "target": "XOR_1",
       "target_input_index": 0
     },
     {
-      "source": "INPUT_1",
+      "source": "A_bit_0",
       "target": "AND_1",
       "target_input_index": 0
     },
     {
-      "source": "INPUT_2",
+      "source": "B_bit_0",
       "target": "XOR_1",
       "target_input_index": 1
     },
     {
-      "source": "INPUT_2",
+      "source": "B_bit_0",
       "target": "AND_1",
       "target_input_index": 1
     },
     {
-      "source": "INPUT_Carry",
+      "source": "XOR_1",
       "target": "XOR_2",
       "target_input_index": 1
     },
     {
       "source": "INPUT_Carry",
+      "target": "XOR_2",
+      "target_input_index": 0
+    },
+    {
+      "source": "XOR_1",
       "target": "AND_2",
       "target_input_index": 1
     },
     {
-      "source": "XOR_1",
-      "target": "XOR_2",
-      "target_input_index": 0
-    },
-    {
-      "source": "XOR_1",
+      "source": "INPUT_Carry",
       "target": "AND_2",
       "target_input_index": 0
     },
@@ -153,15 +153,15 @@
     },
     {
       "source": "XOR_2",
-      "target": "OUTPUT_1",
+      "target": "Out_bit_0",
       "target_input_index": 0
     },
     {
       "source": "OR_1",
-      "target": "OUTPUT_Carry",
+      "target": "Out_bit_carry",
       "target_input_index": 0
     }
   ],
-  "output_script": "default",
-  "input_script": "inputs = [\n    1,  # INPUT_1\n    1,  # INPUT_2\n    0,  # INPUT_Carry\n]"
+  "output_script": "BitAdder",
+  "input_script": "import random\n\ninputs = {\n    \"INPUT_Carry\": None,\n    \"A_bit_0\": None,\n    \"B_bit_0\": None,\n}\n\ninputs = {nid: random.randint(0, 1) for nid in inputs}"
 }

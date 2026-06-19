@@ -84,8 +84,12 @@ class GUIOutput:
                 sys.path.insert(0, interpreter_path)
                 from interpreter import parse
                 facts, values = parse(clingo_output)
-                formatter = self.run_output_script(None, None)
-                formatted = formatter.format(facts, values) if formatter else "\n".join(facts)
+                try:
+                    formatter = self.run_output_script(None, None)
+                    formatted = formatter.format(facts, values)
+                except Exception as e:
+                    self._log_error(f"[Output Script Error] {e}")
+                    formatted = "\n".join(facts)  # fallback
 
                 # update node values
                 for node_id, val in values.items():
@@ -222,12 +226,13 @@ class GUIOutput:
         dpg.delete_item("run_output", children_only=True)
         dpg.delete_item("run_errors", children_only=True)
         dpg.delete_item("run_formatted", children_only=True)
+        # dpg.delete_item("run_scripting", children_only=True)
         return 0
     
     def switch_output_tab(self, tab):
-        tabs = {"output": "run_output", "errors": "run_errors", "formatted": "run_formatted"}
-        btns = {"output": "tab_output_btn", "errors": "tab_errors_btn", "formatted": "tab_formatted_btn"}
-        labels = {"output": "Std Out", "errors": "Std Err", "formatted": "Formatted"}
+        tabs = {"output": "run_output", "errors": "run_errors", "formatted": "run_formatted", "scripting": "run_scripting"}
+        btns = {"output": "tab_output_btn", "errors": "tab_errors_btn", "formatted": "tab_formatted_btn", "scripting": "tab_scripting_btn"}
+        labels = {"output": "Std Out", "errors": "Std Err", "formatted": "Formatted Output", "scripting": "Scripting Errors"}
         
         for t, widget in tabs.items():
             if t == tab:

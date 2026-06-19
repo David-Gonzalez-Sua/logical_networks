@@ -41,33 +41,42 @@ class GUI(
         H = CONFIG["window"]["height"]
         output_h = CONFIG["window"]["output_height"]
         output_script_h = CONFIG["window"]["output_script_height"]
+        input_script_h = CONFIG["window"]["input_script_height"]
         preview_w = CONFIG["window"]["preview_width"]
         sidebar_w = CONFIG["window"]["sidebar_width"]
 
         with dpg.window(label="toolbar", width=W, height=35, min_size=[100, 30], pos=(0,0), tag="toolbar", no_title_bar=True, no_scrollbar=True, no_resize=True, no_move=True):
             with dpg.group(horizontal=True):
                 dpg.add_text("Logical Network Editor", color=(255, 255, 0))
-                # dpg.add_button(label="Recenter", callback=self.recenter)
+                dpg.add_button(label="Help", callback=self.show_help_popup)
+                dpg.add_button(label="Settings", callback=self.open_settings)
                 dpg.add_button(label="Quick Save", callback=self.quick_save)
                 dpg.add_button(label="Save", callback=self.save_network_as)
                 dpg.add_button(label="Load", callback=self.load_network)
+                dpg.add_button(label="Reload Canvas", callback=self.reload_canvas)
                 dpg.add_button(label="Reorganize", callback=self.reorganize)
                 dpg.add_button(label="Clear", callback=self.clear_canvas)
                 dpg.add_button(label="Delete Selected", callback=self.delete_selected)
+                dpg.add_button(label="Copy Selected", callback=self.copy_selected)
+                dpg.add_button(label="Paste", callback=self.paste_clipboard)
                 dpg.add_button(label="Output: OFF", tag="output_toggle_btn", callback=self.toggle_output_window)
+                # dpg.add_button(label="Help", callback=self.show_help_popup)
 
         with dpg.window(label="Sidebar", width=sidebar_w, height=H-35, pos=(0,35), tag="sidebar", no_title_bar=True, no_resize=True, no_close=True, no_move=True, no_collapse=True):
-            dpg.add_text("Controls:\n- Click and drag to create links\n\n"
-                         + "- Select and press Delete/\n  Backspace to delete\n"
-                         + "- Use arrow keys to pan\n- Click 'Recenter' to reset\n view\n"
-                         + "- Edit gate definitions in the \n  Gate Editor and click 'Draw' to\n  add to canvas\n"
-                         + "- Close the gate editor to draw\n  neurons with one click\n"
-                         + "- Double click a gate to edit its name\n")
+            dpg.add_text("Welcome to the Logical Network Editor!\nThanks for checking it out.")
             
             dpg.add_separator()
             dpg.add_text("Gates:")
             dpg.add_separator()
-            with dpg.child_window(tag="gate_list", parent="sidebar", width=sidebar_w-40, auto_resize_y=True, border=False):
+
+            input_section_h = input_script_h + 130  # box + label + 3 button rows + separators
+            sidebar_content_h = H - 35
+            controls_text_h = 160
+            min_gate_list_h = 150
+
+            gate_list_h = max(min_gate_list_h, sidebar_content_h - controls_text_h - input_section_h - 60)
+
+            with dpg.child_window(tag="gate_list", parent="sidebar", width=sidebar_w-40, height=gate_list_h, border=False):
                 pass
 
             dpg.add_separator()
@@ -76,11 +85,11 @@ class GUI(
                 tag="input_script",
                 multiline=True,
                 width=sidebar_w-40,
-                height=150,
-                default_value="inputs = [\n    # Inputs\n]",
+                height=input_script_h,
+                default_value="inputs = {\n    # Inputs\n}",
                 callback=self.apply_inputs
             )
-            dpg.add_button(label="Refresh", callback=self.update_input_template, width=sidebar_w-40)
+            dpg.add_button(label="Refresh Template", callback=self.update_input_template, width=sidebar_w-40)
             with dpg.group(horizontal=True):
                 dpg.add_button(label="Revert", callback=self.revert_input_script, width=(sidebar_w-48)//2)
                 dpg.add_button(label="Update", tag="input_script_rerun_btn", callback=self.apply_inputs, width=(sidebar_w-48)//2)
@@ -135,15 +144,16 @@ class GUI(
                         no_resize=True, no_close=True, no_move=True, 
                         no_collapse=True, no_title_bar=True, show=False):
             with dpg.group(horizontal=True):
-                buttons_width = 160 + 100 + 60 + 70 + 70 + 90 # rough estimate of all items
+                buttons_width = 160 + 100 + 60 + 75 + 75 + 140 + 140 + 5 # rough estimate of all items
                 dpg.add_text("Clingo Output", color=(255, 255, 0))
                 dpg.add_spacer(tag="output_spacer", width=W - buttons_width)  # push buttons to the right
                 # dpg.add_text("Clingo Output", color=(255, 255, 0))
                 dpg.add_button(label="Solve Network", callback=self.run_network, width=100)
                 dpg.add_button(label="Clear", callback=self.clear_output, width=60)
-                dpg.add_button(label="Std Out", tag="tab_output_btn", callback=lambda: self.switch_output_tab("output"), width=70)
-                dpg.add_button(label="Std Err", tag="tab_errors_btn", callback=lambda: self.switch_output_tab("errors"), width=70)
-                dpg.add_button(label="Formatted", tag="tab_formatted_btn", callback=lambda: self.switch_output_tab("formatted"), width=90)
+                dpg.add_button(label="Std Out", tag="tab_output_btn", callback=lambda: self.switch_output_tab("output"), width=75)
+                dpg.add_button(label="Std Err", tag="tab_errors_btn", callback=lambda: self.switch_output_tab("errors"), width=75)
+                dpg.add_button(label="Formatted Output", tag="tab_formatted_btn", callback=lambda: self.switch_output_tab("formatted"), width=140)
+                dpg.add_button(label="Scripting Errors", tag="tab_scripting_btn", callback=lambda: self.switch_output_tab("scripting"), width=140)
             dpg.add_separator()
             with dpg.child_window(tag="run_output", width=-1, height=-1, border=False):
                 pass
@@ -151,7 +161,8 @@ class GUI(
                 pass
             with dpg.child_window(tag="run_formatted", width=-1, height=-1, border=False, show=False):
                 pass
-
+            with dpg.child_window(tag="run_scripting", width=-1, height=-1, border=False, show=False):
+                pass
         # bind terminal theme
         with dpg.theme() as terminal_theme:
             with dpg.theme_component(dpg.mvAll):

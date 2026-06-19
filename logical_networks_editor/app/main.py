@@ -41,6 +41,9 @@ def main():
         dpg.add_key_press_handler(key=dpg.mvKey_Delete, callback=app_gui.delete_selected_keypress)
         dpg.add_key_press_handler(key=dpg.mvKey_Back, callback=app_gui.delete_selected_keypress)
 
+        dpg.add_key_press_handler(key=dpg.mvKey_C, callback=app_gui.copy_selected_keypress)
+        dpg.add_key_press_handler(key=dpg.mvKey_V, callback=app_gui.paste_clipboard_keypress)
+
         dpg.add_mouse_double_click_handler(callback=app_gui.on_node_double_click)
 
         dpg.add_key_press_handler(key=dpg.mvKey_Down,    callback=lambda: app_gui.pan(0, -20))
