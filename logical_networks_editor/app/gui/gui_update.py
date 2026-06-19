@@ -11,14 +11,17 @@ class GUIUpdate:
 
     def update_preview(self):
         if dpg.does_item_exist("preview_selector") and dpg.get_value("preview_selector") != "LP":
-            return 0
+            return 1
+        
         self.save_snapshot(None, None)
         path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"]) + "/preview.lp"
+
         if not os.path.exists(path):
             self._show_preview_readonly("Preview not available.")
             return 1
         with open(path) as f:
             content = f.read()
+
         if dpg.is_item_enabled("preview_editor"):
             dpg.set_value("preview_editor", content)
         else:
@@ -57,9 +60,9 @@ class GUIUpdate:
         return 0
     
     def update_input_template(self):
-        input_nodes = [nid for nid, n in self.NETWORK.nodes.items() if n["name"] == "INPUT"]
-        lines = ["inputs = ["]
+        input_nodes = self.NETWORK.input_nodes
         
+        lines = ["inputs = ["]        
         for nid in input_nodes:
             val = self.NETWORK.nodes[nid]["val"]
             lines.append(f"    {val},  # {nid}")
@@ -75,10 +78,10 @@ class GUIUpdate:
             exec(script, {}, local)
             values = local.get("inputs", [])
         except Exception as e:
-            print(f"Input script error: {e}")
+            # print(f"Input script error: {e}")
             return 1
         
-        input_nodes = [nid for nid, n in self.NETWORK.nodes.items() if n["name"] == "INPUT"]
+        input_nodes = self.NETWORK.input_nodes
         
         if len(values) != len(input_nodes):
             print(f"Expected {len(input_nodes)} inputs, got {len(values)}")
@@ -87,9 +90,15 @@ class GUIUpdate:
             print("All inputs must be set.")
             return 1
         
+        # reset all node values first
+        for node_id in self.NETWORK.nodes:
+            self.NETWORK.nodes[node_id]["val"] = None
+        
+        # apply new input values
         for node_id, val in zip(input_nodes, values):
             self.NETWORK.nodes[node_id]["val"] = val
         
+        # update displays
         for node_id in self.NETWORK.nodes:
             self.update_node_display(node_id)
 

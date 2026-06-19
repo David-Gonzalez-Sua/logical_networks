@@ -21,39 +21,15 @@ class GUIWindow:
         self._resize_for_output(W, H, self.output_shown)
         dpg.configure_item("sidebar", width=sidebar_w)
         dpg.configure_item("preview", width=preview_w, pos=(W-preview_w, 35))
-        dpg.configure_item("canvas", width=W-200-preview_w)
-        return 0
-    
-    def toggle_gate_editor(self, sender, app_data):
-        currently_shown = dpg.is_item_shown("gate_editor_box")
-        if not currently_shown:
-            dpg.show_item("gate_editor_box")
-            dpg.show_item("gate_editor_controls")
-            dpg.set_item_label("gate_editor_toggle_btn", "Gate Editor: ON")
-        else:
-            dpg.hide_item("gate_editor_box")
-            dpg.hide_item("gate_editor_controls")
-            dpg.set_item_label("gate_editor_toggle_btn", "Gate Editor: OFF")
-            dpg.configure_item("gate_editor_box", enabled=False)
-            dpg.set_item_label("gate_edit_toggle", "Edit")
+        dpg.configure_item("canvas", width=W-sidebar_w-preview_w)
         return 0
 
-    def select_gate_for_editor(self, sender, app_data, user_data):
-        name = user_data
-        gate = self.REGISTRY[name]
-        
-        with open(gate["file"]) as f:
-            content = f.read()
-        dpg.set_value("gate_editor_box", content)
-        self.current_gate_in_editor = name
-        dpg.configure_item("gate_add_btn", user_data=gate)
-
-        # show editor if not already open
-        if not dpg.is_item_shown("gate_editor_box"):
-            dpg.show_item("gate_editor_box")
-            dpg.show_item("gate_editor_controls")
-            dpg.set_item_label("gate_editor_toggle_btn", "Gate Editor: ON")
-        # reset to readonly
-        dpg.configure_item("gate_editor_box", enabled=True)
-        # dpg.set_item_label("gate_edit_toggle", "Edit")  # deprecated
+    def show_error_popup(self, message):
+        if dpg.does_item_exist("error_popup"):
+            dpg.delete_item("error_popup")
+        pos = dpg.get_mouse_pos(local=False)
+        with dpg.window(label="Error", modal=True, tag="error_popup", no_resize=True, pos=pos):
+            dpg.add_text(message, color=(255, 80, 80, 255), wrap=300)
+            dpg.add_separator()
+            dpg.add_button(label="Okay", width=80, callback=lambda: dpg.delete_item("error_popup"))
         return 0

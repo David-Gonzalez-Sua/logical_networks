@@ -38,8 +38,8 @@ def main():
 
     # 5 - event handlers
     with dpg.handler_registry():
-        dpg.add_key_press_handler(key=dpg.mvKey_Delete, callback=app_gui.delete_selected)
-        dpg.add_key_press_handler(key=dpg.mvKey_Back, callback=app_gui.delete_selected)
+        dpg.add_key_press_handler(key=dpg.mvKey_Delete, callback=app_gui.delete_selected_keypress)
+        dpg.add_key_press_handler(key=dpg.mvKey_Back, callback=app_gui.delete_selected_keypress)
 
         dpg.add_mouse_double_click_handler(callback=app_gui.on_node_double_click)
 

@@ -38,7 +38,7 @@ def load_gates(CONFIG):
             path = os.path.join(gates_folder, filename)
             metadata = {
                 "file": path,
-                "name": filename[:-3],
+                "type": filename[:-3],
                 "inputs": 1,
                 "outputs": 1
             }
@@ -46,11 +46,11 @@ def load_gates(CONFIG):
             with open(path) as f:
                 for line in f:
                     if line.startswith("%% gate:"):
-                        metadata["name"] = line.split(":")[1].strip()
+                        metadata["type"] = line.split(":")[1].strip()
                     elif line.startswith("%% inputs:"):
                         metadata["inputs"] = int(line.split(":")[1].strip())
                     elif line.startswith("%% outputs:"):
                         metadata["outputs"] = int(line.split(":")[1].strip())
             
-            REGISTRY[metadata["name"]] = metadata
+            REGISTRY[metadata["type"]] = metadata
     return REGISTRY

@@ -9,6 +9,7 @@ import gui.gui_update as update
 import gui.gui_output as output
 import gui.gui_window as window
 import gui.gui_preview as preview
+import gui.gui_gates as gates
 
 
 class GUI(
@@ -17,7 +18,8 @@ class GUI(
     update.GUIUpdate,
     output.GUIOutput,
     window.GUIWindow,
-    preview.GUIPreview
+    preview.GUIPreview,
+    gates.GUIGates
 ):
     def __init__(self, CONFIG, REGISTRY, NETWORK):
         self.CONFIG = CONFIG
@@ -46,6 +48,7 @@ class GUI(
                 dpg.add_button(label="Save", callback=self.save_network_as)
                 dpg.add_button(label="Load", callback=self.load_network)
                 dpg.add_button(label="Reorganize", callback=self.reorganize)
+                dpg.add_button(label="Clear", callback=self.clear_canvas)
                 dpg.add_button(label="Delete Selected", callback=self.delete_selected)
                 dpg.add_button(label="Output: OFF", tag="output_toggle_btn", callback=self.toggle_output_window)
 
@@ -70,9 +73,10 @@ class GUI(
                 multiline=True,
                 width=sidebar_w-20,
                 height=150,
-                default_value="inputs = [\n    # Inputs\n]"
+                default_value="inputs = [\n    # Inputs\n]",
+                callback=self.apply_inputs
             )
-            dpg.add_button(label="Update Inputs", callback=self.apply_inputs)
+            # dpg.add_button(label="Update Inputs", callback=self.apply_inputs)
         
         with dpg.window(label="Canvas", width=W-sidebar_w-preview_w, height=H-35, pos=(sidebar_w,35), tag="canvas", no_resize=True, no_close=True, no_move=True, no_collapse=True, no_scroll_with_mouse=False):
             with dpg.node_editor(
@@ -148,6 +152,7 @@ class GUI(
         REGISTRY = self.REGISTRY
         editor_open = self.CONFIG["window"]["gate_editor_open"]
         sidebar_w = self.CONFIG["window"]["sidebar_width"]
+        editor_h = self.CONFIG["window"]["gate_editor_height"]
         
         with dpg.group(parent="gate_list"):
             dpg.add_button(
@@ -156,39 +161,66 @@ class GUI(
                 width=sidebar_w-20,
                 callback=self.toggle_gate_editor
             )
-            dpg.add_input_text(
-                tag="gate_editor_box",
-                multiline=True,
-                width=sidebar_w-20,
-                height=150,
-                enabled=False,
-                show=editor_open,
-                default_value=""
-            )
+            with dpg.child_window(tag="gate_editor_box_wrapper", width=sidebar_w-20, height=editor_h, show=editor_open, border=True):
+                dpg.add_child_window(tag="gate_editor_colored", width=-1, height=-1, border=False)
+                dpg.add_input_text(
+                    tag="gate_editor_box",
+                    multiline=True,
+                    width=-1,
+                    height=-1,
+                    enabled=False,
+                    show=False,
+                    default_value=""
+                )
             with dpg.group(horizontal=True, tag="gate_editor_controls", show=editor_open):
                 dpg.add_button(
-                    label="Draw",
+                    label="Add",
                     tag="gate_add_btn",
                     callback=self.add_gate_node,
                     user_data=self.REGISTRY.get(self.current_gate_in_editor),
-                    width=60
+                    width=50
+                )
+                dpg.add_button(
+                    label="Edit",
+                    tag="gate_edit_btn",
+                    callback=self.toggle_gate_editor_mode,
+                    width=50
                 )
                 dpg.add_button(
                     label="Save",
                     tag="gate_save_btn",
                     callback=self.save_gate,
-                    width=60
+                    width=50,
+                    show=False
+                )
+                dpg.add_button(
+                    label="Delete",
+                    tag="gate_delete_btn",
+                    callback=self.delete_gate,
+                    user_data=self.current_gate_in_editor,
+                    width=50
                 )
         
         dpg.add_separator(parent="gate_list")
 
-        for name, gate in REGISTRY.items():
-            with dpg.group(tag=f"gate_group_{name}", parent="gate_list"):
+        # virtual "custom gate" entry
+        with dpg.group(tag="gate_group_NEW", parent="gate_list"):
+            dpg.add_button(
+                label="New Custom Gate",
+                tag="gate_btn_NEW",
+                callback=self.select_custom_template,
+                width=sidebar_w-20
+            )
+
+        dpg.add_separator(parent="gate_list")
+
+        for gate_type, gate in REGISTRY.items():
+            with dpg.group(tag=f"gate_group_{gate_type}", parent="gate_list"):
                 dpg.add_button(
-                    label=name,
-                    tag=f"gate_btn_{name}",
+                    label=gate_type,
+                    tag=f"gate_btn_{gate_type}",
                     callback=self.gate_btn_callback,
-                    user_data={"name": name, "gate": gate},
+                    user_data={"type": gate_type, "gate": gate},
                     # indent=10,
                     width=sidebar_w-20
                     )

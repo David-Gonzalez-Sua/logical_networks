@@ -8,9 +8,11 @@ title = "Network Editor"
 output_height = 250
 preview_width = 400
 sidebar_width = 300
+gate_editor_height = 300
 gate_editor_open = false
 output_open = true
 warn_on_base_edit = true
+warn_on_clear_canvas = true
 
 [paths]
 base_folder = "C-MCPN/base"

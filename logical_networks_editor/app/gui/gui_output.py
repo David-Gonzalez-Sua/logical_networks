@@ -16,6 +16,7 @@ class GUIOutput:
         output_lines = []
         error_lines = []
         formatted = ""
+        clingo_errors = ""
 
         # step 1 - extra files from config
         extra_files = []
@@ -29,13 +30,13 @@ class GUIOutput:
         # step 2 - all .lp files from gates folder
         gate_files = []
         gates_folder = tools.resource_path(self.CONFIG["paths"]["gates_folder"])
-        used_gates = set(node["name"] for node in self.NETWORK.nodes.values())
+        used_gates = set(node["type"] for node in self.NETWORK.nodes.values())
 
         if os.path.exists(gates_folder):
             for filename in sorted(os.listdir(gates_folder)):
                 if filename.endswith(".lp"):
-                    gate_name = filename[:-3].upper()
-                    if gate_name in used_gates:
+                    gate_type = filename[:-3].upper()
+                    if gate_type in used_gates:
                         gate_files.append(os.path.join(gates_folder, filename))
         else:
             output_lines.append(f"[ERROR] Gates folder not found: {gates_folder}")
@@ -131,9 +132,9 @@ class GUIOutput:
         except Exception as e:
             output_lines.append(f"[WARNING] Could not write log: {e}")
 
-        self._render_run_output(output_lines)
-        self._render_run_errors(error_lines)
-        self._render_run_formatted(formatted)
+        self._render_output(output_lines)
+        self._render_errors(error_lines)
+        self._render_formatted(formatted)
 
         if clingo_errors:
             self.switch_output_tab("errors")
@@ -144,7 +145,7 @@ class GUIOutput:
 
         return 0
 
-    def _render_run_output(self, lines):
+    def _render_output(self, lines):
         dpg.delete_item("run_output", children_only=True)
         for line in lines:
             if line.startswith("[ERROR]"):
@@ -162,7 +163,7 @@ class GUIOutput:
         dpg.set_y_scroll("run_output", 999999)  # scroll to bottom
         return 0
             
-    def _render_run_errors(self, lines):
+    def _render_errors(self, lines):
         dpg.delete_item("run_errors", children_only=True)
         for line in lines:
             if line.startswith("ERROR") or "error" in line.lower():
@@ -176,7 +177,7 @@ class GUIOutput:
         dpg.set_y_scroll("run_errors", 99999)
         return 0
 
-    def _render_run_formatted(self, formatted):
+    def _render_formatted(self, formatted):
         dpg.delete_item("run_formatted", children_only=True)
         color = (0, 255, 0, 255)  # green
         for line in formatted.split("\n"):
