@@ -93,7 +93,7 @@ class GUIUpdate:
             return 1
         
         if not isinstance(values, dict):
-            self._log_scripting_error("[Input Script Error] 'inputs' must be a dictionary.")
+            self._log_error("[Input Script Error] 'inputs' must be a dictionary.")
             return 1
 
         input_nodes = self.NETWORK.input_nodes

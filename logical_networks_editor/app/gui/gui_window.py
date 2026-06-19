@@ -115,7 +115,7 @@ class GUIWindow:
         dpg.delete_item("settings_popup")
 
         if layout_changed:
-            self._show_restart_required_popup()
+            dpg.set_frame_callback(dpg.get_frame_count() + 2, lambda: self._show_restart_required_popup(None, None))
         return 0
 
     def _write_config_to_disk(self):
@@ -154,22 +154,25 @@ class GUIWindow:
             f.write(content)
         return 0
     
-    def _show_restart_required_popup(self):
+    def _show_restart_required_popup(self, sender, app_data):
+        print("Made it into _show_restart_required_popup.")
         pos = dpg.get_mouse_pos(local=False)
         if dpg.does_item_exist("restart_popup"):
             dpg.delete_item("restart_popup")
         
         with dpg.window(label="Restart Required", modal=True, tag="restart_popup", no_resize=True, pos=pos):
+            print(f"popup pos: {pos}, viewport: {dpg.get_viewport_width()}x{dpg.get_viewport_height()}")
             dpg.add_text("Layout changes require a restart to take effect.", color=(255, 180, 80, 255))
             dpg.add_separator()
             with dpg.group(horizontal=True):
                 dpg.add_button(label="Restart Now", width=100, callback=self._restart_app)
                 dpg.add_button(label="Later", width=80, callback=lambda: dpg.delete_item("restart_popup"))
+        print("Exiting _show_restart_required_popup.")
         return 0
     
     def _restart_app(self, sender, app_data):
         dpg.stop_dearpygui()
-        os.module.execv(sys.executable, [sys.executable] + sys.argv)
+        os.execv(sys.executable, [sys.executable] + sys.argv)
 
     def show_help_popup(self, sender, app_data):
         if dpg.does_item_exist("help_popup"):

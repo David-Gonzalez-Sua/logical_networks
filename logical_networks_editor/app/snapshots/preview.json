@@ -1,6 +1,0 @@
-{
-  "nodes": {},
-  "links": [],
-  "output_script": "default",
-  "input_script": "inputs = [\n    # Inputs\n]"
-}

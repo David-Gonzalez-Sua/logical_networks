@@ -3,7 +3,7 @@ A = 3
 B = 5
 
 # Number of Bits:
-bits = 8
+bits = 16
 
 inputs = {"INPUT_Carry": 0}
 
