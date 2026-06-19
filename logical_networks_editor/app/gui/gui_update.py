@@ -60,18 +60,6 @@ class GUIUpdate:
         return 0
     
     ## ------------------------------ Input/Output Callbacks --------------------------------
-
-    # def update_input_template(self):
-    #     input_nodes = self.NETWORK.input_nodes
-        
-    #     lines = ["inputs = ["]        
-    #     for nid in input_nodes:
-    #         val = self.NETWORK.nodes[nid]["val"]
-    #         lines.append(f"    {val},  # {nid}")
-    #     lines.append("]")
-        
-    #     dpg.set_value("input_script", "\n".join(lines))
-    #     return 0
     
     def update_input_template(self):
         input_nodes = self.NETWORK.input_nodes

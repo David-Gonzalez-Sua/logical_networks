@@ -9,11 +9,6 @@ class GUIScripts:
 
     ## ------------------------- Input Scripts -------------------------
 
-    # def refresh_input_script_list(self, sender, app_data):
-    #     folder = tools.resource_path(self.CONFIG["paths"]["input_scripts"])
-    #     os.makedirs(folder, exist_ok=True)
-    #     return 0  # no longer populates a combo, popups list files live
-
     def save_input_script_as(self, sender, app_data):
         pos = dpg.get_mouse_pos(local=False)
         try:
