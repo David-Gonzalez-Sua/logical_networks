@@ -161,5 +161,7 @@
       "target": "OUTPUT_Carry",
       "target_input_index": 0
     }
-  ]
+  ],
+  "output_script": "default",
+  "input_script": "inputs = [\n    1,  # INPUT_1\n    1,  # INPUT_2\n    0,  # INPUT_Carry\n]"
 }

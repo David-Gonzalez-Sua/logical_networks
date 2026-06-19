@@ -84,7 +84,7 @@ class GUIOutput:
                 sys.path.insert(0, interpreter_path)
                 from interpreter import parse
                 facts, values = parse(clingo_output)
-                formatter = self.load_output_script(None, None)
+                formatter = self.run_output_script(None, None)
                 formatted = formatter.format(facts, values) if formatter else "\n".join(facts)
 
                 # update node values

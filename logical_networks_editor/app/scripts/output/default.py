@@ -1,6 +1,3 @@
-## script: default
-## description: Default output formatter
-
 def format(facts, values):
     output = ""
 

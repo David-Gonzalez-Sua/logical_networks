@@ -5,9 +5,10 @@
 width = 1440
 height = 900
 title = "Network Editor"
-output_height = 250
 preview_width = 400
 sidebar_width = 300
+output_height = 250
+output_script_height = 100
 gate_editor_height = 300
 gate_editor_open = false
 output_open = true
@@ -19,6 +20,7 @@ base_folder = "C-MCPN/base"
 gates_folder = "C-MCPN/gates"
 networks_folder = "C-MCPN/networks"
 snapshots_folder = "app/snapshots"
+input_scripts_folder = "app/scripts/input"
 output_scripts_folder = "app/scripts/output"
 output_interpreter_folder = "C-MCPN/tools"
 

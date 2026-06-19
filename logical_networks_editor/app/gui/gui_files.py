@@ -47,6 +47,8 @@ class GUIFiles:
         if not name:
             return 1
         path = tools.resource_path(self.CONFIG["paths"]["networks_folder"])
+        self.NETWORK.input_script = dpg.get_value("input_script")
+
         self.NETWORK.export_to_json(f"{path}/json/{name}.json")
         self.NETWORK.export_to_lp(f"{path}/{name}.lp")
         self.last_save_name = name
@@ -77,12 +79,15 @@ class GUIFiles:
         name = dpg.get_value("load_listbox")
         if not name:
             return 1
+        
         path = tools.resource_path(self.CONFIG["paths"]["networks_folder"]) + f"/json/{name}.json"
         self.NETWORK.load_from_json(path)
         self.last_save_name = name
         self.rebuild_from_network()
         dpg.delete_item("load_popup")
-        self.update_input_template()
+        
+        dpg.set_value("input_script", self.NETWORK.input_script)
+        self.apply_inputs(None, None)
         return 0
     
     ## ------------------------------ Gate Callbacks ------------------------------
@@ -155,10 +160,11 @@ class GUIFiles:
     
     ## ------------------------------ Output Script Callbacks ------------------------------
 
-    def load_output_script(self, sender, app_data, ):
+    def run_output_script(self, sender, app_data):
         output_script_name = self.NETWORK.output_script if hasattr(self.NETWORK, 'output_script') else "default"
         script_path = tools.resource_path(self.CONFIG["paths"]["output_scripts_folder"])
-        sys.path.insert(0, script_path)
+        if script_path not in sys.path:
+            sys.path.insert(0, script_path)
 
         try:
             formatter = importlib.import_module(output_script_name)
