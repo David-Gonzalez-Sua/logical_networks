@@ -1,5 +1,5 @@
 
---- Run: 2026-06-01 03:39:33.600550 ---
+--- Run: 2026-06-19 00:04:02.872118 ---
 Neuron Values:
   "INPUT_1": 1
   "INPUT_2": 1
@@ -24,27 +24,27 @@ Facts:
   val("OUTPUT_1", 0).
   val("OUTPUT_Carry", 1).
 
---- Run: 2026-06-05 19:18:43.135733 ---
+--- Run: 2026-06-19 00:04:19.104446 ---
 Neuron Values:
-  "INPUT_1": 1
+  "INPUT_1": 0
   "INPUT_2": 1
   "INPUT_Carry": 0
-  "XOR_1": 0
-  "AND_1": 1
-  "OR_1": 1
+  "AND_1": 0
+  "XOR_1": 1
+  "OR_1": 0
   "AND_2": 0
-  "XOR_2": 0
-  "OUTPUT_1": 0
-  "OUTPUT_Carry": 1
+  "XOR_2": 1
+  "OUTPUT_1": 1
+  "OUTPUT_Carry": 0
 
 Facts:
-  val("INPUT_1", 1).
+  val("INPUT_1", 0).
   val("INPUT_2", 1).
   val("INPUT_Carry", 0).
-  val("XOR_1", 0).
-  val("AND_1", 1).
-  val("OR_1", 1).
+  val("AND_1", 0).
+  val("XOR_1", 1).
+  val("OR_1", 0).
   val("AND_2", 0).
-  val("XOR_2", 0).
-  val("OUTPUT_1", 0).
-  val("OUTPUT_Carry", 1).
+  val("XOR_2", 1).
+  val("OUTPUT_1", 1).
+  val("OUTPUT_Carry", 0).

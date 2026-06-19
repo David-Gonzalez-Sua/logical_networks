@@ -1,4 +1,4 @@
-%% Network architecture
+%% Network Structure
 %% Neurons:
 % neuron(type, unique_id)
 

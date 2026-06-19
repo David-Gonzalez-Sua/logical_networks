@@ -1,7 +1,7 @@
 {
   "nodes": {
     "INPUT_1": {
-      "name": "INPUT",
+      "type": "INPUT",
       "inputs": [],
       "outputs": [
         "XOR_1",
@@ -10,7 +10,7 @@
       "val": 1
     },
     "XOR_1": {
-      "name": "XOR",
+      "type": "XOR",
       "inputs": [
         "INPUT_1",
         "INPUT_2"
@@ -22,7 +22,7 @@
       "val": null
     },
     "AND_1": {
-      "name": "AND",
+      "type": "AND",
       "inputs": [
         "INPUT_1",
         "INPUT_2"
@@ -33,7 +33,7 @@
       "val": null
     },
     "INPUT_2": {
-      "name": "INPUT",
+      "type": "INPUT",
       "inputs": [],
       "outputs": [
         "XOR_1",
@@ -42,7 +42,7 @@
       "val": 1
     },
     "XOR_2": {
-      "name": "XOR",
+      "type": "XOR",
       "inputs": [
         "XOR_1",
         "INPUT_Carry"
@@ -53,7 +53,7 @@
       "val": null
     },
     "AND_2": {
-      "name": "AND",
+      "type": "AND",
       "inputs": [
         "XOR_1",
         "INPUT_Carry"
@@ -64,7 +64,7 @@
       "val": null
     },
     "OR_1": {
-      "name": "OR",
+      "type": "OR",
       "inputs": [
         "AND_2",
         "AND_1"
@@ -75,7 +75,7 @@
       "val": null
     },
     "OUTPUT_1": {
-      "name": "OUTPUT",
+      "type": "OUTPUT",
       "inputs": [
         "XOR_2"
       ],
@@ -83,7 +83,7 @@
       "val": null
     },
     "OUTPUT_Carry": {
-      "name": "OUTPUT",
+      "type": "OUTPUT",
       "inputs": [
         "OR_1"
       ],
@@ -91,7 +91,7 @@
       "val": null
     },
     "INPUT_Carry": {
-      "name": "INPUT",
+      "type": "INPUT",
       "inputs": [],
       "outputs": [
         "XOR_2",

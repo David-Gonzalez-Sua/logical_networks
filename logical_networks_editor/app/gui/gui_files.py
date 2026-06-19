@@ -9,7 +9,7 @@ import os
 
 class GUIFiles:
 
-    ## ------------------------------ File Callbacks ------------------------------
+    ## ------------------------------ Network Callbacks ------------------------------
     
     def save_snapshot(self, sender, app_data):
         path = tools.resource_path(self.CONFIG["paths"]["snapshots_folder"])
@@ -85,21 +85,19 @@ class GUIFiles:
         self.update_input_template()
         return 0
     
+    ## ------------------------------ Gate Callbacks ------------------------------
+
     def save_gate(self, sender, app_data):
-        if not hasattr(self, 'current_gate_in_editor') or self.current_gate_in_editor is None:
-            print("No gate selected.")
-            return 1
-    
-        # name = self.current_gate_in_editor
-        name = dpg.get_value("gate_editor_box").splitlines()[0].strip()[9:]
+        gate_type = dpg.get_value("gate_editor_box").splitlines()[0].strip()[9:]
         DEFAULT_GATES = set(self.CONFIG["defaults"]["DEFAULT_GATES"])
-        if name in DEFAULT_GATES:
-            print(f"Cannot save default gate {name}.")
+        if gate_type in DEFAULT_GATES:
+            self.show_error_popup(f"Cannot save a gate named '{gate_type}' — reserved default gate name.")
             return 1
-        name = name.lower()
+        gate_type = gate_type.lower()
         
         content = dpg.get_value("gate_editor_box")
-        path = self.CONFIG["paths"]["gates_folder"] + f"/{name}.lp"
+        path = tools.resource_path(self.CONFIG["paths"]["gates_folder"]) + f"/{gate_type}.lp"
+
         with open(path, "w") as f:
             f.write(content)
         
@@ -108,8 +106,31 @@ class GUIFiles:
         dpg.delete_item("gate_list", children_only=True)
         self.build_gate_list()
         
-        dpg.configure_item("gate_editor_box", enabled=False)
+        self.current_gate_in_editor = gate_type.upper()
+        self._show_gate_readonly(content)
         return 0
+    
+    def delete_gate(self, sender, app_data, user_data):
+        gate_type = self.current_gate_in_editor
+        if gate_type is None:
+            self.show_error_popup("No gate selected.")
+            return 1
+
+        DEFAULT_GATES = set(self.CONFIG["defaults"]["DEFAULT_GATES"])
+        if gate_type in DEFAULT_GATES:
+            self.show_error_popup(f"Cannot delete default gate '{gate_type}'.")
+            return 1
+        
+        path = tools.resource_path(self.REGISTRY[gate_type]["file"])
+        os.remove(path)
+        
+        # reload registry and rebuild gate list
+        self.REGISTRY = tools.load_gates(self.CONFIG)
+        dpg.delete_item("gate_list", children_only=True)
+        self.build_gate_list()
+        return 0
+
+    ## ------------------------------ Preview Callbacks ------------------------------
 
     def save_preview_file(self, sender, app_data):
         selected = dpg.get_value("preview_selector")
@@ -132,6 +153,8 @@ class GUIFiles:
         self._show_preview_readonly(content)
         return 0
     
+    ## ------------------------------ Output Script Callbacks ------------------------------
+
     def load_output_script(self, sender, app_data, ):
         output_script_name = self.NETWORK.output_script if hasattr(self.NETWORK, 'output_script') else "default"
         script_path = tools.resource_path(self.CONFIG["paths"]["output_scripts_folder"])

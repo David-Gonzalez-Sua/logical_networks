@@ -4,21 +4,21 @@
 '''Example of network organization: 
 self.nodes = {
     "INPUT_1": {
-        "name": "INPUT",
+        "type": "INPUT",
         "dpg_id": None,
         "inputs": None,          # no inputs, source node
         "outputs": [],           # list of (target_id, index)
         "val": None              # set by user before run
     },
     "NOT_1": {
-        "name": "NOT",
+        "type": "NOT",
         "dpg_id": None,
         "inputs": [None],        # fixed size, filled with source_id or None
         "outputs": [],           # list of (target_id, index)
         "val": None              # computed by Clingo, None until run
     },
     "OUTPUT_1": {
-        "name": "OUTPUT",
+        "type": "OUTPUT",
         "dpg_id": None,
         "inputs": [None],        # single input
         "outputs": None,         # no outputs, sink node
@@ -39,6 +39,7 @@ class Network:
     def __init__(self):
         self.nodes = {}
         self.links = {}
+        self.input_nodes = []  # list of node_ids that are inputs
         self.counts = {}  # for generating unique node IDs of each type
 
     def add_node(self, node_id, node_type, max_inputs, dpg_id=None):
@@ -47,12 +48,15 @@ class Network:
                 raise ValueError(f"Node ID {node_id} already exists.")
             
             self.nodes[node_id] = {
-                "name": node_type,
+                "type": node_type,
                 "dpg_id": dpg_id,
                 "inputs": [None] * max_inputs,  # list of (source_id)
                 "outputs": [],                  # list of (target_id)
                 "val": None                     # computed value, None until run
             }
+
+            if node_type == "INPUT":
+                self.input_nodes.append(node_id)
         
         except Exception as e:
             print(f"Error adding node: {e}")
@@ -106,8 +110,10 @@ class Network:
                 if src == node_id or tgt == node_id:
                     self.delete_link(link_id)
 
+            if node_id in self.input_nodes:
+                self.input_nodes.remove(node_id)
+
             del self.nodes[node_id]
-        
         except Exception as e:
             print(f"Error deleting node: {e}")
             return 1
@@ -118,7 +124,7 @@ class Network:
             export = {
                 "nodes": {
                     node_id: {
-                        "name": node["name"],
+                        "type": node["type"],
                         "inputs": node["inputs"],
                         "outputs": node["outputs"],
                         "val": node["val"]
@@ -144,27 +150,34 @@ class Network:
                 data = json.load(f)
             
             self.nodes = {}
-            self.links = {}
             self.counts = {}
+            self.links = {}
+            self.input_nodes = []
 
+            # rebuild nodes
             for node_id, node in data["nodes"].items():
                 self.nodes[node_id] = {
-                    "name": node["name"],
+                    "type": node["type"],
                     "dpg_id": None,
                     "inputs": node["inputs"],
                     "outputs": node["outputs"],
                     "val": node["val"]
                 }
+
                 # rebuild counts
-                name = node["name"]
+                type = node["type"]
                 parts = node_id.split("_", 1)
                 if len(parts) == 2 and parts[-1].isdigit():
-                    self.counts[name] = max(self.counts.get(name, 0), int(parts[1]))
+                    self.counts[type] = max(self.counts.get(type, 0), int(parts[1]))
                 # num = int(node_id.split("_")[-1]) if "_" in node_id else 1
-                # self.counts[name] = max(self.counts.get(name, 0), num)
+                # self.counts[type] = max(self.counts.get(type, 0), num)
             
+            # rebuild links
             for i, link in enumerate(data["links"]):
                 self.links[i] = (link["source"], link["target"], link["target_input_index"])
+
+            # rebuild input nodes list
+            self.input_nodes = [nid for nid, n in self.nodes.items() if n["type"] == "INPUT"]
         
         except Exception as e:
             print(f"Error loading from JSON: {e}")
@@ -174,12 +187,12 @@ class Network:
     def export_to_lp(self, path):
         try:
             with open(path, "w") as f:
-                f.write("%% Network architecture""\n")
+                f.write("%% Network Structure""\n")
                 
                 f.write("%% Neurons:\n")
                 f.write("% neuron(type, unique_id)\n")
                 for node_id, node in self.nodes.items():
-                    f.write(f'''neuron(\"{node['name']}\", \"{node_id}\").\n''')
+                    f.write(f'''neuron(\"{node['type']}\", \"{node_id}\").\n''')
                 
                 f.write("\n\n%% Edges:\n")
                 f.write("% edge(source_id, target_id)\n")
@@ -191,7 +204,7 @@ class Network:
                 for node_id, node in self.nodes.items():
                     max_inputs = len(node["inputs"])
                     if max_inputs > 0:
-                        f.write(f"{{ edge(src, \"{node_id}\") : neuron(\"{node['name']}\", \"{node_id}\") }} {max_inputs}.\n")
+                        f.write(f"{{ edge(src, \"{node_id}\") : neuron(\"{node['type']}\", \"{node_id}\") }} {max_inputs}.\n")
                 
                 f.write("\n\n%% Values:\n")
                 f.write("% val(neuron_id, value).\n")
