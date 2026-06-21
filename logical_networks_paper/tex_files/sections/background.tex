@@ -2,20 +2,42 @@
 Our work is related to the merging of ANN technology with more efficient Answer Set Programming languges. In this section we will provide a brief background on both subjects, motivating our work on C-MCPN.
 
 \subsection{Artificial Neural Networks (ANNs)}
-\textbf{Note:} \emph{As far as I can tell we are basically missing this section in the other paper(?), which we will need. In the other paper, section 2.3, there are a lot of citations and descriptions around the general subject, but nothing like ``here is the definition of an ANN as an example.''}
+Artificial Neural Networks (ANNs) are a class of machine learning models inspired by the structure and function of biological neural networks. The basic building blocks of ANNs are artificial neurons, and their origins can be traced back to the work of McCulloch and Pitts in the 1940s \parencite{McCulloch1943}. These early models were designed to mimic the behavior of biological neurons, using a simple thresholding function to determine whether a neuron would fire based on its inputs. The name for the C-MCPN was inspired by this early work, though our implementation is not a pure McCulloch-Pitts model which uses a threshold function as a simple activation function. A more generalized version of a threshold logic unit (TLU) which can be seen in Figure \ref{tlu_neuron}.
 
-\subsubsection{Environmental Impacts}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/TLU.png}
+    \caption{A diagram of a 2-input Threshold Logic Unit (TLU)}
+    \label{tlu_neuron}
+\end{figure}
+
+The idea of an ANN evolved significantly over the decades, with more recent developments relating closely to the research of graph neural networks (GNNs) starting from the early 2000s \parencite{Gori2005,Zhou2020}. Since then, there has been lots of research into different ways to build a model from creating knowledge graphs to dynamic graph structures to Markov-Chain models such as PageRank-based ones \parencite{Zhou2020}. One of the most popular and widely used types of ANNs are feedforward neural network, which combined with the idea of attention mechanisms have led to the development of transformer-based models such as BERT and GPT \parencite{Vaswani2017,Devlin2019,Brown2020}. Its no secret that these models have had a significant impact on the rest of the world, but studies have shown that they have very significant drawbacks. These come in the form of resource use as discussed briefly in Section \ref{env_impacts}, lack of interpretability and explainability \parencite{Rudin2019}, and issues with bias and fairness along with a possibility for misuse \parencite{Brown2020}. 
+
+Despite these drawbacks, ANNs have been widely adopted in various applications. One of the more common forms of ANN is the feedforward neural network, which consists of layers of interconencted neurons that process data in a single forward direction \parencite{Goodfellow2016}. An example of a simple feedforward neural network can be seen in Figure \ref{neural_network}. The input layer holds the data which is passed forwards to two hidden layers, and finally to the output layer which produces the final result. Notably, these models do not necessarily learn; learning primarily comes from a training process where weights are adjusted based on the error between predicated and actual outputs, typically done using backpropagation and gradient descent which can be computationally expensive. These more adaptable models are more powerful than the original non-learning McCulloch-Pitts model, however both are based on the same underlying structure of a feedforward network of neurons.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/neural_network.png}
+    \caption{A diagram of a simple feedforward neural network}
+    \label{neural_network}
+\end{figure}
+
+\subsubsection{Environmental Impacts}\label{env_impacts}
 
 The introduction of big data (in particular by scraping the broader Internet) changed the landscape for AI, allowing statistical models to flex their strength, in particular because these models require massive amounts of data for  training purposes \parencite{Helm2020,Bhuyan2024}. This incredible need for information highlights an important drawback in the form of \emph{data efficiency} \parencite{Cropper2020}. This notable lack of efficiency translates to a significant need in terms of resources.
 
-As an example, let us consider a the cost to train a single model, ChatGPT-3. According to DeVries \textbf{(et al.? I can't find the bib right now.)}, the training of GPT-3 required around 1.3 million kWh \emph{just} to be trained \parencite{DeVries2023}. With some quick, back-of-the-envelope calculations, we can put this into perspective. Consider that the average American household uses approximately 10,791 kWh per year \textbf{is the source EIA2025?}. Dividing these out we find that the model's energy use was proportional to:
+As an example, let us consider a the cost to train a single model, ChatGPT-3. According to \textcite{DeVries2023}, the training of GPT-3 required around 1.3 million kWh \emph{just} to be trained. With some quick, back-of-the-envelope calculations, we can put this into perspective. Consider that in 2022 the average American household used approximately 10,791 kWh \parencite{EIA2024}. Dividing these out we find that the model's energy use was proportional to:
 
 \[1{,}300{,}000~\text{kWh} \times \frac{1~\text{household}}{10{,}791~\text{kWh/year}} \approx 120.5~\text{households}.\]
 
-Similarly, we could produce a rough, \emph{lower bound} of how much water was likely used for training. A termoelectric power station can use approximately 43.8 L/kWh of water \parencite{Gordon2024}. That would put the \emph{indirect} water costs of training GPT-3 at approximately 56,940,000 L, approximated by:
+Similarly, we could produce a rough, \emph{lower bound} of how much water was likely used for training. A termoelectric power station can use approximately 43.8 L/kWh of water \parencite{Li2023}. That would put the \emph{indirect} water costs of training GPT-3 at approximately 56,940,000 L, approximated by:
 \[1{,}300{,}000~\text{kWh} \times 43.8~\frac{\text{L}}{\text{kWh}} = 56{,}940{,}000~\text{L}\]%}
 
-Given that an adult male averages approximately 4L of fresh water, that number represents sufficient water to sustain a lower bound of approximately 39,000 adults for a year \textbf{Citations needed: 4L., possible arithmetic needed to spell out 39K}. To put this number into perspective, this would likely be sufficient to provide fresh water to approximately the city of Brighton, CO, for a year.
+Given that an adult male averages approximately 4L of fresh water, that number represents sufficient water to sustain a lower bound of approximately 39,000 adults for a year \parencite{IOM2005}:
+
+\[56{,}940{,}000~\text{L} \times \frac{1~\text{adult}}{4~\text{L/day} \times 365~\text{days}} \approx 39{,}000~\text{adults}\]
+
+To put this number into perspective, this would likely be sufficient to provide fresh water to approximately the city of Brighton, CO, for a year.
 
 Note that this figure includes {only} the indirect costs to generate the electricity--massive cooling costs for data center equipment would likely add significantly to our calculation. While these calculations are remarkably overly-simplified, we hope that it puts into perspective how the technology is already unsustainable. This highlights the dire need for more efficient AI and ML technologies \parencite{DeVries2023}. The discovery of models that are sufficiently sustainable to curb this resource use is an open problem.
 
@@ -94,12 +116,14 @@ In this case rather than the literal {\tt apple}, we use a \emph{variable} to al
 %% \end{verbatim}
 
 \subsection{ANNs in Clingo}\label{ann-clingo}
-As an illustrative domain we have selected digital logic for hardware development. This domain has several attractive features including simplicity and that it is commonly taught in most CS programs. This also allows us to develop networks of arbitrary complexity for experimentation.
+Creating a representation of an ANN in Clingo is a non-trivial task, as the language is not designed for this purpose. To do so, we first needed a framework for representing the structure of an ANN in Clingo, which we call the C-MCPN Framework. This framework allows us to represent the structure of an ANN using a combination of facts and rules, and to specify the activation function of each neuron using rules that define how the values of the neurons are calculated based on their inputs. The representation in Figure \ref{tlu_neuron} is the one used for the neurons in the C-MCPN Framework, where the excitation function $g(\vec{x})$ is defined by the type of \emph{gate}, and the activation function is handled by edges carrying values from input to output. As such, the illustrative domain we have selected is digital logic for hardware development. This domain has several attractive features including simplicity and that it is commonly taught in most CS programs. This also allows us to develop networks of arbitrary complexity for experimentation.
 
-For our example network we used neurons with three types of well established logic gates: AND, OR, and XOR. In Table \ref{definition_table} we show the definitions of these gates, and their truth tables. Using a combination of these and more gates, one is able to construct complex logical operations\footnote{An elegant and simple proof of Clingo's Turing completeness falls out of the C-MCPN Framework.}. Moreover, we believe that the C-MCPN Framework has the potential to be used for a wide range of applications in the future, especially if its capabilities are further explored and developed.
+For our example network we used neurons with three types of well established logic gates: AND, OR, and XOR. In Table \ref{definition_table} we show the McCulloch-Pitts definitions of these gates, and their truth tables. Using a combination of these and more gates, one is able to construct complex logical operations\footnote{An elegant and simple proof of Clingo's Turing completeness falls out of the C-MCPN Framework.}. Moreover, we believe that the C-MCPN Framework has the potential to be used for a wide range of applications in the future, especially if its capabilities are further explored and developed.
 
 % McCulloch-Pitts Representation of some Logical Gates and their Truth Tables
 \begin{table}[h]
+\caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
+\label{definition_table}
 \begin{center}
 \fbox{
 \begin{tabular}{|cc|c|cc|c|cc|c|}
@@ -121,29 +145,27 @@ For our example network we used neurons with three types of well established log
     \hline
 \end{tabular}
 }
-\caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
-\label{definition_table}
 \end{center}
 \end{table}
 
-\textbf{Did this table come from somewhere that needs citing, or did you come up with the layout and content?}
+\textbf{Did this table come from somewhere that needs citing, or did you come up with the layout and content? :- I came up with it, I spent a ton of time stitching together a couple of other tables I had made. I came up with all of the content, but it didn't seem too complex so I didn't think it needed a citation or anything.}
 
 The representation of such an artificial neuron requries both the \emph{structure} designation, as well as the function used to \emph{activate} the neuron. When activated the neuron will propagate a singnal to its output given the provided input signals.
 
 We will use an {\tt AND} gate to illustrate how we represent an artificial neuron:
-\begin{verbatim}
+\begin{lstlisting}[language=Clingo, basicstyle=\ttfamily\small]
 % type("TYPE")
 type("AND").
 
 % gate(TYPE, OUTPUT, INPUTS)
 gate("AND", Out, In1, In2) :- values(In1), values(In2),
                               Out = (In1 * In2).
-\end{verbatim}
+\end{lstlisting}
 
 In this case the \emph{structure} of the neuron is indicated by the parameters: in the case of an {\tt AND} gate this would require two input parameters and a single output. The \emph{activation function} is encoded directly in the rule structure using the arithmetic equivalent provided in Table \ref{definition_table}.
 
 By specifying the \emph{connectivity} of these neuron definitions, we can forge the connections of a network. In this case we will create a simple 1-bit adder circuit:
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}[language=Clingo, basicstyle=\ttfamily\small]
 % neuron(type, unique_id)
 neuron("INPUT", "INPUT_1").
 neuron("XOR", "XOR_1").
@@ -156,12 +178,12 @@ edge("INPUT_1", "XOR_1").
 
 % val(neuron_id, value).
 val("INPUT_1", 1).
-\end{Verbatim}
+\end{lstlisting}
 
 Note the \emph{cardinality constraint}, enforcing at most two inputs. These constraints allow additional numeric constraints to be embedded in rules. Syntactically, this can be summarized as {\tt l \{ \} u}, where {\tt l} and {\tt u} prescribe (optional) upper and lower bounds on the contents.
 
 The value inference program performs two important roles. It activates each gate by allowing the edges between neurons to carry values, and it assigns each individual neuron a value based on its gate type. The following lines are from the value inference program, and show how this is implemented:
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}[language=Clingo, basicstyle=\ttfamily\small]
 %% Value domain
 values(0;1).
 
@@ -185,6 +207,6 @@ val(Neuron_id, Val) :-
 
 %% Show values
 #show val/2.
-\end{Verbatim}
+\end{lstlisting}
 
 Note the first fact which sets the domain of values to be binary and the constraint that ensures each neuron has exactly one value. Most importantly, the rule which carrys the values along the edges is vital to the functioning of the network. Without it, the network gets "stuck" and is unable to infer what the values of the neurons should be. This is a key insight we had during development.
