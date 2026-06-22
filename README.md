@@ -35,7 +35,7 @@ bash run.sh
 
 ### Windows
 
-**Dependencies:** [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html), the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
+**Dependencies:** [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
 
 ```bat
 install.bat
