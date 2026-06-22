@@ -1,11 +1,11 @@
 \section{Results}
 
-The results of this work is the C-MCPN Framework and Editor, which provide a novel approach to representing and working with logical networks within the paradigm of logic programming. The framework and included neuron gates were validated for correctness using an 8-bit adder network, and the editor was used to construct and visualize this network. While being the main motivation for this work, results on its efficiency and scalability are left for future work since that will matter more for the adaptive neural network framework we are currently developing. The C-MCPN Framework and Editor are both open source and available at \url{https://github.com/*********}.
+The result of this work is the C-MCPN Framework and Editor, a novel approach to representing and reasoning over logical networks within logic programming. The framework and its neuron gates were validated using an 8-bit adder network, constructed and visualized with the editor. Results on efficiency and scalability, our primary motivation, are left for future work, as they matter more for the adaptive, learning-capable network framework we are currently developing. Both tools are open source and available at \url{https://github.com/David-Gonzalez-Sua/logical_networks/}.
 
 \subsection{Limitations}
 
-This work is a proof of concept for building ANNs in Clingo, and as such there are some limitations to be aware of. The framework has no cycle detection nor has it been tested on recurrent networks. This is likely to cause issues with the value inference program, as it relies on the values being propagated along the edges. The framework has also not been tested on large networks, and it is unknown how scale will affect its performance. Also, as noted in Section \ref{methodology}, Clingo does not have native support for floating point numbers, limiting its potential applications. 
+This work is a proof of concep, and as such has some limitations. The framework lacks cycle detection and has not been tested on recurrent networks, which is likely to cause issues for the value inference program. It has has also not been tested on large networks, and its performance at scale is unknown.As noted in Section \ref{methodology}, Clingo does not have native support for floating point numbers, limiting potential applications. 
 
 \subsection{Future Work}
 
-While there are many potential avenues for future work in this area, we are most excited about the possibility of using the C-MCPN Framework as the skeleton for an adaptive neural network which can learn on data. This framework is in its early stages, but we hope to also add it as a feature in the C-MCPN Editor in the future.
+Our current work focuses on using the C-MCPN Framework as the skeleton for an adaptive, learning-capable neural network. This framework is in its early stages, but we hope to add it as a feature in the C-MCPN Editor.
