@@ -3,7 +3,7 @@ In this section we will expand upon the preliminaries of our work, starting with
 
 \subsubsection{Environmental Impacts}\label{env_impacts}
 
-The introduction of big data, chiefly by scraping the broader Internet, changed the landscape for AI. It allowed for statistical-based models to demonstrate both power and storage capacity, which require massive amounts of data for training purposes \parencite{Goodfellow2016}. This incredible need for information highlights an important drawback in the form of \emph{data efficiency} \parencite{Cropper2020}. The lack of efficiency then translates to a significant amount of necessary resources for both initial training and general use.
+The introduction of big data, chiefly by scraping the broader Internet, changed the landscape for AI. It allowed for statistical-based models to demonstrate their power and scalability, which require massive amounts of data for training purposes \parencite{Goodfellow2016}. This incredible need for information highlights an important drawback in the form of \emph{data efficiency} \parencite{Cropper2020}. The lack of efficiency then translates to a significant amount of necessary resources for both initial training and general use.
 
 As an example, consider the cost to train a single model--ChatGPT-3. GPT-3 was reported to require around 1.3 million kWh \emph{just} to be trained \textcite{DeVries2023}. With some quick, back-of-the-envelope calculations, we can put this into perspective. In 2022 the average American household used approximately 10,791 kWh \parencite{EIA2024}, and by dividing these out we find that the model's energy use was proportional to:
 \[1{,}300{,}000~\text{kWh} \times \frac{1~\text{household}}{10{,}791~\text{kWh/year}} \approx 120.5~\text{households}.\]
@@ -18,7 +18,7 @@ As an example, consider the cost to train a single model--ChatGPT-3. GPT-3 was r
 
 % That amount is sufficient to provide fresh water to a city of approximately the size of Brighton, CO for a year. Though these calculations include \emph{only} the indirect costs and are remarkably overly-simplified, we hope that it puts into perspective how the technology is already unsustainable. This highlights the dire need for more efficient, sustainable AI and ML technologies \parencite{DeVries2023}, an open problem yet to be solved.
 
-This is a remarkably over-simplified example, ignoring many other contributing factors. E.g., We ignore any \emph{indirect} costs to train the model and produce the energy, the requirements to develop the infrastructure, and any resources required to \emph{deploy and run} the model. However this does highlight both the significant resources needed to employ these technologies, the dire need for more efficient, sustainable AI and ML technologies \parencite{DeVries2023}. Unfortunately reducing the environmental impacts of such technology is still an open problem.
+This is a remarkably over-simplified example, ignoring many other contributing factors. E.g., We ignore any \emph{indirect} costs to train the model and produce the energy, the requirements to develop the infrastructure, and any resources required to \emph{deploy and run} the model. However this does highlight both the significant resources needed to employ these technologies, and the dire need for more efficient, sustainable AI and ML technologies \parencite{DeVries2023}. Unfortunately reducing the environmental impacts of such technology is still an open problem.
 
 
 \subsection{Artificial Neural Networks (ANNs)}
@@ -53,7 +53,7 @@ research they are outside of the scope of this paper.}
 
 \subsection{Answer Set Programming (ASP)}
 
-Answer Set Programming serves as an amalgamation of Prolog-style quantified logic with powerful advances in satisfiability (SAT) solvers that occurred throughout the 1990s and into the 2000s. In this section we will discuss the basic syntax and semantics of the ASP language, Clingo, which serves as a technological foundation of C-MPCN \parencite{Gebser2019}.
+Answer Set Programming serves as an amalgamation of Prolog-style quantified logic with powerful advances in satisfiability (SAT) solvers that occurred throughout the 1990s and into the 2000s. In this section we will discuss the basic syntax and semantics of the ASP language, Clingo, which serves as a technological foundation of C-MPCN \parencite{Gebser2019}. Additional example algorithms in Clingo can be found in \cite{Guerin2026}.
 
 \subsubsection{Syntax and Semantics}
 
