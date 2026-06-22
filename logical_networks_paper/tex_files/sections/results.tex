@@ -1,0 +1,11 @@
+\section{Results}
+
+The result of this work is the C-MCPN Framework and Editor, a novel approach to representing and reasoning over logical networks within logic programming. The framework and its neuron gates were validated using an 8-bit adder network, constructed and visualized with the editor. Results on efficiency and scalability, our primary motivation, are left for future work, as they matter more for the adaptive, learning-capable network framework we are currently developing. Both tools are open source and available at \url{https://github.com/David-Gonzalez-Sua/logical_networks/}.
+
+\subsection{Limitations}
+
+This work is a proof of concep, and as such has some limitations. The framework lacks cycle detection and has not been tested on recurrent networks, which is likely to cause issues for the value inference program. It has has also not been tested on large networks, and its performance at scale is unknown.As noted in Section \ref{methodology}, Clingo does not have native support for floating point numbers, limiting potential applications. 
+
+\subsection{Future Work}
+
+Our current work focuses on using the C-MCPN Framework as the skeleton for an adaptive, learning-capable neural network. This framework is in its early stages, but we hope to add it as a feature in the C-MCPN Editor.

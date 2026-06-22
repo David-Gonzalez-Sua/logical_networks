@@ -14,16 +14,18 @@
 % Does the first line need to be toned down?
 % People seem to be making these sorts of society-changing claims.
 \begin{abstract}
-  As Artificial Intelligence and generative AI continue to engage the public in ways that mirror other critical advances (e.g., the PC and smartphone revolutions as well as the broader Internet) public interest has turned more and more towards applications of the underlying technologies and architectures that power them. While machine learning technologies like LLMs have a profound capacity to integrate AI into modern life, the underlying artificial neural network technologies present significant concern for both short and long-term sustainability: data center footprint, waste heat and noise, and infrastructure/resources for energy and clean water.
+  As Artificial intelligence and generative AI continue to engage the public in additionally profound ways, there is growing interest in developing more efficient underlying technologies. In this paper we explore the use of efficient Answer Set Programming (ASP) languages to model and conduct inference over artificial neural network (ANN) architectures. This combination of technologies is not trivial, so we also introduce the C-MCPN (Clingo McCulloch-Pitts Network) Framework and Editor to support our work in generating more efficient neural networks. The C-MCPN Framework provides a novel representation for encoding ANN structure and inference in ASP, while the C-MCPN Editor is a working, accessible tool that makes this representation practical to construct, visualize, and experiment with. Together, these establish a foundation for future work exploring whether ASP-based learning models can offer meaningful efficiency gains over traditional ANN implementations, an open question we are actively pursuing.
 
-  At the same time, advanced declarative languages have made remarkable headway towards AI solutions are considerably more efficient. In particular, Answer Set Programming languages are designed to solve computationally difficult (e.g., NP-Complete and NP-Hard) problems with limited available resources. In this paper we outline how these languages can be used to model artificial neural network architectures, like those used in LLMs, in the modeling language Clingo. We also introduce the C-MCPN (Clingo McCulloch-Pitts Network) Framework and Editor--a tool largely written in Python and Clingo. C-MCPN was developed to support our work in generating more efficient neural networks by providing a graphical interface to work with these models, using Clingo as a back-end for both representation and inference. 
+  % As Artificial Intelligence and generative AI continue to engage the public in ways that mirror other critical advances (e.g., the PC and smartphone revolutions as well as the broader Internet) public interest has turned more and more towards applications of the underlying technologies and architectures that power them. While machine learning technologies like LLMs have a profound capacity to integrate AI into modern life, the underlying artificial neural network technologies present significant concern for both short and long-term sustainability: data center footprint, waste heat and noise, and infrastructure/resources for energy and clean water.
+
+  % At the same time, advanced declarative languages have made remarkable headway towards AI solutions are considerably more efficient. In particular, Answer Set Programming languages are designed to solve computationally difficult (e.g., NP-Complete and NP-Hard) problems with limited available resources. In this paper we outline how these languages can be used to model artificial neural network architectures, like those used in LLMs, in the modeling language Clingo. We also introduce the C-MCPN (Clingo McCulloch-Pitts Network) Framework and Editor--a tool largely written in Python and Clingo. C-MCPN was developed to support our work in generating more efficient neural networks by providing a graphical interface to work with these models, using Clingo as a back-end for both representation and inference. 
 \end{abstract}
 
 \input{tex_files/sections/introduction}
 \input{tex_files/sections/background}
 \input{tex_files/sections/methodology}
 \input{tex_files/sections/implementation}
-\input{tex_files/sections/evaluation}
+\input{tex_files/sections/results}
 \input{tex_files/sections/conclusion}
 
 \medskip
@@ -31,3 +33,12 @@
 \printbibliography
 
 \end{document}
+
+% TRACKING all removed references to remove them later from bib file.
+% took out Nossig reference 
+% Got rid of Gori2005, Rudin2019, Brown2020 in ANNs background section
+% Got rid of devlin and vaswani and brown in background
+% Commented out Li and IOM
+% Helm2020,Bhuyan2024 from background section on data efficiency
+% Dropped cabalar from background section on ASP
+% Replaced Implications2025 with Siddik2021 in introduction section on drawbacks of AI
