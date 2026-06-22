@@ -6,23 +6,25 @@ Combining the efficiency of ASP languages with the representational power of ANN
 
 To build and test the framework the illustrative domain of digital logic for hardware development was selected. Its simplicity and familiarity make it an ideal domain for experimentation. 
 
-For our example network, a 1-bit adder seen in Figure \ref{1_bit_adder}, we used neurons with three types of well established logic gates: AND, OR, and XOR. In Table \ref{definition_table} we show the McCulloch-Pitts definitions of these gates, and their truth tables. Using a combination of these and more gates, one is able to construct complex logical operations\footnote{An elegant and simple proof of Clingo's Turing completeness falls out of the C-MCPN Framework.}.
+For our example network, a 1-bit adder seen in Figure \ref{1_bit_adder}, we used neurons with three types of well established logic gates: AND, OR, and XOR. In Table \ref{definition_table} we show the neuron definitions of these gates, and their truth tables. Using a combination of these and more gates, one is able to construct complex logical operations\footnote{An elegant and simple proof of Clingo's Turing completeness falls out of the C-MCPN Framework.}.
 
 \begin{table}[h]
-\caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
+% \caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
+\caption{Neuron Definitions and Truth Tables.}
 \label{definition_table}
 \begin{center}
 \fbox{
 \begin{tabular}{|cc|c|cc|c|cc|c|}
     \hline
     \multicolumn{3}{|c|}{\textbf{AND}} & \multicolumn{3}{c|}{\textbf{OR}} & \multicolumn{3}{c|}{\textbf{XOR}} \\
-    \multicolumn{3}{|c|}{$g(\vec{x}) = x_1 \cdot x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = x_1 + x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = |x_1 - x_2|,\ \theta = 1$} \\[1em]
+    \multicolumn{3}{|c|}{$g(\vec{x}) = x_1 \cdot x_2$} & \multicolumn{3}{c|}{$g(\vec{x}) = x_1 + x_2$} & \multicolumn{3}{c|}{$g(\vec{x}) = |x_1 - x_2|$} \\[1em]
+    % \multicolumn{3}{|c|}{$g(\vec{x}) = x_1 \cdot x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = x_1 + x_2,\ \theta = 1$} & \multicolumn{3}{c|}{$g(\vec{x}) = |x_1 - x_2|,\ \theta = 1$} \\[1em]
 
-    \hdashline
-    \multicolumn{2}{|c}{} & \multicolumn{3}{c}{Activation: } & \multicolumn{4}{c|}{$f(\vec{x}) = \begin{cases} 0 & \text{if } g(\vec{x}) < \theta,\\ 1 & \text{if } g(\vec{x}) \geq \theta. \end{cases}$} \\[1em]
-    \hdashline
+    % \hdashline
+    % \multicolumn{2}{|c}{} & \multicolumn{3}{c}{Activation: } & \multicolumn{4}{c|}{$f(\vec{x}) = \begin{cases} 0 & \text{if } g(\vec{x}) < \theta,\\ 1 & \text{if } g(\vec{x}) \geq \theta. \end{cases}$} \\[1em]
+    % \hdashline
 
-    \multicolumn{3}{|c|}{AND} & \multicolumn{3}{c|}{OR} & \multicolumn{3}{c|}{XOR} \\
+    % \multicolumn{3}{|c|}{AND} & \multicolumn{3}{c|}{OR} & \multicolumn{3}{c|}{XOR} \\
     $x_1$ & $x_2$ & $f(\vec{x})$ & $x_1$ & $x_2$ & $f(\vec{x})$ & $x_1$ & $x_2$ & $f(\vec{x})$ \\
     \hline
     T & T & T & T & T & T & T & T & F \\
@@ -34,6 +36,13 @@ For our example network, a 1-bit adder seen in Figure \ref{1_bit_adder}, we used
 }
 \end{center}
 \end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/1-bit adder.png}
+    \caption{A screenshot of a 1-bit adder network in the C-MCPN Editor.}
+    \label{1_bit_adder}
+\end{figure}
 
 \subsection{Design Approach}
 

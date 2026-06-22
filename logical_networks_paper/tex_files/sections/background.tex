@@ -2,18 +2,19 @@
 Our work is related to the merging of ANN technology with more efficient Answer Set Programming languges. In this section we will provide a brief background on both subjects, motivating our work on C-MCPN.
 
 \subsection{Artificial Neural Networks (ANNs)}
-ANNs were originally inspired by the structure and function of biological neruons. Their basic building blocks, the artificial neurons, can be traced back to the work of McCulloch and Pitts in the 1940s \parencite{McCulloch1943}. These early models mimicked the behavior of biological neurons by using a simple thresholding function that determines whether a neuron will fire or not. The name for the C-MCPN was inspired by this early work, though its implementation is not a pure McCulloch-Pitts model. Instead, it uses a more generalized version of neuron with two functions: an excitation function $g(\vec{x})$ and an activation function $f(g(\vec{x}))$, which can be seen in Figure \ref{art_neuron}.
+ANNs were originally inspired by the structure and function of biological neruons. Their basic building blocks, the artificial neurons, can be traced back to the work of McCulloch and Pitts in the 1940s \parencite{McCulloch1943}. These early models mimicked the behavior of biological neurons by using a simple thresholding function that determines whether a neuron will fire or not. The name for the C-MCPN was inspired by this early work, though its implementation is not a pure McCulloch-Pitts model.
+% Instead, it uses a more generalized version of a neuron with two functions: an excitation function $g(\vec{x})$ and an activation function $f(g(\vec{x}))$, which can be seen in Figure \ref{art_neuron}.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.4\textwidth]{figures/TLU.png}
-    \caption{A diagram of a 2-input artificial neuron}
-    \label{art_neuron}
-\end{figure}
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.4\textwidth]{figures/TLU.png}
+%     \caption{A diagram of a 2-input artificial neuron}
+%     \label{art_neuron}
+% \end{figure}
 
-These neurons can be connected together to form a network, allowing for the processing of complex data and the learning of patterns through training. The structure of these networks can vary widely, from simple knowledge graphs to feedforward networks to more complex recurrent architectures \parencite{Zhou2020}. For our work, the feedforward neural network was chosen as the basis because of its simplicity and wide use in the field. These consist of layers of interconnected neurons that process data in a single forward direction \parencite{Goodfellow2016}. An example of a small network of this type can be seen in Figure \ref{neural_network}. These models can learn through a training process where weights are adjusted based on error, but notably their underlying structure is very similar to the original McCulloch-Pitts model.
+The neurons can be connected together to form a network, whose structures can vary widely from simple knowledge graphs to feedforward networks to more complex recurrent architectures \parencite{Zhou2020}. For our work, the feedforward neural network was chosen for its simplicity and wide use in the field. It consists of layers of interconnected neurons that process data in a single forward direction \parencite{Goodfellow2016}, shown in Figure \ref{neural_network}. These models can learn through a training process where weights are adjusted based on error, but notably their underlying structure is similar to that of the original McCulloch-Pitts model.
 
-ANNs have been widely adapted in various applications, from image recognition to natural language processing like the transformer-based models such as BERT and GPT \parencite{Vaswani2017,Devlin2019,Brown2020}. However, it is no secret that they have come with significant drawbacks. Among these is the issue of resource use, discussed further in Section \ref{env_impacts}. This is far from the only concern, but it is the one that most motivates our work.
+% ANNs have been widely adapted in various applications like image recognition and natural language processing such as the transformer-based GPT \parencite{Brown2020}. Despite this, the environmental impacts are significant and have been discussed further in Section \ref{env_impacts}. This is far from the only concern, but it is the one that most motivates our work.
 
 \begin{figure}[h]
     \centering
@@ -29,13 +30,17 @@ The introduction of big data, chiefly by scraping the broader Internet, changed 
 As an example, consider the cost to train a single model, ChatGPT-3. According to \textcite{DeVries2023}, GPT-3 reported around 1.3 million kWh \emph{just} to be trained. With some quick, back-of-the-envelope calculations, we can put this into perspective. In 2022 the average American household used approximately 10,791 kWh \parencite{EIA2024}, and by dividing these out we find that the model's energy use was proportional to:
 \[1{,}300{,}000~\text{kWh} \times \frac{1~\text{household}}{10{,}791~\text{kWh/year}} \approx 120.5~\text{households}.\]
 
-Similarly, we could produce a rough, \emph{lower bound} of how much water may have been used for training. A thermoelectric power station can use approximately 43.8 L/kWh of water \parencite{Li2023}. That would put the \emph{indirect} water costs of training GPT-3 at approximately 56,940,000 L, approximated by:
-\[1{,}300{,}000~\text{kWh} \times 43.8~\frac{\text{L}}{\text{kWh}} = 56{,}940{,}000~\text{L}\]
+% Similarly, we could produce a rough, \emph{lower bound} of how much water may have been used for training. A thermoelectric power station can use approximately 43.8 L/kWh of water \parencite{Li2023}. That would put the \emph{indirect} water costs of training GPT-3 at approximately 56,940,000 L, approximated by:
+% \[1{,}300{,}000~\text{kWh} \times 43.8~\frac{\text{L}}{\text{kWh}} = 56{,}940{,}000~\text{L}\]
 
-Given that an adult male averages approximately 4L of fresh water \parencite{IOM2005}, that number represents sufficient water to sustain a lower bound of approximately 39,000 adults for a year:
-\[56{,}940{,}000~\text{L} \times \frac{1~\text{adult}}{4~\text{L/day} \times 365~\text{days}} \approx 39{,}000~\text{adults}\]
+% Given that an adult male averages approximately 4L of fresh water \parencite{IOM2005}, that number represents sufficient water to sustain a lower bound of approximately 39,000 adults for a year:
+% \[56{,}940{,}000~\text{L} \times \frac{1~\text{adult}}{4~\text{L/day} \times 365~\text{days}} \approx 39{,}000~\text{adults}\]
 
-That amount is sufficient to provide fresh water to a city of approximately the size of Brighton, CO for a year. Though these calculations include \emph{only} the indirect costs and are remarkably overly-simplified, we hope that it puts into perspective how the technology is already unsustainable. This highlights the dire need for more efficient, sustainable AI and ML technologies \parencite{DeVries2023}, an open problem yet to be solved.
+% That amount is sufficient to provide fresh water to a city of approximately the size of Brighton, CO for a year. Though these calculations include \emph{only} the indirect costs and are remarkably overly-simplified, we hope that it puts into perspective how the technology is already unsustainable. This highlights the dire need for more efficient, sustainable AI and ML technologies \parencite{DeVries2023}, an open problem yet to be solved.
+
+% That amount is sufficient to provide fresh water to a city of approximately the size of Brighton, CO for a year. Though these calculations include \emph{only} the indirect costs and are remarkably overly-simplified, we hope that it puts into perspective how the technology is already unsustainable. This highlights the dire need for more efficient, sustainable AI and ML technologies \parencite{DeVries2023}, an open problem yet to be solved.
+
+Though this is a remarkably over-simplified example, it puts into perspective how the technology is already unsustainable. This highlights the dire need for more efficient, sustainable AI and ML technologies \parencite{DeVries2023}, an open problem yet to be solved.
 
 \subsection{Answer Set Programming (ASP)}
 

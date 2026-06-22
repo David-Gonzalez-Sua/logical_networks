@@ -10,14 +10,12 @@ For node reorganization in the editor we used a modified version of the Sugiyama
 
 \subsection{C-MCPN Framework}
 
-From what the authors found in the literature, the C-MCPN Framework is a novel approach to neural network representation within a logical programming paradigm like ASP. The networks themselves have relatively simple representations that can be leveraged to create complex operations. The framework, which can be seen in Figure \ref{cmcpn_framework}, uses three main program types, all of which are contained in the \texttt{C-MCPN/} directory of the project:
-\begin{itemize}
-    \item \textbf{Gate Definition Programs}
-    \item \textbf{Network Structure Programs}
-    \item \textbf{Value Inference Program}
-\end{itemize}
-
-The content in the gate definitions program defines the behavior of each gate, but every default gate we included also has a special header used to send meta-information to the C-MCPN Editor.
+From what the authors found in the literature, the C-MCPN Framework is a novel approach to neural network representation within a logical programming paradigm like ASP. The networks themselves have relatively simple representations that can be leveraged to create complex operations. The framework, which can be seen in Figure \ref{cmcpn_framework}, uses three main program types, all of which are contained in the \texttt{C-MCPN/} directory of the project. The content in the gate definitions program defines the behavior of each gate, but every default gate we included also has a special header used to send meta-information to the C-MCPN Editor.
+% \begin{itemize}
+%     \item \textbf{Gate Definition Programs}
+%     \item \textbf{Network Structure Programs}
+%     \item \textbf{Value Inference Program}
+% \end{itemize}
 
 \begin{figure}[h]
     \centering
@@ -32,20 +30,13 @@ The \texttt{app/} directory of the project contains the source code for the C-MC
 
 User created networks are saveable to JSON and ASP format, and loadable from JSON format. This facilitates creation of complex ANNs, and saving the network to ASP format allows direct use of the C-MCPN Framework from the terminal instead of the IDE.
 
-A screenshot of the editor can be seen in Figure \ref{cmcpn_editor}, showcasing the sample 1-bit adder network. A closer look at the sample network can be seen in Figure \ref{1_bit_adder}.
+A screenshot of the editor can be seen in Figure \ref{cmcpn_editor}, showcasing the sample 1-bit adder network.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.6\textwidth]{figures/C-MCPN Editor 0\_0\_1.png}
-    \caption{A screenshot of the C-MCPN Editor, showing a sample 1-bit adder network.}
+    \caption{Screenshot of the C-MCPN Editor, showing a sample 1-bit adder network.}
     \label{cmcpn_editor}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.4\textwidth]{figures/1-bit adder.png}
-    \caption{A screenshot of a 1-bit adder network in the C-MCPN Editor.}
-    \label{1_bit_adder}
 \end{figure}
 
 \subsection{AI-Assisted Development}
