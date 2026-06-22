@@ -14,8 +14,6 @@ ANNs were originally inspired by the structure and function of biological neruon
 
 The neurons can be connected together to form a network, whose structures can vary widely from simple knowledge graphs to feedforward networks to more complex recurrent architectures \parencite{Zhou2020}. For our work, the feedforward neural network was chosen for its simplicity and wide use in the field. It consists of layers of interconnected neurons that process data in a single forward direction \parencite{Goodfellow2016}, shown in Figure \ref{neural_network}. These models can learn through a training process where weights are adjusted based on error, but notably their underlying structure is similar to that of the original McCulloch-Pitts model.
 
-% ANNs have been widely adapted in various applications like image recognition and natural language processing such as the transformer-based GPT \parencite{Brown2020}. Despite this, the environmental impacts are significant and have been discussed further in Section \ref{env_impacts}. This is far from the only concern, but it is the one that most motivates our work.
-
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.2\textwidth]{figures/neural_network.png}
@@ -25,7 +23,7 @@ The neurons can be connected together to form a network, whose structures can va
 
 \subsubsection{Environmental Impacts}\label{env_impacts}
 
-The introduction of big data, chiefly by scraping the broader Internet, changed the landscape for AI. It allowed for statistical-based models to flex their strength, which require massive amounts of data for training purposes \parencite{Helm2020,Bhuyan2024}. This incredible need for information highlights an important drawback in the form of \emph{data efficiency} \parencite{Cropper2020}. The lack of efficiency then translates to a significant amount of necessary resources.
+The introduction of big data, chiefly by scraping the broader Internet, changed the landscape for AI. It allowed for statistical-based models to flex their strength, which require massive amounts of data for training purposes \parencite{Goodfellow2016}. This incredible need for information highlights an important drawback in the form of \emph{data efficiency} \parencite{Cropper2020}. The lack of efficiency then translates to a significant amount of necessary resources.
 
 As an example, consider the cost to train a single model, ChatGPT-3. According to \textcite{DeVries2023}, GPT-3 reported around 1.3 million kWh \emph{just} to be trained. With some quick, back-of-the-envelope calculations, we can put this into perspective. In 2022 the average American household used approximately 10,791 kWh \parencite{EIA2024}, and by dividing these out we find that the model's energy use was proportional to:
 \[1{,}300{,}000~\text{kWh} \times \frac{1~\text{household}}{10{,}791~\text{kWh/year}} \approx 120.5~\text{households}.\]
@@ -44,7 +42,7 @@ Though this is a remarkably over-simplified example, it puts into perspective ho
 
 \subsection{Answer Set Programming (ASP)}
 
-Answer Set Programming serves as an amalgamation of Prolog-style quantified logic with powerful advances in satisfiability (SAT) solvers that occurred throught the 1990s and into the 2000s. In this section we will discuss the basic syntax and semantics of the ASP language, Clingo, which serves as a technological foundation of C-MPCN \parencite{Gebser2019,Cabalar2023}.
+Answer Set Programming serves as an amalgamation of Prolog-style quantified logic with powerful advances in satisfiability (SAT) solvers that occurred throught the 1990s and into the 2000s. In this section we will discuss the basic syntax and semantics of the ASP language, Clingo, which serves as a technological foundation of C-MPCN \parencite{Gebser2019}.
 
 \subsubsection{Syntax and Semantics}
 
@@ -53,8 +51,6 @@ The atomic units in Clingo are \emph{literals}, which describe ideas and \emph{f
 red(apple).
 \end{lstlisting}
 is a complete statement (and program), attributing a property of {red} to an idea named {\tt apple}. 
-
-% Such statements are \emph{purely declarative}, providing a \emph{description} of the problem (vs. specific processor instructions). I.e., we describe \emph{what} needs solving vs. \emph{how} to solve the problem in traditional imperative/algorithmic contexts.
 
 Further knowledge is\emph{inferred} using aggregate statements known as \emph{rules}, taking the form: {\tt consequent :- antecedent}. This mirrors an \emph{implication} from formal logic, as the {\tt :-} symbol is read equivalently to $\leftarrow$. In such a statement the consequent \emph{must} be true whenever the antecedent is true. E.g.,
 \begin{lstlisting}[basicstyle=\ttfamily\small]
