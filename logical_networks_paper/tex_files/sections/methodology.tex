@@ -1,6 +1,6 @@
 \section{Methodology}\label{methodology}
 
-Combining the efficiency of ASP languages with the representational power of ANNs is a non-trivial task. Not only does it require a novel representation of the ANN structure, but Clingo has no floating-point support. This requires clever simplifications of the activations functions and gradiant descent to use them over integers. Additionally, large ANNs can cause combinatorial explosions in the search space, making grounding the programs difficult. The C-MCPN Framework and Editor were developed to address some of these challenges, providing a structured way to represent and work with logical networks in Clingo.
+Combining the efficiency of ASP languages with the representational power of ANNs is a non-trivial task. Not only does it require a novel representation of the ANN structure, but Clingo has limited floating-point support. This requires clever simplifications of the activation functions and gradient descent to use them over integers. Additionally, large ANNs can cause combinatorial explosions in the search space, making grounding the programs difficult. The C-MCPN Framework and Editor were developed to address some of these challenges, providing a structured way to represent and work with logical networks in Clingo.
 
 \subsection{Domain Selection}
 
@@ -11,8 +11,6 @@ For our example network, a 1-bit adder seen in Figure \ref{1_bit_adder}, we used
 \vspace{-10pt}
 \begin{table}[h]
 % \caption{McCulloch-Pitts Neuron Definitions and Truth Tables.}
-\caption{Neuron Definitions and Truth Tables.}
-\label{definition_table}
 \begin{center}
 \fbox{
 \begin{tabular}{|cc|c|cc|c|cc|c|}
@@ -36,19 +34,25 @@ For our example network, a 1-bit adder seen in Figure \ref{1_bit_adder}, we used
 \end{tabular}
 }
 \end{center}
-\end{table}
 \vspace{-10pt}
+\caption{Neuron Definitions and Truth Tables.}
+\label{definition_table}
+
+\end{table}
+
+
+Other gates including negation will use similar constructions that follow from the above.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.6\textwidth]{figures/1-bit adder.png}
+    \includegraphics[width=0.7\textwidth]{figures/1-bit adder.png}
     \caption{A screenshot of a 1-bit adder network in the C-MCPN Editor.}
     \label{1_bit_adder}
 \end{figure}
 
 \subsection{Design Approach}
 
-The representation of an artificial neuron requries both the \emph{structure} designation, and the function used to \emph{activate} it. When activated the neuron will propagate a signal to its output given the provided input signals. Its value then further propagates through the network along edges and activating other neurons.
+The representation of an artificial neuron requires both \emph{structure} designation, and activation function annotation. When activated the neuron will propagate a signal to its output given the provided input signals. Its value then further propagates through the network along edges and activating other neurons.
 
 An {\tt AND} gate is used to illustrate how we represent an artificial neuron:
 \begin{lstlisting}[basicstyle=\ttfamily\small]
@@ -93,10 +97,11 @@ val(Neuron_id, Val) :-
     In1 != In2.
 
 %% Each neuron has one value
-{ val(Neuron_id, Val) : values(Val) } 1 :- neuron(_, Neuron_id).
+{ val(Neuron_id, Val) : values(Val) } 1
+    :- neuron(_, Neuron_id).
 
 %% Show values
 #show val/2.
 \end{lstlisting}
 
-The rule carrying the values along the edges is vital to the functioning of the network. Without it, the network gets "stuck" and is unable to infer what the values should be. This is a key insight we had during development.
+The rule carrying the values along the edges is vital to the functioning of the network. Without it, the network gets "stuck" and is unable to infer what the values should be--a key insight discovered during development.
